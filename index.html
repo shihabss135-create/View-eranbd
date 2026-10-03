@@ -1,173 +1,893 @@
 <!DOCTYPE html>
+
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>View eran Bd</title>
+
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#f4f7fb;color:#172033;padding-bottom:78px}
-.header{background:#1687f8;color:#fff;padding:24px 18px 28px;border-radius:0 0 24px 24px}
-.header h1{font-size:25px}.header p{margin-top:7px;opacity:.9}
-.balance{font-size:30px;font-weight:700;margin-top:12px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px}
-.tile,.card,.task{background:#fff;border-radius:17px;box-shadow:0 4px 16px #00000010}
-.tile{padding:17px}.tile b{display:block;margin:7px 0 3px}
-.card{margin:14px;padding:18px}
-.section-title{font-size:20px;font-weight:700;margin:22px 14px 10px}
-.task{margin:10px 14px;padding:16px}
-.task-top{display:flex;justify-content:space-between;gap:10px}
-.task h3{font-size:16px}.reward{font-weight:700;color:#0b9b55}
-.task p,.small{font-size:13px;color:#667085;margin:8px 0 12px}
-button{border:0;border-radius:10px;background:#1687f8;color:#fff;padding:11px 16px;font-weight:700}
-input,select{width:100%;padding:12px;border:1px solid #d9e0ea;border-radius:10px;margin:7px 0 12px}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e5e7eb;display:flex;justify-content:space-around;padding:9px 4px;z-index:5}
-.nav button{background:transparent;color:#667085;padding:6px;font-size:12px}
-.nav button.active{color:#1687f8}
-.page{display:none}.page.active{display:block}
-.notice{background:#fff8e6;color:#805b00;padding:12px;border-radius:12px;margin:14px;font-size:13px}
-.refbox{background:#eef6ff;border-radius:14px;padding:15px;margin-top:12px}
-.refcode{font-weight:700;word-break:break-all;margin:8px 0}
+*{
+ box-sizing:border-box;
+ margin:0;
+ padding:0;
+ font-family:Arial,sans-serif;
+}
+
+body{
+ background:#f4f7fb;
+ color:#172033;
+ padding-bottom:82px;
+}
+
+.header{
+ background:#1687f8;
+ color:#fff;
+ padding:25px 18px 30px;
+ border-radius:0 0 25px 25px;
+}
+
+.header h1{
+ font-size:26px;
+}
+
+.header p{
+ margin-top:7px;
+ opacity:.9;
+}
+
+.balance{
+ font-size:31px;
+ font-weight:700;
+ margin-top:13px;
+}
+
+.small{
+ font-size:13px;
+ color:#667085;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+ margin:15px;
+}
+
+.tile,.card,.task{
+ background:#fff;
+ border-radius:17px;
+ box-shadow:0 4px 16px #00000010;
+}
+
+.tile{
+ padding:17px;
+}
+
+.tile b{
+ display:block;
+ margin:7px 0 4px;
+}
+
+.card{
+ margin:15px;
+ padding:18px;
+}
+
+.section-title{
+ font-size:20px;
+ font-weight:700;
+ margin:22px 15px 10px;
+}
+
+.task{
+ margin:10px 15px;
+ padding:16px;
+}
+
+.task-top{
+ display:flex;
+ justify-content:space-between;
+ gap:10px;
+}
+
+.task h3{
+ font-size:16px;
+}
+
+.reward{
+ font-weight:700;
+ color:#0b9b55;
+}
+
+.task p{
+ font-size:13px;
+ color:#667085;
+ margin:8px 0 12px;
+}
+
+button{
+ border:0;
+ border-radius:10px;
+ background:#1687f8;
+ color:#fff;
+ padding:11px 16px;
+ font-weight:700;
+}
+
+button:active{
+ transform:scale(.97);
+}
+
+.nav{
+ position:fixed;
+ bottom:0;
+ left:0;
+ right:0;
+ background:#fff;
+ border-top:1px solid #e5e7eb;
+ display:flex;
+ justify-content:space-around;
+ padding:9px 4px;
+ z-index:5;
+}
+
+.nav button{
+ background:transparent;
+ color:#667085;
+ padding:6px;
+ font-size:12px;
+}
+
+.nav button.active{
+ color:#1687f8;
+}
+
+.page{
+ display:none;
+}
+
+.page.active{
+ display:block;
+}
+
+.notice{
+ background:#fff8e6;
+ color:#805b00;
+ padding:12px;
+ border-radius:12px;
+ margin:15px;
+ font-size:13px;
+}
+
+.refbox{
+ background:#eef6ff;
+ border-radius:14px;
+ padding:15px;
+ margin-top:12px;
+}
+
+.refcode{
+ font-weight:700;
+ word-break:break-all;
+ margin:9px 0 12px;
+ font-size:13px;
+}
+
+.refbuttons{
+ display:flex;
+ gap:8px;
+}
+
+.refbuttons button{
+ flex:1;
+}
+
+input,select{
+ width:100%;
+ padding:12px;
+ border:1px solid #d9e0ea;
+ border-radius:10px;
+ margin:7px 0 12px;
+}
+
+label{
+ font-size:13px;
+ font-weight:700;
+}
+
+.info{
+ background:#f7f9fc;
+ padding:12px;
+ border-radius:12px;
+ margin-top:12px;
+}
+
+.status{
+ margin-top:10px;
+ font-size:13px;
+}
+
 </style>
+
 </head>
+
 <body>
 
+<!-- HOME -->
+
 <div id="home" class="page active">
+
  <div class="header">
   <h1>View eran Bd</h1>
   <p id="welcome">Telegram Account</p>
-  <div class="balance">৳<span id="balance">0.00</span></div>
-  <div class="small" style="color:#eaf4ff">বর্তমান Balance</div>
+
+  <div class="balance">
+   ৳<span id="balance">0.00</span>
+  </div>
+
+  <div class="small" style="color:#eaf4ff">
+   বর্তমান Balance
+  </div>
  </div>
 
  <div class="grid">
-  <div class="tile">📋<b>Normal Task</b><span class="small">৳10 / task</span></div>
-  <div class="tile">🎬<b>Video Task</b><span class="small">৳15 / task</span></div>
-  <div class="tile">📢<b>Telegram Join</b><span class="small">৳20 / task</span></div>
-  <div class="tile">👥<b>Referral</b><span class="small">৳70 / referral</span></div>
+
+  <div class="tile">
+   📋
+   <b>Normal Task</b>
+   <span class="small">৳10 / task</span>
+  </div>
+
+  <div class="tile">
+   🎬
+   <b>Video Task</b>
+   <span class="small">৳15 / task</span>
+  </div>
+
+  <div class="tile">
+   📢
+   <b>Telegram Join</b>
+   <span class="small">৳20 / task</span>
+  </div>
+
+  <div class="tile">
+   👥
+   <b>Referral</b>
+   <span class="small">৳70 / referral</span>
+  </div>
+
  </div>
 
- <div class="notice">আলাদা Sign Up লাগবে না। Telegram Mini App থেকে Account শনাক্ত হবে।</div>
+ <div class="notice">
+  Telegram Mini App থেকে আপনার Account তথ্য নেওয়া হবে।
+ </div>
 
- <div class="section-title">Available Tasks</div>
+ <div class="section-title">
+  Available Tasks
+ </div>
+
  <div id="taskList"></div>
+
 </div>
+
+<!-- REFERRAL -->
 
 <div id="referral" class="page">
- <div class="header"><h1>👥 Referral</h1><p>বন্ধুকে Invite করুন</p></div>
- <div class="card">
-  <h3>প্রতি সফল Referral</h3>
-  <div class="balance">৳70</div>
-  <p class="small">আপনার Referral Link দিয়ে নতুন User এলে এবং প্রয়োজনীয় শর্ত পূরণ করলে Reward দেওয়া হবে।</p>
-  <div class="refbox">
-   <div class="small">Your Referral Link</div>
-   <div id="refLink" class="refcode">Telegram চালু হলে Link তৈরি হবে</div>
-   <button onclick="copyReferral()">Copy Link</button>
-   <button onclick="shareReferral()" style="margin-left:5px">Share</button>
-  </div>
-  <p class="small" style="margin-top:14px">Successful Referrals: <b id="refCount">0</b></p>
-  <p class="small">Referral Earnings: <b>৳<span id="refEarn">0</span></b></p>
+
+ <div class="header">
+  <h1>👥 Referral</h1>
+  <p>বন্ধুকে Invite করুন</p>
  </div>
+
+ <div class="card">
+
+  <h3>প্রতি সফল Referral</h3>
+
+  <div class="balance">
+   ৳70
+  </div>
+
+  <p class="small">
+   আপনার Referral Link দিয়ে নতুন User এলে
+   এবং প্রয়োজনীয় শর্ত পূরণ হলে Referral
+   গণনা করা যাবে।
+  </p>
+
+  <div class="refbox">
+
+   <div class="small">
+    আপনার Referral Link
+   </div>
+
+   <div id="refLink" class="refcode">
+    Telegram Mini App থেকে Link তৈরি হবে
+   </div>
+
+   <div class="refbuttons">
+
+<button onclick="copyReferral()">
+ Copy
+</button>
+
+<button onclick="shareReferral()">
+ Share
+</button>
+
+   </div>
+
+  </div>
+
+  <div class="info">
+
+   <p class="small">
+    আপনার Referral ID
+   </p>
+
+   <p>
+    <b id="myReferralId">Loading...</b>
+   </p>
+
+  </div>
+
+  <p class="small" style="margin-top:14px">
+   Successful Referrals:
+   <b id="refCount">0</b>
+  </p>
+
+  <p class="small">
+   Referral Earnings:
+   <b>৳<span id="refEarn">0</span></b>
+  </p>
+
+  <p id="refStatus" class="status"></p>
+
+ </div>
+
 </div>
+
+<!-- ACCOUNT -->
 
 <div id="account" class="page">
- <div class="header"><h1>👤 My Account</h1><p>Telegram Account</p></div>
- <div class="card">
-  <p><b>Name:</b> <span id="userName">Loading...</span></p><br>
-  <p><b>Username:</b> <span id="userUsername">Loading...</span></p><br>
-  <p><b>Telegram ID:</b> <span id="userId">Loading...</span></p>
+
+ <div class="header">
+  <h1>👤 My Account</h1>
+  <p>Telegram Account</p>
  </div>
+
+ <div class="card">
+
+  <p>
+   <b>Name:</b>
+   <span id="userName">Loading...</span>
+  </p>
+
+  <br>
+
+  <p>
+   <b>Username:</b>
+   <span id="userUsername">Loading...</span>
+  </p>
+
+  <br>
+
+  <p>
+   <b>Telegram ID:</b>
+   <span id="userId">Loading...</span>
+  </p>
+
+ </div>
+
 </div>
+
+<!-- WITHDRAW -->
 
 <div id="withdraw" class="page">
- <div class="header"><h1>💸 Withdraw</h1><p>Earned balance থেকে request দিন</p></div>
- <div class="card">
-  <p class="small">Current Balance</p>
-  <div class="balance">৳<span id="withdrawBalance">0.00</span></div>
-  <label>Payment Method</label>
-  <select><option>bKash</option><option>Nagad</option></select>
-  <label>Account Number</label>
-  <input type="text" placeholder="আপনার নম্বর">
-  <label>Amount</label>
-  <input type="number" placeholder="কত টাকা withdraw করবেন">
-  <button onclick="alert('Backend যুক্ত হলে Withdraw Request জমা হবে।')">Withdraw Request</button>
+
+ <div class="header">
+  <h1>💸 Withdraw</h1>
+  <p>Earned balance থেকে request</p>
  </div>
+
+ <div class="card">
+
+  <p class="small">
+   Current Balance
+  </p>
+
+  <div class="balance">
+   ৳<span id="withdrawBalance">0.00</span>
+  </div>
+
+  <label>
+   Payment Method
+  </label>
+
+  <select id="paymentMethod">
+   <option>bKash</option>
+   <option>Nagad</option>
+  </select>
+
+  <label>
+   Account Number
+  </label>
+
+<input
+id="accountNumber"
+type="text"
+placeholder="আপনার নম্বর"
+
+
+
+  <label>
+   Amount
+  </label>
+
+<input
+id="withdrawAmount"
+type="number"
+placeholder="কত টাকা"
+
+
+
+  <button onclick="withdrawRequest()">
+   Withdraw Request
+  </button>
+
+  <p id="withdrawStatus" class="status"></p>
+
+ </div>
+
 </div>
+
+<!-- SUPPORT -->
 
 <div id="support" class="page">
- <div class="header"><h1>🆘 Support</h1><p>Admin Support</p></div>
- <div class="card">কোনো সমস্যা হলে আপনার নির্ধারিত Support Telegram এখানে যুক্ত করা যাবে।</div>
+
+ <div class="header">
+  <h1>🆘 Support</h1>
+  <p>Admin Support</p>
+ </div>
+
+ <div class="card">
+
+  <h3>
+   Support
+  </h3>
+
+  <p class="small" style="margin-top:10px">
+   কোনো সমস্যা হলে আপনার নির্ধারিত
+   Support Telegram এখানে যুক্ত করা যাবে।
+  </p>
+
+ </div>
+
 </div>
 
+<!-- NAVIGATION -->
+
 <div class="nav">
- <button class="active" onclick="showPage('home',this)">🏠<br>Home</button>
- <button onclick="showPage('referral',this)">👥<br>Referral</button>
- <button onclick="showPage('account',this)">👤<br>Account</button>
- <button onclick="showPage('withdraw',this)">💸<br>Withdraw</button>
- <button onclick="showPage('support',this)">🆘<br>Support</button>
+
+<button
+class="active"
+onclick="showPage('home',this)"
+
+
+
+🏠<br>Home
+</button>
+
+<button
+onclick="showPage('referral',this)"
+
+
+
+👥<br>Referral
+</button>
+
+<button
+onclick="showPage('account',this)"
+
+
+
+👤<br>Account
+</button>
+
+<button
+onclick="showPage('withdraw',this)"
+
+
+
+💸<br>Withdraw
+</button>
+
+<button
+onclick="showPage('support',this)"
+
+
+
+🆘<br>Support
+</button>
+
 </div>
 
 <script>
-const tg=window.Telegram?.WebApp;
-if(tg){tg.ready();tg.expand();}
 
-let balance=0, referralCount=0, referralEarnings=0;
+const tg = window.Telegram?.WebApp;
 
-const tasks=[
- {title:"Normal Task",reward:10,desc:"সাধারণ Task সম্পন্ন করুন।"},
- {title:"Video Task",reward:15,desc:"নির্ধারিত ভিডিও Task সম্পন্ন করুন।"},
- {title:"Telegram Join Task",reward:20,desc:"নির্ধারিত Telegram Group/Channel-এ Join করুন এবং Verify করুন।"}
+if(tg){
+
+ tg.ready();
+ tg.expand();
+
+}
+
+
+/*
+  আপনার Bot
+*/
+const BOT_USERNAME = "Viewerab_bot";
+
+
+/*
+  Demo state
+
+  আসল Balance/Referral database-এ
+  রাখার জন্য backend প্রয়োজন।
+*/
+let balance = 0;
+let referralCount = 0;
+let referralEarnings = 0;
+
+
+/*
+  Tasks
+*/
+const tasks = [
+
+ {
+  title:"Normal Task",
+  reward:10,
+  desc:"সাধারণ Task সম্পন্ন করুন।"
+ },
+
+ {
+  title:"Video Task",
+  reward:15,
+  desc:"নির্ধারিত ভিডিও Task সম্পন্ন করুন।"
+ },
+
+ {
+  title:"Telegram Join Task",
+  reward:20,
+  desc:"নির্ধারিত Telegram Group/Channel-এ Join করুন।"
+ }
+
 ];
 
-function renderTasks(){
- document.getElementById("taskList").innerHTML=tasks.map((t,i)=>`
- <div class="task">
-  <div class="task-top"><h3>${t.title}</h3><span class="reward">+৳${t.reward}</span></div>
-  <p>${t.desc}</p>
-  <button onclick="startTask(${i})">Open Task</button>
- </div>`).join("");
-}
-function startTask(i){
- alert("এখন UI তৈরি হয়েছে। আসল Task verification ও Reward backend-এ যুক্ত হবে।");
-}
-function showPage(id,btn){
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- document.getElementById(id).classList.add("active");
- document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
- btn.classList.add("active");
-}
-function loadTelegramUser(){
- const u=tg?.initDataUnsafe?.user;
- if(!u)return;
- document.getElementById("welcome").textContent=`স্বাগতম, ${u.first_name||"User"}!`;
- document.getElementById("userName").textContent=((u.first_name||"")+" "+(u.last_name||"")).trim()||"—";
- document.getElementById("userUsername").textContent=u.username?("@"+u.username):"Username নেই";
- document.getElementById("userId").textContent=u.id||"—";
 
- // Telegram Mini App referral parameter: ?startapp=ref_<telegram_id>
- const start=tg.initDataUnsafe?.start_param||"";
- if(start.startsWith("ref_")){
-   // Real reward MUST be processed on a trusted backend after validating initData.
-   console.log("Referral source:",start.substring(4));
+function renderTasks(){
+
+ document.getElementById("taskList").innerHTML =
+ tasks.map((t,i)=>`
+
+  <div class="task">
+
+   <div class="task-top">
+
+    <h3>
+     ${t.title}
+    </h3>
+
+    <span class="reward">
+     +৳${t.reward}
+    </span>
+
+   </div>
+
+   <p>
+    ${t.desc}
+   </p>
+
+   <button onclick="startTask(${i})">
+    Open Task
+   </button>
+
+  </div>
+
+ `).join("");
+
+}
+
+
+function startTask(i){
+
+ alert(
+  "এই Task-এর আসল verification ও reward system backend-এ যুক্ত করতে হবে।"
+ );
+
+}
+
+
+/*
+  Page navigation
+*/
+function showPage(id,btn){
+
+ document
+  .querySelectorAll(".page")
+  .forEach(p=>p.classList.remove("active"));
+
+ document
+  .getElementById(id)
+  .classList.add("active");
+
+ document
+  .querySelectorAll(".nav button")
+  .forEach(b=>b.classList.remove("active"));
+
+ btn.classList.add("active");
+
+}
+
+
+/*
+  Telegram user information
+*/
+function loadTelegramUser(){
+
+ const u = tg?.initDataUnsafe?.user;
+
+ if(!u){
+
+  document.getElementById("welcome").textContent =
+   "Telegram Mini App";
+
+  document.getElementById("userName").textContent =
+   "Telegram থেকে খুলুন";
+
+  document.getElementById("userUsername").textContent =
+   "—";
+
+  document.getElementById("userId").textContent =
+   "—";
+
+  document.getElementById("myReferralId").textContent =
+   "Telegram থেকে খুলুন";
+
+  createReferralLink("");
+
+  return;
+
  }
- const botUsername="YOUR_BOT_USERNAME";
- const id=u.id;
- const link=`https://t.me/${botUsername}?startapp=ref_${id}`;
- document.getElementById("refLink").textContent=link;
+
+
+ const fullName =
+  ((u.first_name || "") + " " + (u.last_name || "")).trim();
+
+
+ document.getElementById("welcome").textContent =
+  "স্বাগতম, " + (u.first_name || "User") + "!";
+
+
+ document.getElementById("userName").textContent =
+  fullName || "—";
+
+
+ document.getElementById("userUsername").textContent =
+  u.username ? "@" + u.username : "Username নেই";
+
+
+ document.getElementById("userId").textContent =
+  u.id || "—";
+
+
+ /*
+   User ID-কে Referral ID হিসেবে ব্যবহার করছি।
+
+   আসল referral reward backend-এ verify করতে হবে।
+ */
+ const referralId = "ref_" + u.id;
+
+
+ document.getElementById("myReferralId").textContent =
+  referralId;
+
+
+ createReferralLink(referralId);
+
+
+ /*
+   অন্য কেউ referral link দিয়ে
+   Mini App খুলেছে কিনা দেখতে start_param নেওয়া হচ্ছে।
+ */
+ const startParam =
+  tg?.initDataUnsafe?.start_param || "";
+
+
+ if(startParam){
+
+  document.getElementById("refStatus").textContent =
+   "Referral parameter পাওয়া গেছে: " + startParam;
+
+ }
+
 }
-function copyReferral(){
- const link=document.getElementById("refLink").textContent;
- if(link.startsWith("https://"))navigator.clipboard?.writeText(link).then(()=>alert("Referral link copied!"));
+
+
+/*
+  Referral Link
+*/
+function createReferralLink(referralId){
+
+ const refLinkElement =
+  document.getElementById("refLink");
+
+
+ if(!referralId){
+
+  refLinkElement.textContent =
+   "Telegram Mini App থেকে খুললে Link তৈরি হবে";
+
+  return;
+
+ }
+
+
+ /*
+   এই লিংকটি Bot-এর Main Mini App-এর
+   startapp parameter ব্যবহার করে।
+
+   উদাহরণ:
+   https://t.me/Viewerab_bot?startapp=ref_123456
+ */
+ const link =
+  "https://t.me/" +
+  BOT_USERNAME +
+  "?startapp=" +
+  encodeURIComponent(referralId);
+
+
+ refLinkElement.textContent = link;
+
 }
+
+
+/*
+  Copy Referral
+*/
+async function copyReferral(){
+
+ const link =
+  document.getElementById("refLink").textContent;
+
+
+ if(!link.startsWith("https://")){
+
+  alert("আগে Telegram Mini App থেকে খুলুন।");
+
+  return;
+
+ }
+
+
+ try{
+
+  await navigator.clipboard.writeText(link);
+
+  alert("Referral Link Copy হয়েছে।");
+
+ }catch(e){
+
+  alert(link);
+
+ }
+
+}
+
+
+/*
+  Telegram Share
+*/
 function shareReferral(){
- const link=document.getElementById("refLink").textContent;
- if(!link.startsWith("https://"))return;
- const text="আমার Referral Link দিয়ে Join করুন।";
- if(tg?.openTelegramLink)tg.openTelegramLink("https://t.me/share/url?url="+encodeURIComponent(link)+"&text="+encodeURIComponent(text));
- else window.open("https://t.me/share/url?url="+encodeURIComponent(link)+"&text="+encodeURIComponent(text),"_blank");
+
+ const link =
+  document.getElementById("refLink").textContent;
+
+
+ if(!link.startsWith("https://")){
+
+  alert("আগে Telegram Mini App থেকে খুলুন।");
+
+  return;
+
+ }
+
+
+ const shareUrl =
+  "https://t.me/share/url?url=" +
+  encodeURIComponent(link) +
+  "&text=" +
+  encodeURIComponent(
+   "আমার Referral Link দিয়ে View eran Bd-এ যোগ দিন।"
+  );
+
+
+ if(tg){
+
+  tg.openTelegramLink(shareUrl);
+
+ }else{
+
+  window.open(shareUrl,"_blank");
+
+ }
+
 }
-renderTasks();loadTelegramUser();
+
+
+/*
+  Withdraw demo
+*/
+function withdrawRequest(){
+
+ const method =
+  document.getElementById("paymentMethod").value;
+
+ const number =
+  document.getElementById("accountNumber").value.trim();
+
+ const amount =
+  Number(document.getElementById("withdrawAmount").value);
+
+
+ if(!number || !amount){
+
+  document.getElementById("withdrawStatus").textContent =
+   "Payment number এবং amount দিন।";
+
+  return;
+
+ }
+
+
+ document.getElementById("withdrawStatus").textContent =
+  method +
+  " withdrawal request UI তৈরি হয়েছে। আসল request backend-এ পাঠাতে হবে।";
+
+}
+
+
+/*
+  Balance display
+*/
+function updateBalance(){
+
+ document.getElementById("balance").textContent =
+  balance.toFixed(2);
+
+ document.getElementById("withdrawBalance").textContent =
+  balance.toFixed(2);
+
+ document.getElementById("refCount").textContent =
+  referralCount;
+
+ document.getElementById("refEarn").textContent =
+  referralEarnings;
+
+}
+
+
+/*
+  Start
+*/
+renderTasks();
+updateBalance();
+loadTelegramUser();
+
 </script>
+
 </body>
 </html>
