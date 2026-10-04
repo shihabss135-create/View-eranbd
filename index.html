@@ -133,7 +133,11 @@ body{
     background:#e53935;
 }
 
-input{
+.btn.orange{
+    background:#f59e0b;
+}
+
+input,select{
     width:100%;
     padding:13px;
     border:1px solid #d9dee8;
@@ -141,9 +145,10 @@ input{
     outline:none;
     margin-top:8px;
     font-size:14px;
+    background:white;
 }
 
-input:focus{
+input:focus,select:focus{
     border-color:#1687f8;
 }
 
@@ -243,6 +248,33 @@ input:focus{
     margin-top:10px;
 }
 
+.admin-box{
+    border:2px solid #1687f8;
+    border-radius:15px;
+    padding:15px;
+    margin-bottom:15px;
+}
+
+.admin-task{
+    background:#f7f9fc;
+    padding:15px;
+    border-radius:14px;
+    margin-bottom:15px;
+}
+
+.admin-task h3{
+    margin-bottom:8px;
+}
+
+.small{
+    font-size:12px;
+    color:#777;
+    margin-top:5px;
+}
+
+.hidden{
+    display:none !important;
+}
 </style>
 </head>
 
@@ -266,7 +298,7 @@ input:focus{
         </div>
 
         <p>
-            Tasks এবং Referral থেকে আয় করুন
+            Tasks এবং Referral থেকে Reward সংগ্রহ করুন
         </p>
     </div>
 
@@ -278,7 +310,7 @@ input:focus{
         </div>
 
         <div class="stat">
-            <b id="taskCount">3</b>
+            <b id="taskCount">0</b>
             <span>Tasks</span>
         </div>
 
@@ -296,7 +328,7 @@ input:focus{
         </p>
 
         <div id="firebaseStatus" class="status">
-            Firebase সংযোগ প্রস্তুত আছে।
+            Firebase সংযোগ প্রস্তুত হচ্ছে...
         </div>
 
     </div>
@@ -347,7 +379,6 @@ input:focus{
 
     </div>
 
-
     <div class="card">
 
         <h2>Referral Reward</h2>
@@ -358,10 +389,13 @@ input:focus{
         </p>
 
         <p>
+            প্রতি Referral Reward:
+            <b>৳ <span id="referralRewardDisplay">70</span></b>
+        </p>
+
+        <p>
             Referral থেকে আয়:
-            <b>
-                ৳ <span id="referralEarn">0</span>
-            </b>
+            <b>৳ <span id="referralEarn">0</span></b>
         </p>
 
     </div>
@@ -416,6 +450,23 @@ input:focus{
                 Loading...
             </b>
         </p>
+
+    </div>
+
+    <div class="card">
+
+        <h2>⚙️ Admin</h2>
+
+        <p>
+            শুধুমাত্র Admin-এর জন্য।
+        </p>
+
+        <button
+            class="btn dark"
+            onclick="openAdminLogin()"
+        >
+            🔐 Admin Panel
+        </button>
 
     </div>
 
@@ -475,6 +526,121 @@ input:focus{
 
 </div>
 
+
+<!-- ADMIN LOGIN -->
+<div id="adminLogin" class="page">
+
+    <div class="card">
+
+        <h2>🔐 Admin Login</h2>
+
+        <p>
+            Admin Email এবং Password দিয়ে Login করুন।
+        </p>
+
+        <input
+            id="adminEmail"
+            type="email"
+            placeholder="Admin Email"
+        >
+
+        <input
+            id="adminPassword"
+            type="password"
+            placeholder="Admin Password"
+        >
+
+        <button
+            class="btn"
+            onclick="adminLogin()"
+        >
+            Login
+        </button>
+
+        <button
+            class="btn dark"
+            onclick="showPage('account')"
+        >
+            ফিরে যান
+        </button>
+
+        <div
+            id="adminLoginStatus"
+            class="status"
+        >
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ADMIN PANEL -->
+<div id="admin" class="page">
+
+    <div class="card">
+
+        <h2>⚙️ Admin Panel</h2>
+
+        <p>
+            এখান থেকে Task এবং Reward পরিবর্তন করতে পারবেন।
+        </p>
+
+        <div
+            id="adminStatus"
+            class="status"
+        >
+            Admin Login প্রয়োজন।
+        </div>
+
+    </div>
+
+
+    <div id="adminContent" class="hidden">
+
+        <div class="admin-box">
+
+            <h2>👥 Referral Reward</h2>
+
+            <input
+                id="adminReferralReward"
+                type="number"
+                placeholder="Referral Reward"
+            >
+
+        </div>
+
+
+        <div class="admin-box">
+
+            <h2>📋 Tasks</h2>
+
+            <div
+                id="adminTaskList"
+            ></div>
+
+        </div>
+
+
+        <button
+            class="btn green"
+            onclick="saveAdminSettings()"
+        >
+            💾 Save All Changes
+        </button>
+
+
+        <button
+            class="btn red"
+            onclick="adminLogout()"
+        >
+            🚪 Admin Logout
+        </button>
+
+    </div>
+
+</div>
+
 </div>
 
 
@@ -489,7 +655,6 @@ input:focus{
         Home
     </button>
 
-
     <button
         class="nav-btn"
         onclick="showPage('tasks',this)"
@@ -497,7 +662,6 @@ input:focus{
         <div>📋</div>
         Tasks
     </button>
-
 
     <button
         class="nav-btn"
@@ -507,7 +671,6 @@ input:focus{
         Referral
     </button>
 
-
     <button
         class="nav-btn"
         onclick="showPage('account',this)"
@@ -515,7 +678,6 @@ input:focus{
         <div>👤</div>
         Account
     </button>
-
 
     <button
         class="nav-btn"
@@ -536,14 +698,23 @@ import {
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-
 import {
     getFirestore,
     doc,
+    getDoc,
     setDoc
 }
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
 /* FIREBASE */
@@ -570,16 +741,17 @@ const firebaseConfig = {
 
     measurementId:
     "G-R5D2YJVV53"
-
 };
 
 
 const app =
 initializeApp(firebaseConfig);
 
-
 const db =
 getFirestore(app);
+
+const auth =
+getAuth(app);
 
 
 /* TELEGRAM */
@@ -596,7 +768,6 @@ null;
 if(tg){
 
     tg.ready();
-
     tg.expand();
 
 }
@@ -608,44 +779,121 @@ const BOT_USERNAME =
 "Viewerab_bot";
 
 
-/* ACCOUNT DATA */
+/* ACCOUNT */
 
 let balance = 0;
-
 let referralCount = 0;
-
 let referralEarnings = 0;
 
 
-/* TASKS */
+/* DEFAULT SETTINGS */
 
-const tasks = [
+let appSettings = {
 
-    {
-        id:"normal",
-        title:"Normal Task",
-        reward:10,
-        description:
-        "Task সম্পন্ন করুন এবং Reward পান।"
-    },
+    referralReward:70,
 
-    {
-        id:"video",
-        title:"Video Task",
-        reward:15,
-        description:
-        "Video দেখুন এবং Task সম্পন্ন করুন।"
-    },
+    tasks:[
 
-    {
-        id:"telegram",
-        title:"Telegram Join Task",
-        reward:20,
-        description:
-        "Telegram Channel/Group Join করুন।"
+        {
+            id:"normal",
+            title:"Normal Task",
+            reward:10,
+            description:"Task সম্পন্ন করুন এবং Reward পান।",
+            url:"",
+            enabled:true
+        },
+
+        {
+            id:"video",
+            title:"Video Task",
+            reward:15,
+            description:"Video দেখুন এবং Task সম্পন্ন করুন।",
+            url:"",
+            enabled:true
+        },
+
+        {
+            id:"telegram",
+            title:"Telegram Join Task",
+            reward:20,
+            description:"Telegram Channel/Group Join করুন।",
+            url:"",
+            enabled:true
+        }
+
+    ]
+
+};
+
+
+/* LOAD SETTINGS */
+
+async function loadSettings(){
+
+    try{
+
+        const settingsRef =
+        doc(
+            db,
+            "settings",
+            "app"
+        );
+
+        const settingsSnap =
+        await getDoc(settingsRef);
+
+
+        if(settingsSnap.exists()){
+
+            const data =
+            settingsSnap.data();
+
+
+            appSettings = {
+
+                referralReward:
+                Number(
+                    data.referralReward ??
+                    70
+                ),
+
+                tasks:
+                Array.isArray(data.tasks)
+                ?
+                data.tasks
+                :
+                appSettings.tasks
+
+            };
+
+        }
+
+
+        renderTasks();
+
+        updateBalance();
+
+        document.getElementById(
+            "firebaseStatus"
+        ).innerText =
+        "Firebase থেকে Settings লোড হয়েছে।";
+
     }
 
-];
+    catch(error){
+
+        console.error(error);
+
+        renderTasks();
+
+        document.getElementById(
+            "firebaseStatus"
+        ).innerText =
+        "Default Settings ব্যবহার করা হচ্ছে।";
+
+    }
+
+}
 
 
 /* TASK LIST */
@@ -658,7 +906,13 @@ function renderTasks(){
     list.innerHTML = "";
 
 
-    tasks.forEach(task => {
+    const enabledTasks =
+    appSettings.tasks.filter(
+        task => task.enabled !== false
+    );
+
+
+    enabledTasks.forEach(task => {
 
         const div =
         document.createElement("div");
@@ -669,15 +923,15 @@ function renderTasks(){
         div.innerHTML = `
 
             <h3>
-                ${task.title}
+                ${escapeHTML(task.title)}
             </h3>
 
             <p>
-                ${task.description}
+                ${escapeHTML(task.description)}
             </p>
 
             <div class="reward">
-                Reward: ৳ ${task.reward}
+                Reward: ৳ ${Number(task.reward) || 0}
             </div>
 
             <button
@@ -695,9 +949,16 @@ function renderTasks(){
     });
 
 
-    document.getElementById("taskCount")
-    .innerText =
-    tasks.length;
+    document.getElementById(
+        "taskCount"
+    ).innerText =
+    enabledTasks.length;
+
+
+    document.getElementById(
+        "referralRewardDisplay"
+    ).innerText =
+    Number(appSettings.referralReward) || 0;
 
 }
 
@@ -708,17 +969,51 @@ window.startTask =
 function(id){
 
     const task =
-    tasks.find(x => x.id === id);
+    appSettings.tasks.find(
+        x => x.id === id
+    );
 
 
     if(!task)
     return;
 
 
-    alert(
-        task.title +
-        "\n\nTask শুরু করার জন্য প্রস্তুত।"
-    );
+    if(
+        task.url &&
+        task.url.trim()
+    ){
+
+        if(
+            tg &&
+            tg.openTelegramLink &&
+            task.url.includes("t.me/")
+        ){
+
+            tg.openTelegramLink(
+                task.url
+            );
+
+        }
+
+        else{
+
+            window.open(
+                task.url,
+                "_blank"
+            );
+
+        }
+
+    }
+
+    else{
+
+        alert(
+            task.title +
+            "\n\nএই Task-এর Link এখনো Admin সেট করেনি।"
+        );
+
+    }
 
 };
 
@@ -764,6 +1059,405 @@ function(page,button){
     }
 
 };
+
+
+/* ADMIN LOGIN PAGE */
+
+window.openAdminLogin =
+function(){
+
+    showPage("adminLogin");
+
+};
+
+
+/* ADMIN LOGIN */
+
+window.adminLogin =
+async function(){
+
+    const email =
+    document
+    .getElementById("adminEmail")
+    .value
+    .trim();
+
+
+    const password =
+    document
+    .getElementById("adminPassword")
+    .value;
+
+
+    const status =
+    document.getElementById(
+        "adminLoginStatus"
+    );
+
+
+    if(!email || !password){
+
+        status.innerText =
+        "Email এবং Password দিন।";
+
+        return;
+
+    }
+
+
+    status.innerText =
+    "Login হচ্ছে...";
+
+
+    try{
+
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+
+        status.innerText =
+        "Login সফল হয়েছে।";
+
+
+        setTimeout(
+            () => {
+
+                openAdminPanel();
+
+            },
+            500
+        );
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        status.innerText =
+        "Login হয়নি। Email/Password ঠিক আছে কিনা দেখুন।";
+
+    }
+
+};
+
+
+/* ADMIN PANEL */
+
+function openAdminPanel(){
+
+    showPage("admin");
+
+    document
+    .getElementById("adminContent")
+    .classList
+    .remove("hidden");
+
+    document
+    .getElementById("adminStatus")
+    .innerText =
+    "Admin Login সফল হয়েছে।";
+
+    renderAdminPanel();
+
+}
+
+
+/* ADMIN SETTINGS UI */
+
+function renderAdminPanel(){
+
+    document
+    .getElementById(
+        "adminReferralReward"
+    )
+    .value =
+    Number(
+        appSettings.referralReward
+    ) || 0;
+
+
+    const list =
+    document.getElementById(
+        "adminTaskList"
+    );
+
+    list.innerHTML = "";
+
+
+    appSettings.tasks.forEach(
+    (task,index) => {
+
+        const div =
+        document.createElement("div");
+
+        div.className =
+        "admin-task";
+
+
+        div.innerHTML = `
+
+            <h3>
+                ${escapeHTML(task.title)}
+            </h3>
+
+            <input
+                id="taskTitle_${index}"
+                type="text"
+                value="${escapeAttr(task.title)}"
+                placeholder="Task Name"
+            >
+
+            <input
+                id="taskDescription_${index}"
+                type="text"
+                value="${escapeAttr(task.description)}"
+                placeholder="Task Description"
+            >
+
+            <input
+                id="taskReward_${index}"
+                type="number"
+                value="${Number(task.reward) || 0}"
+                placeholder="Reward"
+            >
+
+            <input
+                id="taskUrl_${index}"
+                type="text"
+                value="${escapeAttr(task.url || "")}"
+                placeholder="Task Link / Video Link / Telegram Link"
+            >
+
+            <select
+                id="taskEnabled_${index}"
+            >
+
+                <option
+                    value="true"
+                    ${task.enabled !== false ? "selected" : ""}
+                >
+                    Task চালু
+                </option>
+
+                <option
+                    value="false"
+                    ${task.enabled === false ? "selected" : ""}
+                >
+                    Task বন্ধ
+                </option>
+
+            </select>
+
+            <p class="small">
+                Link পরিবর্তন করলে User-রা নতুন Link দেখতে পাবে।
+            </p>
+
+        `;
+
+
+        list.appendChild(div);
+
+    });
+
+}
+
+
+/* SAVE ADMIN SETTINGS */
+
+window.saveAdminSettings =
+async function(){
+
+    const user =
+    auth.currentUser;
+
+
+    if(!user){
+
+        alert(
+            "আগে Admin Login করুন।"
+        );
+
+        return;
+
+    }
+
+
+    const referralReward =
+    Number(
+        document.getElementById(
+            "adminReferralReward"
+        ).value
+    );
+
+
+    const newTasks =
+    appSettings.tasks.map(
+    (task,index) => {
+
+        return {
+
+            id:task.id,
+
+            title:
+            document.getElementById(
+                "taskTitle_" + index
+            ).value.trim(),
+
+            description:
+            document.getElementById(
+                "taskDescription_" + index
+            ).value.trim(),
+
+            reward:
+            Number(
+                document.getElementById(
+                    "taskReward_" + index
+                ).value
+            ) || 0,
+
+            url:
+            document.getElementById(
+                "taskUrl_" + index
+            ).value.trim(),
+
+            enabled:
+            document.getElementById(
+                "taskEnabled_" + index
+            ).value === "true"
+
+        };
+
+    });
+
+
+    const newSettings = {
+
+        referralReward:
+        referralReward || 0,
+
+        tasks:
+        newTasks,
+
+        updatedAt:
+        new Date().toISOString(),
+
+        updatedBy:
+        user.uid
+
+    };
+
+
+    try{
+
+        await setDoc(
+
+            doc(
+                db,
+                "settings",
+                "app"
+            ),
+
+            newSettings
+
+        );
+
+
+        appSettings =
+        newSettings;
+
+
+        renderTasks();
+
+        updateBalance();
+
+
+        document.getElementById(
+            "adminStatus"
+        ).innerText =
+        "✅ সব পরিবর্তন Firebase-এ Save হয়েছে।";
+
+
+        alert(
+            "Settings সফলভাবে Save হয়েছে।"
+        );
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById(
+            "adminStatus"
+        ).innerText =
+        "❌ Save হয়নি। Firebase Rules/Permission দেখুন।";
+
+
+        alert(
+            "Save হয়নি। Firebase Permission সমস্যা হতে পারে।"
+        );
+
+    }
+
+};
+
+
+/* ADMIN LOGOUT */
+
+window.adminLogout =
+async function(){
+
+    try{
+
+        await signOut(auth);
+
+        document
+        .getElementById(
+            "adminContent"
+        )
+        .classList
+        .add("hidden");
+
+
+        showPage("home");
+
+
+        alert(
+            "Admin Logout হয়েছে।"
+        );
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+    }
+
+};
+
+
+/* AUTH STATE */
+
+onAuthStateChanged(
+    auth,
+    user => {
+
+        if(user){
+
+            console.log(
+                "Admin logged in:",
+                user.email
+            );
+
+        }
+
+    }
+);
 
 
 /* TELEGRAM USER */
@@ -866,23 +1560,11 @@ async function loadTelegramUser(){
 
         await saveTelegramUser(user);
 
-
-        document.getElementById(
-            "firebaseStatus"
-        ).innerText =
-        "Firebase-এ User তথ্য সংরক্ষণ করা হয়েছে।";
-
     }
 
     catch(error){
 
         console.error(error);
-
-
-        document.getElementById(
-            "firebaseStatus"
-        ).innerText =
-        "Firebase সংযোগ আছে, কিন্তু User save হয়নি।";
 
     }
 
@@ -1045,15 +1727,6 @@ function(){
 
     }
 
-    else{
-
-        alert(
-            "আমার Referral Link ব্যবহার করে Join করুন:\n" +
-            link
-        );
-
-    }
-
 };
 
 
@@ -1140,16 +1813,6 @@ function(){
 
     }
 
-    else{
-
-        window.open(
-            "https://t.me/" +
-            username,
-            "_blank"
-        );
-
-    }
-
 };
 
 
@@ -1180,6 +1843,35 @@ function updateBalance(){
     ).innerText =
     referralEarnings;
 
+
+    document.getElementById(
+        "referralRewardDisplay"
+    ).innerText =
+    Number(
+        appSettings.referralReward
+    ) || 0;
+
+}
+
+
+/* SECURITY DISPLAY HELPERS */
+
+function escapeHTML(value){
+
+    return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function escapeAttr(value){
+
+    return escapeHTML(value);
+
 }
 
 
@@ -1188,6 +1880,8 @@ function updateBalance(){
 renderTasks();
 
 updateBalance();
+
+loadSettings();
 
 loadTelegramUser();
 
