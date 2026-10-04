@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
 <title>View eran Bd</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -210,13 +210,18 @@ label{
  font-size:13px;
 }
 
+.firebase-status{
+ margin:15px;
+ padding:10px;
+ border-radius:10px;
+ background:#eaf7ee;
+ color:#18733b;
+ font-size:13px;
+}
 </style>
-
 </head>
 
 <body>
-
-<!-- HOME -->
 
 <div id="home" class="page active">
 
@@ -231,6 +236,10 @@ label{
   <div class="small" style="color:#eaf4ff">
    বর্তমান Balance
   </div>
+ </div>
+
+ <div class="firebase-status">
+  Firebase সংযোগ প্রস্তুত আছে।
  </div>
 
  <div class="grid">
@@ -273,7 +282,6 @@ label{
 
 </div>
 
-<!-- REFERRAL -->
 
 <div id="referral" class="page">
 
@@ -292,8 +300,7 @@ label{
 
   <p class="small">
    আপনার Referral Link দিয়ে নতুন User এলে
-   এবং প্রয়োজনীয় শর্ত পূরণ হলে Referral
-   গণনা করা যাবে।
+   এবং প্রয়োজনীয় শর্ত পূরণ হলে Referral গণনা করা যাবে।
   </p>
 
   <div class="refbox">
@@ -308,13 +315,9 @@ label{
 
    <div class="refbuttons">
 
-<button onclick="copyReferral()">
- Copy
-</button>
+    <button onclick="copyReferral()">Copy</button>
 
-<button onclick="shareReferral()">
- Share
-</button>
+    <button onclick="shareReferral()">Share</button>
 
    </div>
 
@@ -348,7 +351,6 @@ label{
 
 </div>
 
-<!-- ACCOUNT -->
 
 <div id="account" class="page">
 
@@ -382,7 +384,6 @@ label{
 
 </div>
 
-<!-- WITHDRAW -->
 
 <div id="withdraw" class="page">
 
@@ -401,36 +402,28 @@ label{
    ৳<span id="withdrawBalance">0.00</span>
   </div>
 
-  <label>
-   Payment Method
-  </label>
+  <label>Payment Method</label>
 
   <select id="paymentMethod">
    <option>bKash</option>
    <option>Nagad</option>
   </select>
 
-  <label>
-   Account Number
-  </label>
+  <label>Account Number</label>
 
-<input
-id="accountNumber"
-type="text"
-placeholder="আপনার নম্বর"
+  <input
+   id="accountNumber"
+   type="text"
+   placeholder="আপনার নম্বর"
+  >
 
+  <label>Amount</label>
 
-
-  <label>
-   Amount
-  </label>
-
-<input
-id="withdrawAmount"
-type="number"
-placeholder="কত টাকা"
-
-
+  <input
+   id="withdrawAmount"
+   type="number"
+   placeholder="কত টাকা"
+  >
 
   <button onclick="withdrawRequest()">
    Withdraw Request
@@ -442,7 +435,6 @@ placeholder="কত টাকা"
 
 </div>
 
-<!-- SUPPORT -->
 
 <div id="support" class="page">
 
@@ -453,9 +445,7 @@ placeholder="কত টাকা"
 
  <div class="card">
 
-  <h3>
-   Support
-  </h3>
+  <h3>Support</h3>
 
   <p class="small" style="margin-top:10px">
    কোনো সমস্যা হলে আপনার নির্ধারিত
@@ -466,54 +456,76 @@ placeholder="কত টাকা"
 
 </div>
 
-<!-- NAVIGATION -->
 
 <div class="nav">
 
-<button
-class="active"
-onclick="showPage('home',this)"
+ <button class="active" onclick="showPage('home',this)">
+  🏠<br>Home
+ </button>
 
+ <button onclick="showPage('referral',this)">
+  👥<br>Referral
+ </button>
 
+ <button onclick="showPage('account',this)">
+  👤<br>Account
+ </button>
 
-🏠<br>Home
-</button>
+ <button onclick="showPage('withdraw',this)">
+  💸<br>Withdraw
+ </button>
 
-<button
-onclick="showPage('referral',this)"
-
-
-
-👥<br>Referral
-</button>
-
-<button
-onclick="showPage('account',this)"
-
-
-
-👤<br>Account
-</button>
-
-<button
-onclick="showPage('withdraw',this)"
-
-
-
-💸<br>Withdraw
-</button>
-
-<button
-onclick="showPage('support',this)"
-
-
-
-🆘<br>Support
-</button>
+ <button onclick="showPage('support',this)">
+  🆘<br>Support
+ </button>
 
 </div>
 
-<script>
+
+<script type="module">
+
+/* ================================
+   FIREBASE
+================================ */
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+ getFirestore,
+ doc,
+ setDoc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+ apiKey: "AIzaSyDx9qbofQzsAQIdBFLAJDh9n6-3M6wt5o4",
+
+ authDomain: "tax-income-site-e99e5.firebaseapp.com",
+
+ projectId: "tax-income-site-e99e5",
+
+ storageBucket: "tax-income-site-e99e5.firebasestorage.app",
+
+ messagingSenderId: "586704543568",
+
+ appId: "1:586704543568:web:956781fe0a3bed4f981655",
+
+ measurementId: "G-R5D2YJVV53"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+
+/* ================================
+   TELEGRAM
+================================ */
 
 const tg = window.Telegram?.WebApp;
 
@@ -525,26 +537,26 @@ if(tg){
 }
 
 
-/*
-  আপনার Bot
-*/
+/* ================================
+   BOT
+================================ */
+
 const BOT_USERNAME = "Viewerab_bot";
 
 
-/*
-  Demo state
+/* ================================
+   DEMO STATE
+================================ */
 
-  আসল Balance/Referral database-এ
-  রাখার জন্য backend প্রয়োজন।
-*/
 let balance = 0;
 let referralCount = 0;
 let referralEarnings = 0;
 
 
-/*
-  Tasks
-*/
+/* ================================
+   TASKS
+================================ */
+
 const tasks = [
 
  {
@@ -577,9 +589,7 @@ function renderTasks(){
 
    <div class="task-top">
 
-    <h3>
-     ${t.title}
-    </h3>
+    <h3>${t.title}</h3>
 
     <span class="reward">
      +৳${t.reward}
@@ -587,9 +597,7 @@ function renderTasks(){
 
    </div>
 
-   <p>
-    ${t.desc}
-   </p>
+   <p>${t.desc}</p>
 
    <button onclick="startTask(${i})">
     Open Task
@@ -602,40 +610,82 @@ function renderTasks(){
 }
 
 
-function startTask(i){
+window.startTask = function(i){
 
  alert(
-  "এই Task-এর আসল verification ও reward system backend-এ যুক্ত করতে হবে।"
+  "Task verification ও reward system পরের ধাপে backend-এর সাথে যুক্ত করা হবে।"
  );
 
-}
+};
 
 
-/*
-  Page navigation
-*/
-function showPage(id,btn){
+/* ================================
+   PAGE
+================================ */
 
- document
-  .querySelectorAll(".page")
-  .forEach(p=>p.classList.remove("active"));
+window.showPage = function(id,btn){
 
  document
-  .getElementById(id)
-  .classList.add("active");
+ .querySelectorAll(".page")
+ .forEach(p=>p.classList.remove("active"));
 
  document
-  .querySelectorAll(".nav button")
-  .forEach(b=>b.classList.remove("active"));
+ .getElementById(id)
+ .classList.add("active");
+
+ document
+ .querySelectorAll(".nav button")
+ .forEach(b=>b.classList.remove("active"));
 
  btn.classList.add("active");
 
+};
+
+
+/* ================================
+   SAVE TELEGRAM USER
+================================ */
+
+async function saveTelegramUser(u){
+
+ if(!u || !u.id) return;
+
+ try{
+
+  await setDoc(
+   doc(db,"users",String(u.id)),
+   {
+    telegramId:String(u.id),
+
+    firstName:u.first_name || "",
+
+    lastName:u.last_name || "",
+
+    username:u.username || "",
+
+    updatedAt:new Date().toISOString()
+   },
+   {merge:true}
+  );
+
+  console.log("User saved to Firebase");
+
+ }catch(error){
+
+  console.error(
+   "Firebase user save error:",
+   error
+  );
+
+ }
+
 }
 
 
-/*
-  Telegram user information
-*/
+/* ================================
+   TELEGRAM USER
+================================ */
+
 function loadTelegramUser(){
 
  const u = tg?.initDataUnsafe?.user;
@@ -684,12 +734,8 @@ function loadTelegramUser(){
   u.id || "—";
 
 
- /*
-   User ID-কে Referral ID হিসেবে ব্যবহার করছি।
-
-   আসল referral reward backend-এ verify করতে হবে।
- */
- const referralId = "ref_" + u.id;
+ const referralId =
+  "ref_" + u.id;
 
 
  document.getElementById("myReferralId").textContent =
@@ -699,10 +745,6 @@ function loadTelegramUser(){
  createReferralLink(referralId);
 
 
- /*
-   অন্য কেউ referral link দিয়ে
-   Mini App খুলেছে কিনা দেখতে start_param নেওয়া হচ্ছে।
- */
  const startParam =
   tg?.initDataUnsafe?.start_param || "";
 
@@ -714,12 +756,16 @@ function loadTelegramUser(){
 
  }
 
+
+ saveTelegramUser(u);
+
 }
 
 
-/*
-  Referral Link
-*/
+/* ================================
+   REFERRAL
+================================ */
+
 function createReferralLink(referralId){
 
  const refLinkElement =
@@ -736,13 +782,6 @@ function createReferralLink(referralId){
  }
 
 
- /*
-   এই লিংকটি Bot-এর Main Mini App-এর
-   startapp parameter ব্যবহার করে।
-
-   উদাহরণ:
-   https://t.me/Viewerab_bot?startapp=ref_123456
- */
  const link =
   "https://t.me/" +
   BOT_USERNAME +
@@ -755,10 +794,7 @@ function createReferralLink(referralId){
 }
 
 
-/*
-  Copy Referral
-*/
-async function copyReferral(){
+window.copyReferral = async function(){
 
  const link =
   document.getElementById("refLink").textContent;
@@ -766,7 +802,7 @@ async function copyReferral(){
 
  if(!link.startsWith("https://")){
 
-  alert("আগে Telegram Mini App থেকে খুলুন।");
+  alert("আগে Telegram Mini App থেকে খুলুন.");
 
   return;
 
@@ -777,7 +813,7 @@ async function copyReferral(){
 
   await navigator.clipboard.writeText(link);
 
-  alert("Referral Link Copy হয়েছে।");
+  alert("Referral Link Copy হয়েছে.");
 
  }catch(e){
 
@@ -785,13 +821,10 @@ async function copyReferral(){
 
  }
 
-}
+};
 
 
-/*
-  Telegram Share
-*/
-function shareReferral(){
+window.shareReferral = function(){
 
  const link =
   document.getElementById("refLink").textContent;
@@ -799,7 +832,7 @@ function shareReferral(){
 
  if(!link.startsWith("https://")){
 
-  alert("আগে Telegram Mini App থেকে খুলুন।");
+  alert("আগে Telegram Mini App থেকে খুলুন.");
 
   return;
 
@@ -825,13 +858,14 @@ function shareReferral(){
 
  }
 
-}
+};
 
 
-/*
-  Withdraw demo
-*/
-function withdrawRequest(){
+/* ================================
+   WITHDRAW
+================================ */
+
+window.withdrawRequest = function(){
 
  const method =
   document.getElementById("paymentMethod").value;
@@ -840,13 +874,15 @@ function withdrawRequest(){
   document.getElementById("accountNumber").value.trim();
 
  const amount =
-  Number(document.getElementById("withdrawAmount").value);
+  Number(
+   document.getElementById("withdrawAmount").value
+  );
 
 
  if(!number || !amount){
 
   document.getElementById("withdrawStatus").textContent =
-   "Payment number এবং amount দিন।";
+   "Payment number এবং amount দিন.";
 
   return;
 
@@ -855,14 +891,15 @@ function withdrawRequest(){
 
  document.getElementById("withdrawStatus").textContent =
   method +
-  " withdrawal request UI তৈরি হয়েছে। আসল request backend-এ পাঠাতে হবে।";
+  " withdrawal request এখনো Demo mode-এ আছে.";
 
-}
+};
 
 
-/*
-  Balance display
-*/
+/* ================================
+   BALANCE
+================================ */
+
 function updateBalance(){
 
  document.getElementById("balance").textContent =
@@ -880,11 +917,14 @@ function updateBalance(){
 }
 
 
-/*
-  Start
-*/
+/* ================================
+   START
+================================ */
+
 renderTasks();
+
 updateBalance();
+
 loadTelegramUser();
 
 </script>
