@@ -2,2933 +2,2350 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>View eran Bd</title>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>VIEW ERAN BD</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,sans-serif;
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-    background:
-        linear-gradient(rgba(244,247,251,.94),rgba(244,247,251,.94)),
-        radial-gradient(circle at 50% 20%,#1687f8 0,transparent 28%);
-    color:#172033;
-    padding-bottom:80px;
+ font-family:Arial,"Noto Sans Bengali",sans-serif;
+ background:#f7f4ff;color:#211535;
+ padding-bottom:85px
 }
+button,input,textarea,select{font:inherit}
+button{border:0;cursor:pointer}
 
-body:before{
-    content:"VIEW ERAN BD";
-    position:fixed;
-    left:50%;
-    top:48%;
-    transform:translate(-50%,-50%) rotate(-18deg);
-    font-size:42px;
-    font-weight:bold;
-    color:rgba(22,135,248,.045);
-    white-space:nowrap;
-    pointer-events:none;
-    z-index:-1;
+.top{
+ background:linear-gradient(135deg,#7b20ed,#e6299b,#ff7040);
+ color:white;padding:18px 16px 25px;
+ border-radius:0 0 30px 30px
 }
+.topbar{display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{
+ width:45px;height:45px;border-radius:14px;
+ background:#ffffff30;display:flex;
+ align-items:center;justify-content:center;
+ font-weight:900;font-size:16px
+}
+.avatar{
+ width:42px;height:42px;border-radius:50%;
+ background:white;color:#7b20ed;
+ display:flex;align-items:center;
+ justify-content:center;font-weight:900
+}
+.hero{margin-top:22px}
+.hero small{opacity:.85}
+.balance{font-size:38px;font-weight:900;margin:5px 0}
 
-.header{
-    background:linear-gradient(135deg,#1687f8,#0754b8);
-    color:white;
-    padding:25px 18px 30px;
-    border-radius:0 0 25px 25px;
-    box-shadow:0 5px 20px rgba(0,80,180,.2);
-}
+.container{padding:15px}
+.page{display:none}
+.page.active{display:block}
+.space{height:13px}
 
-.header h1{
-    font-size:27px;
-    margin-bottom:6px;
-}
-
-.header p{
-    opacity:.9;
-    font-size:14px;
-}
-
-.container{
-    padding:15px;
-}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
 .card{
-    background:white;
-    border-radius:18px;
-    padding:18px;
-    margin-bottom:15px;
-    box-shadow:0 4px 15px rgba(0,0,0,.07);
+ background:#fff;border-radius:22px;
+ padding:17px;border:1px solid #eee8fa;
+ box-shadow:0 6px 25px #5d36a010
 }
 
-.card h2{
-    font-size:19px;
-    margin-bottom:10px;
+.action{
+ min-height:120px;display:flex;
+ flex-direction:column;justify-content:center
+}
+.action-icon{
+ width:48px;height:48px;border-radius:50%;
+ display:flex;align-items:center;justify-content:center;
+ background:linear-gradient(135deg,#7626ed,#ee348f);
+ color:white;font-size:23px;margin-bottom:9px
+}
+.action h3{font-size:17px}
+.muted{color:#8b8298;font-size:13px;margin-top:4px}
+
+.section{
+ display:flex;align-items:center;
+ justify-content:space-between;margin:18px 2px 11px
+}
+.section h2{font-size:21px}
+
+.gradient-card{
+ background:linear-gradient(135deg,#7125ed,#d92b9f,#ff673e);
+ color:white;border-radius:23px;padding:20px
 }
 
-.card p{
-    font-size:14px;
-    line-height:1.6;
-    color:#657083;
+.progress{
+ height:9px;background:#ffffff35;
+ border-radius:20px;overflow:hidden;margin:15px 0 7px
+}
+.progress>div{
+ height:100%;background:white;border-radius:20px;width:0%
 }
 
-.balance{
-    background:linear-gradient(135deg,#1687f8,#0965c7);
-    color:white;
-}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{text-align:center;padding:22px 10px}
+.stat b{display:block;font-size:28px;color:#7125ed}
+.stat p{color:#8b8298;margin-top:5px}
 
-.balance p{
-    color:white;
-    opacity:.9;
+.task{
+ display:flex;gap:13px;align-items:center;
+ padding:15px;margin-bottom:12px
 }
-
-.balance-number{
-    font-size:32px;
-    font-weight:bold;
-    margin:8px 0;
+.task-icon{
+ flex:none;width:55px;height:55px;border-radius:17px;
+ display:flex;align-items:center;justify-content:center;
+ background:#f1eaff;font-size:27px
 }
-
-.stats{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-
-.stat{
-    background:white;
-    padding:15px;
-    border-radius:16px;
-    text-align:center;
-    box-shadow:0 3px 12px rgba(0,0,0,.06);
-}
-
-.stat b{
-    display:block;
-    font-size:22px;
-    margin-bottom:5px;
-    color:#1687f8;
-}
-
-.stat span{
-    font-size:13px;
-    color:#777;
+.task-info{flex:1}
+.task-info h3{font-size:15px}
+.reward{
+ color:#7b20ed;font-size:15px;
+ font-weight:900;margin-top:6px
 }
 
 .btn{
-    width:100%;
-    border:none;
-    padding:13px;
-    border-radius:12px;
-    background:#1687f8;
-    color:white;
-    font-size:15px;
-    font-weight:bold;
-    cursor:pointer;
-    margin-top:10px;
+ padding:11px 17px;border-radius:14px;
+ background:linear-gradient(135deg,#7226ed,#e62b98);
+ color:white;font-weight:800
+}
+.btn.full{width:100%}
+.btn.light{background:#f1eaff;color:#7125ed}
+
+.input{
+ width:100%;padding:14px;margin:6px 0 11px;
+ border:1px solid #e8e1f4;
+ border-radius:14px;outline:none;background:#fff
+}
+label{font-size:13px;font-weight:bold}
+
+.notice{
+ background:#fff6dd;border-radius:16px;
+ padding:14px;font-size:13px;line-height:1.6
 }
 
-.btn:active{
-    transform:scale(.98);
+.fee-box{
+ background:#fff0f0;
+ border:1px solid #ffd4d4;
+ color:#9b2222;
+ border-radius:18px;
+ padding:15px;
+ margin-bottom:13px;
+ line-height:1.7
 }
+.fee-box b{font-size:16px}
 
-.btn.green{
-    background:#16a05d;
+.category-grid{
+ display:grid;grid-template-columns:repeat(3,1fr);gap:12px
 }
-
-.btn.dark{
-    background:#172033;
+.category{
+ background:white;border-radius:19px;padding:12px 6px;
+ text-align:center;border:1px solid #eee7f7;
+ box-shadow:0 4px 15px #00000008
 }
-
-.btn.red{
-    background:#e53935;
+.cat-icon{
+ height:65px;border:3px solid transparent;
+ border-radius:18px;display:flex;
+ align-items:center;justify-content:center;
+ font-size:29px;
+ background:
+ linear-gradient(white,white) padding-box,
+ linear-gradient(135deg,#641eff,#11db65,#ffd000,#f00,#8d00ff)
+ border-box
 }
+.category b{display:block;font-size:12px;margin-top:9px;line-height:1.3}
+.category small{display:block;color:#7b20ed;margin-top:4px;font-weight:bold}
 
-.btn.orange{
-    background:#f59e0b;
+.ref-hero{
+ background:linear-gradient(135deg,#7a20ed,#ef3297,#ff7140);
+ color:white;border-radius:25px;padding:25px 18px
 }
-
-.btn.gray{
-    background:#687386;
-}
-
-input,select{
-    width:100%;
-    padding:13px;
-    border:1px solid #d9dee8;
-    border-radius:11px;
-    outline:none;
-    margin-top:8px;
-    font-size:14px;
-    background:white;
-}
-
-input:focus,select:focus{
-    border-color:#1687f8;
-}
-
-.task{
-    border:1px solid #e5eaf1;
-    border-radius:14px;
-    padding:15px;
-    margin-bottom:12px;
-    background:rgba(255,255,255,.97);
-}
-
-.task h3{
-    font-size:16px;
-    margin-bottom:5px;
-}
-
-.reward{
-    color:#1687f8;
-    font-weight:bold;
-    margin:5px 0;
-}
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
-
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    background:white;
-    height:70px;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-    box-shadow:0 -3px 15px rgba(0,0,0,.1);
-    z-index:100;
-}
-
-.nav-btn{
-    border:none;
-    background:none;
-    color:#687386;
-    font-size:11px;
-    cursor:pointer;
-    text-align:center;
-}
-
-.nav-btn div{
-    font-size:21px;
-    margin-bottom:3px;
-}
-
-.nav-btn.active{
-    color:#1687f8;
-    font-weight:bold;
-}
-
-.user-box{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.avatar{
-    width:52px;
-    height:52px;
-    border-radius:50%;
-    background:#1687f8;
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:22px;
-    font-weight:bold;
-}
-
-.status{
-    padding:12px;
-    background:#eaf5ff;
-    color:#126bc5;
-    border-radius:10px;
-    font-size:13px;
-    margin-top:10px;
-}
-
 .ref-link{
-    background:#f4f7fb;
-    padding:12px;
-    border-radius:10px;
-    font-size:12px;
-    word-break:break-all;
-    margin-top:10px;
+ background:#ffffff25;border:1px solid #ffffff45;
+ padding:13px;border-radius:15px;
+ margin-top:15px;display:flex;gap:8px
+}
+.ref-link span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+
+.profile-head{
+ background:linear-gradient(135deg,#7a20ed,#ef3297,#ff7140);
+ color:white;text-align:center;padding:28px;border-radius:25px
+}
+.profile-avatar{
+ width:70px;height:70px;margin:auto;
+ background:#ffffff30;border-radius:50%;
+ display:flex;align-items:center;justify-content:center;
+ font-size:28px;font-weight:bold
+}
+.profile-name{font-size:23px;font-weight:bold;margin-top:10px}
+
+.bottom{
+ position:fixed;z-index:30;bottom:9px;left:9px;right:9px;
+ height:68px;background:#fff;border-radius:23px;
+ box-shadow:0 7px 30px #0002;
+ display:flex;border:1px solid #eee
+}
+.nav{
+ flex:1;background:none;color:#958ca4;
+ display:flex;flex-direction:column;
+ align-items:center;justify-content:center;
+ font-size:10px;font-weight:bold;gap:4px
+}
+.nav span{font-size:21px}
+.nav.active{color:#7023e9}
+
+.modal{
+ position:fixed;inset:0;background:#0008;
+ display:none;z-index:50;padding:15px;
+ overflow:auto
+}
+.modal.show{display:block}
+.modalbox{
+ background:white;border-radius:25px;
+ padding:18px;margin-top:25px
+}
+.modalhead{
+ display:flex;justify-content:space-between;
+ align-items:center;margin-bottom:15px
+}
+.close{
+ width:35px;height:35px;border-radius:10px;
+ background:#f0ebf8
 }
 
-.admin-box{
-    border:2px solid #1687f8;
-    border-radius:15px;
-    padding:15px;
-    margin-bottom:15px;
+.row{
+ display:flex;justify-content:space-between;
+ align-items:center;padding:13px 0;
+ border-bottom:1px solid #eee
+}
+.badge{
+ padding:5px 9px;border-radius:20px;
+ background:#eee5ff;color:#7023e9;font-size:11px
 }
 
-.admin-task{
-    background:#f7f9fc;
-    padding:15px;
-    border-radius:14px;
-    margin-bottom:15px;
+.toast{
+ position:fixed;top:20px;left:50%;
+ transform:translateX(-50%);
+ background:#20152e;color:#fff;padding:12px 18px;
+ border-radius:14px;z-index:100;display:none
+}
+.toast.show{display:block}
+
+.empty{
+ text-align:center;color:#999;padding:15px
 }
 
-.admin-task h3{
-    margin-bottom:8px;
-}
-
-.small{
-    font-size:12px;
-    color:#777;
-    margin-top:5px;
-}
-
-.hidden{
-    display:none !important;
-}
-
-.video-box{
-    text-align:center;
-    background:#f4f8ff;
-    padding:15px;
-    border-radius:14px;
-    margin-top:10px;
-}
-
-.timer{
-    font-size:25px;
-    font-weight:bold;
-    color:#1687f8;
-    margin:8px;
-}
-
-.method-box{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin-top:10px;
-}
-
-.method{
-    border:2px solid #e1e5eb;
-    border-radius:12px;
-    padding:13px;
-    text-align:center;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.method.selected{
-    border-color:#1687f8;
-    background:#eaf5ff;
-}
-
-.rule{
-    background:#fff8e6;
-    color:#8a6500;
-    padding:12px;
-    border-radius:12px;
-    font-size:13px;
-    line-height:1.6;
-    margin-bottom:12px;
-}
-
-.success{
-    background:#eaf8f0;
-    color:#16804b;
-}
-
-.video-complete{
-    background:#16a05d !important;
+@media(max-width:370px){
+ .category-grid{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-    <h1>View eran Bd</h1>
-    <p>Telegram Mini App</p>
-</div>
+<div id="toast" class="toast"></div>
 
-<div class="container">
+<header class="top">
+
+ <div class="topbar">
+
+  <div class="brand">
+
+   <div class="logo">VE</div>
+
+   <div>
+    <b id="siteTitle">VIEW ERAN BD</b>
+    <div style="font-size:11px;opacity:.8">
+     Earn • Complete • Withdraw
+    </div>
+   </div>
+
+  </div>
+
+  <div class="avatar" id="avatar">U</div>
+
+ </div>
+
+ <div class="hero">
+
+  <small>Total Balance</small>
+
+  <div class="balance">
+   ৳<span id="balance">0</span>
+  </div>
+
+  <small>
+   Total earned:
+   ৳<span id="totalEarned">0</span>
+  </small>
+
+ </div>
+
+</header>
+
+
+<main class="container">
+
 
 <!-- HOME -->
-<div id="home" class="page active">
 
-    <div class="card balance">
-        <p>আপনার ব্যালেন্স</p>
+<section id="home" class="page active">
 
-        <div class="balance-number">
-            ৳ <span id="balance">0</span>
-        </div>
+ <div class="space"></div>
 
-        <p>
-            Tasks এবং Referral থেকে Reward সংগ্রহ করুন
-        </p>
-    </div>
+ <div class="grid2">
 
-    <div class="stats">
+  <div class="card action" onclick="go('withdraw')">
 
-        <div class="stat">
-            <b id="refCount">0</b>
-            <span>Referral</span>
-        </div>
+   <div class="action-icon">💳</div>
 
-        <div class="stat">
-            <b id="taskCount">0</b>
-            <span>Tasks</span>
-        </div>
+   <h3>Withdraw</h3>
 
-    </div>
+   <div class="muted">Cash out</div>
 
-    <br>
-
-    <div class="card">
-
-        <h2>👋 স্বাগতম</h2>
-
-        <p>
-            আমাদের Mini App-এ বিভিন্ন Task সম্পন্ন করে
-            এবং বন্ধুদের Invite করে Reward সংগ্রহ করতে পারবেন।
-        </p>
-
-        <div id="firebaseStatus" class="status">
-            Firebase সংযোগ প্রস্তুত হচ্ছে...
-        </div>
-
-    </div>
-
-</div>
+  </div>
 
 
-<!-- TASKS -->
-<div id="tasks" class="page">
+  <div class="card action" onclick="go('refer')">
 
-    <div class="card">
+   <div class="action-icon">👥</div>
 
-        <h2>📋 Available Tasks</h2>
+   <h3>Refer</h3>
 
-        <p>
-            নিচের Task সম্পন্ন করুন।
-        </p>
+   <div class="muted">
+    ৳<span id="homeRefBonus">70</span> / friend
+   </div>
 
-    </div>
+  </div>
 
-    <div id="taskList"></div>
-
-</div>
+ </div>
 
 
-<!-- REFERRAL -->
-<div id="referral" class="page">
-
-    <div class="card">
-
-        <h2>👥 Referral</h2>
-
-        <p>
-            আপনার Referral Link বন্ধুদের পাঠান।
-        </p>
-
-        <div class="ref-link" id="refLink">
-            Link তৈরি হচ্ছে...
-        </div>
-
-        <button class="btn" onclick="copyReferral()">
-            📋 Link Copy
-        </button>
-
-        <button class="btn green" onclick="shareReferral()">
-            📤 Share
-        </button>
-
-    </div>
-
-    <div class="card">
-
-        <h2>Referral Reward</h2>
-
-        <p>
-            মোট Referral:
-            <b id="referralNumber">0</b>
-        </p>
-
-        <p>
-            প্রতি Referral Reward:
-            <b>৳ <span id="referralRewardDisplay">70</span></b>
-        </p>
-
-        <p>
-            Referral থেকে আয়:
-            <b>৳ <span id="referralEarn">0</span></b>
-        </p>
-
-    </div>
-
-</div>
+ <div class="space"></div>
 
 
-<!-- ACCOUNT -->
-<div id="account" class="page">
+ <div class="gradient-card">
 
-    <div class="card">
+  <b style="font-size:21px">
+   ✓ Daily Tasks
+  </b>
 
-        <div class="user-box">
+  <div style="opacity:.8;margin-top:5px">
+   <span id="pending">20</span>
+   tasks available
+  </div>
 
-            <div class="avatar" id="avatar">
-                U
-            </div>
+  <div class="progress">
+   <div id="progress"></div>
+  </div>
 
-            <div>
+  <div style="display:flex;justify-content:space-between">
 
-                <h2 id="userName">
-                    Telegram User
-                </h2>
+   <span>
+    <span id="done">0</span> completed
+   </span>
 
-                <p id="userId">
-                    ID: Loading...
-                </p>
+   <span id="percent">0%</span>
 
-            </div>
+  </div>
 
-        </div>
+  <div class="space"></div>
 
-    </div>
+  <button class="btn"
+          style="background:#ffffff28"
+          onclick="go('earn')">
+   View →
+  </button>
 
-    <div class="card">
+ </div>
 
-        <h2>👤 Account Information</h2>
 
-        <p>
-            Username:
-            <b id="username">
-                Not available
-            </b>
-        </p>
+ <div class="space"></div>
 
-        <br>
 
-        <p>
-            Telegram ID:
-            <b id="telegramId">
-                Loading...
-            </b>
-        </p>
+ <div class="stats">
 
-    </div>
+  <div class="card stat">
+   <b id="referrals">0</b>
+   <p>Total Referrals</p>
+  </div>
 
-    <div class="card">
+  <div class="card stat">
+   <b>৳<span id="earned2">0</span></b>
+   <p>Total Earned</p>
+  </div>
 
-        <h2>⚙️ Admin</h2>
+ </div>
 
-        <p>
-            শুধুমাত্র Admin-এর জন্য।
-        </p>
 
-        <button class="btn dark" onclick="openAdminLogin()">
-            🔐 Admin Panel
-        </button>
+ <div class="section">
+  <h2>How to earn</h2>
+ </div>
 
-    </div>
 
-</div>
+ <div class="card">
+
+  <div class="row">
+   <span>🎯 Complete tasks</span>
+   <span class="badge">Earn</span>
+  </div>
+
+  <div class="row">
+   <span>👥 Refer friends</span>
+   <span class="badge">৳70</span>
+  </div>
+
+  <div class="row">
+   <span>🎥 Watch videos</span>
+   <span class="badge">Admin set</span>
+  </div>
+
+  <div class="row">
+   <span>📱 Complete services</span>
+   <span class="badge">Admin set</span>
+  </div>
+
+ </div>
+
+</section>
+
+
+<!-- EARN -->
+
+<section id="earn" class="page">
+
+ <div class="section">
+  <h2>Earn & Services</h2>
+ </div>
+
+
+ <div class="notice">
+  💡 Category reward Admin Panel থেকে পরিবর্তন করা যাবে।
+ </div>
+
+
+ <div class="space"></div>
+
+
+ <div class="category-grid" id="categories"></div>
+
+
+ <div class="section">
+  <h2>Available Tasks</h2>
+ </div>
+
+ <div id="taskList"></div>
+
+</section>
+
+
+<!-- REFER -->
+
+<section id="refer" class="page">
+
+ <div class="ref-hero">
+
+  <div style="font-size:28px">👥</div>
+
+  <h2 style="margin-top:10px">
+   Invite & Earn
+  </h2>
+
+  <p style="margin-top:5px;opacity:.85">
+   Get ৳<span id="refBonus">70</span>
+   for every eligible friend
+  </p>
+
+
+  <div class="ref-link">
+
+   <span id="refLink">
+    Telegram referral link
+   </span>
+
+   <button class="btn light"
+           onclick="copyRef()">
+    Copy
+   </button>
+
+  </div>
+
+ </div>
+
+
+ <div class="space"></div>
+
+
+ <div class="stats">
+
+  <div class="card stat">
+   <b id="refTotal">0</b>
+   <p>Total Referrals</p>
+  </div>
+
+  <div class="card stat">
+   <b>৳<span id="refEarned">0</span></b>
+   <p>Referral Earned</p>
+  </div>
+
+ </div>
+
+
+ <div class="section">
+  <h2>Leaderboard</h2>
+ </div>
+
+ <div id="leaderboard"></div>
+
+
+ <div class="section">
+  <h2>Your Referrals</h2>
+ </div>
+
+ <div class="card">
+  <div class="empty">
+   Your referral list will appear here.
+  </div>
+ </div>
+
+</section>
 
 
 <!-- WITHDRAW -->
-<div id="withdraw" class="page">
 
-    <div class="card">
+<section id="withdraw" class="page">
 
-        <h2>💰 Withdraw</h2>
+ <div class="gradient-card">
 
-        <div class="rule">
-            🔒 Withdraw করতে কমপক্ষে <b>20 Referral</b>
-            থাকতে হবে এবং Minimum Withdraw হলো
-            <b>৳800</b>।
-        </div>
+  <small>Available Balance</small>
 
-        <p>
-            আপনার Referral:
-            <b id="withdrawRefCount">0</b> / 20
-        </p>
+  <div class="balance">
+   ৳<span id="withdrawBalance">0</span>
+  </div>
 
-        <p>
-            আপনার Balance:
-            <b>৳ <span id="withdrawBalance">0</span></b>
-        </p>
+  <div>
+   Minimum withdrawal:
+   <b>৳<span id="minWithdraw">800</span></b>
+  </div>
 
-        <br>
+  <div style="margin-top:4px">
+   Maximum withdrawal:
+   <b>Unlimited</b>
+  </div>
 
-        <h3>Payment Method</h3>
+ </div>
 
-        <div class="method-box">
 
-            <div
-                id="bkashMethod"
-                class="method"
-                onclick="selectMethod('bkash')"
-            >
-                💗 bKash
-            </div>
+ <div class="section">
+  <h2>Request Payout</h2>
+ </div>
 
-            <div
-                id="nagadMethod"
-                class="method"
-                onclick="selectMethod('nagad')"
-            >
-                🟠 Nagad
-            </div>
 
-        </div>
+ <!-- FEE NOTICE ABOVE WITHDRAW -->
 
-        <input
-            id="accountNumber"
-            type="text"
-            inputmode="numeric"
-            placeholder="bKash/Nagad নম্বর"
-        >
+ <div class="fee-box">
 
-        <input
-            id="withdrawAmount"
-            type="number"
-            min="800"
-            placeholder="Minimum ৳800"
-        >
+  <b>⚠️ Withdrawal Fee</b>
 
-        <button
-            class="btn green"
-            onclick="withdrawRequest()"
-        >
-            💰 Withdraw Request
-        </button>
+  <br>
 
-        <div
-            id="withdrawStatus"
-            class="status"
-        >
-        </div>
+  Withdrawal দিতে
+  <b>৳<span id="feeTop">40</span></b>
+  processing fee প্রযোজ্য।
 
-    </div>
+  <br>
 
-</div>
+  <b>bKash:</b>
+  <span id="withdrawBkash">
+   01576736222
+  </span>
 
+  <br>
 
-<!-- SUPPORT -->
-<div id="support" class="page">
+  <b>Nagad:</b>
+  <span id="withdrawNagad">
+   Admin Panel থেকে সেট করুন
+  </span>
 
-    <div class="card">
+ </div>
 
-        <h2>🛟 Support</h2>
 
-        <p>
-            কোনো সমস্যা হলে আমাদের Support-এর সাথে যোগাযোগ করুন।
-        </p>
+ <div class="card">
 
-        <button class="btn" onclick="openSupport()">
-            💬 Contact Support
-        </button>
+  <b>Payment Method</b>
 
-    </div>
 
-</div>
+  <div class="grid2"
+       style="margin-top:12px">
 
+   <button class="btn light"
+           id="bkBtn"
+           onclick="setMethod('bKash')">
+    ● bKash
+   </button>
 
-<!-- ADMIN LOGIN -->
-<div id="adminLogin" class="page">
+   <button class="btn light"
+           id="ngBtn"
+           onclick="setMethod('Nagad')">
+    ● Nagad
+   </button>
 
-    <div class="card">
+  </div>
 
-        <h2>🔐 Admin Login</h2>
 
-        <p>
-            Admin Email এবং Password দিয়ে Login করুন।
-        </p>
+  <div class="space"></div>
 
-        <input
-            id="adminEmail"
-            type="email"
-            placeholder="Admin Email"
-        >
 
-        <input
-            id="adminPassword"
-            type="password"
-            placeholder="Admin Password"
-        >
+  <label>Account Number</label>
 
-        <button class="btn" onclick="adminLogin()">
-            Login
-        </button>
+  <input id="account"
+         class="input"
+         placeholder="01XXXXXXXXX">
 
-        <button class="btn dark" onclick="showPage('account')">
-            ফিরে যান
-        </button>
 
-        <div id="adminLoginStatus" class="status"></div>
+  <label>Fee Transaction ID</label>
 
-    </div>
+  <input id="feeTxn"
+         class="input"
+         placeholder="Fee Transaction ID">
 
-</div>
 
+  <label>Withdrawal Amount</label>
 
-<!-- ADMIN PANEL -->
-<div id="admin" class="page">
+  <input id="amount"
+         class="input"
+         type="number"
+         placeholder="Minimum ৳800">
 
-    <div class="card">
 
-        <h2>⚙️ Admin Panel</h2>
+  <div class="notice">
 
-        <p>
-            এখান থেকে Task, Video, Reward এবং Withdraw
-            Settings পরিবর্তন করতে পারবেন।
-        </p>
+   Minimum withdrawal:
+   <b>৳800</b><br>
 
-        <div id="adminStatus" class="status">
-            Admin Login প্রয়োজন।
-        </div>
+   Maximum withdrawal:
+   <b>Unlimited</b><br>
 
-    </div>
+   Processing fee:
+   <b>৳40</b>
 
-    <div id="adminContent" class="hidden">
+  </div>
 
-        <div class="admin-box">
 
-            <h2>👥 Referral Settings</h2>
+  <div class="space"></div>
 
-            <input
-                id="adminReferralReward"
-                type="number"
-                placeholder="Referral Reward"
-            >
 
-            <input
-                id="adminRequiredReferrals"
-                type="number"
-                placeholder="Required Referrals"
-            >
+  <button class="btn full"
+          onclick="withdrawRequest()">
 
-        </div>
+   Request Withdrawal
 
-        <div class="admin-box">
+  </button>
 
-            <h2>💰 Withdraw Settings</h2>
+ </div>
 
-            <input
-                id="adminMinWithdraw"
-                type="number"
-                placeholder="Minimum Withdraw"
-            >
 
-            <input
-                id="adminVideoSeconds"
-                type="number"
-                placeholder="Video Seconds"
-            >
+ <div class="section">
+  <h2>Withdrawal History</h2>
+ </div>
 
-        </div>
 
-        <div class="admin-box">
+ <div class="card" id="withdrawHistory">
 
-            <h2>📋 All Tasks</h2>
+  <div class="empty">
+   No withdrawal request yet.
+  </div>
 
-            <div id="adminTaskList"></div>
+ </div>
 
-        </div>
+</section>
 
-        <button class="btn green" onclick="saveAdminSettings()">
-            💾 Save All Changes
-        </button>
 
-        <button class="btn red" onclick="adminLogout()">
-            🚪 Admin Logout
-        </button>
+<!-- PROFILE -->
 
-    </div>
+<section id="profile" class="page">
 
-</div>
+ <div class="profile-head">
 
-</div>
+  <div class="profile-avatar"
+       id="profileAvatar">
+   U
+  </div>
+
+  <div class="profile-name"
+       id="profileName">
+   Telegram User
+  </div>
+
+  <div style="opacity:.8;margin-top:5px">
+
+   ID:
+   <span id="userId">—</span>
+
+  </div>
+
+ </div>
+
+
+ <div class="space"></div>
+
+
+ <div class="grid2">
+
+  <div class="card stat">
+
+   <b>
+    ৳<span id="pBalance">0</span>
+   </b>
+
+   <p>Balance</p>
+
+  </div>
+
+
+  <div class="card stat">
+
+   <b>
+    ৳<span id="withdrawn">0</span>
+   </b>
+
+   <p>Withdrawn</p>
+
+  </div>
+
+ </div>
+
+
+ <div class="space"></div>
+
+
+ <div class="card stat">
+
+  <b id="tasksDone">0</b>
+
+  <p>Tasks Done</p>
+
+ </div>
+
+
+ <div class="space"></div>
+
+
+ <div class="card">
+
+  <div class="row"
+       onclick="support()">
+
+   <span>
+    ❓ <b>Help & Support</b>
+   </span>
+
+   <span>›</span>
+
+  </div>
+
+
+  <div class="row"
+       onclick="rules()">
+
+   <span>
+    🛡️ <b>App Rules</b>
+   </span>
+
+   <span>›</span>
+
+  </div>
+
+
+  <div class="row"
+       id="adminRow"
+       onclick="openAdmin()"
+       style="display:none">
+
+   <span>
+    ⚙️ <b>Admin Panel</b>
+   </span>
+
+   <span>›</span>
+
+  </div>
+
+ </div>
+
+</section>
+
+</main>
 
 
 <!-- BOTTOM NAV -->
-<div class="bottom-nav">
 
-    <button
-        class="nav-btn active"
-        onclick="showPage('home',this)"
-    >
-        <div>🏠</div>
-        Home
-    </button>
+<nav class="bottom">
 
-    <button
-        class="nav-btn"
-        onclick="showPage('tasks',this)"
-    >
-        <div>📋</div>
-        Tasks
-    </button>
+ <button class="nav active"
+         data-page="home"
+         onclick="go('home')">
+  <span>⌂</span>
+  Home
+ </button>
 
-    <button
-        class="nav-btn"
-        onclick="showPage('referral',this)"
-    >
-        <div>👥</div>
-        Referral
-    </button>
 
-    <button
-        class="nav-btn"
-        onclick="showPage('account',this)"
-    >
-        <div>👤</div>
-        Account
-    </button>
+ <button class="nav"
+         data-page="earn"
+         onclick="go('earn')">
+  <span>☷</span>
+  Earn
+ </button>
 
-    <button
-        class="nav-btn"
-        onclick="showPage('withdraw',this)"
-    >
-        <div>💰</div>
-        Withdraw
-    </button>
+
+ <button class="nav"
+         data-page="refer"
+         onclick="go('refer')">
+  <span>♧</span>
+  Refer
+ </button>
+
+
+ <button class="nav"
+         data-page="withdraw"
+         onclick="go('withdraw')">
+  <span>▣</span>
+  Withdraw
+ </button>
+
+
+ <button class="nav"
+         data-page="profile"
+         onclick="go('profile')">
+  <span>♙</span>
+  Profile
+ </button>
+
+</nav>
+
+
+<!-- ADMIN PANEL -->
+
+<div class="modal" id="adminModal">
+
+ <div class="modalbox">
+
+  <div class="modalhead">
+
+   <h2>⚙️ Admin Panel</h2>
+
+   <button class="close"
+           onclick="closeAdmin()">
+    ✕
+   </button>
+
+  </div>
+
+
+  <div class="notice">
+
+   Admin settings এখান থেকে পরিবর্তন করা যাবে।
+
+  </div>
+
+
+  <!-- PAYMENT -->
+
+  <div class="section">
+   <h2>Payment Settings</h2>
+  </div>
+
+
+  <label>bKash Number</label>
+
+  <input class="input"
+         id="aBkash">
+
+
+  <label>Nagad Number</label>
+
+  <input class="input"
+         id="aNagad"
+         placeholder="Nagad number এখানে দিন">
+
+
+  <label>Withdrawal Fee</label>
+
+  <input class="input"
+         id="aFee"
+         type="number">
+
+
+  <label>Minimum Withdrawal</label>
+
+  <input class="input"
+         id="aMin"
+         type="number">
+
+
+  <button class="btn full"
+          onclick="savePayment()">
+
+   Save Payment Settings
+
+  </button>
+
+
+  <!-- CATEGORY PRICES -->
+
+  <div class="section">
+   <h2>Sell / Category Prices</h2>
+  </div>
+
+
+  <div id="priceEditor"></div>
+
+
+  <button class="btn full"
+          onclick="savePrices()">
+
+   Save All Prices
+
+  </button>
+
+
+  <!-- REFERRAL -->
+
+  <div class="section">
+   <h2>Referral</h2>
+  </div>
+
+
+  <label>Referral Bonus</label>
+
+  <input class="input"
+         id="aReferral"
+         type="number">
+
+
+  <button class="btn full"
+          onclick="saveReferral()">
+
+   Save Referral Bonus
+
+  </button>
+
+
+  <!-- ANNOUNCEMENT -->
+
+  <div class="section">
+   <h2>Announcement</h2>
+  </div>
+
+
+  <textarea class="input"
+            id="aAnnouncement"
+            rows="4"></textarea>
+
+
+  <button class="btn full"
+          onclick="saveAnnouncement()">
+
+   Save Announcement
+
+  </button>
+
+
+  <!-- SITE NAME -->
+
+  <div class="section">
+   <h2>Site Name</h2>
+  </div>
+
+
+  <input class="input"
+         id="aSiteName">
+
+
+  <button class="btn full"
+          onclick="saveSite()">
+
+   Save Site Name
+
+  </button>
+
+
+  <!-- TASK -->
+
+  <div class="section">
+   <h2>Task Management</h2>
+  </div>
+
+
+  <label>Task Name</label>
+
+  <input class="input"
+         id="newTaskName">
+
+
+  <label>Description</label>
+
+  <input class="input"
+         id="newTaskDesc">
+
+
+  <label>Reward</label>
+
+  <input class="input"
+         id="newTaskReward"
+         type="number">
+
+
+  <label>Task Link</label>
+
+  <input class="input"
+         id="newTaskLink"
+         placeholder="https://...">
+
+
+  <button class="btn full"
+          onclick="addTask()">
+
+   Add Task
+
+  </button>
+
+
+  <div class="section">
+   <h2>Support</h2>
+  </div>
+
+
+  <label>Support Telegram Username</label>
+
+  <input class="input"
+         id="aSupport"
+         placeholder="@username">
+
+
+  <button class="btn full"
+          onclick="saveSupport()">
+
+   Save Support
+
+  </button>
+
+
+  <div class="space"></div>
+
+  <div class="notice">
+
+   ⚠️ Admin ID সেট করতে JavaScript-এর
+   <b>adminIds</b> অংশে আপনার Telegram ID বসাতে হবে।
+
+  </div>
+
+ </div>
 
 </div>
 
 
-<script type="module">
+<script>
 
-import {
-    initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+/* =========================
+   MAIN CONFIG
+========================= */
 
-import {
-    getFirestore,
-    doc,
-    getDoc,
-    setDoc,
-    collection,
-    addDoc,
-    runTransaction
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const CONFIG = {
 
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+ siteName:"VIEW ERAN BD",
 
+ referralBonus:70,
 
-/* FIREBASE */
+ withdrawalFee:40,
 
-const firebaseConfig = {
+ minWithdrawal:800,
 
-    apiKey:
-    "AIzaSyDx9qbofQzsAQIdBFLAJDh9n6-3M6wt5o4",
+ bkash:"01576736222",
 
-    authDomain:
-    "tax-income-site-e99e5.firebaseapp.com",
+ nagad:"",
 
-    projectId:
-    "tax-income-site-e99e5",
+ support:"@YOUR_SUPPORT_USERNAME",
 
-    storageBucket:
-    "tax-income-site-e99e5.firebasestorage.app",
+ announcement:
+ "📢 Welcome! Complete available tasks and earn rewards.",
 
-    messagingSenderId:
-    "586704543568",
+ /*
+  নিজের Telegram ID এখানে বসাবেন।
+ */
+ adminIds:[
+   "YOUR_ADMIN_TELEGRAM_ID"
+ ],
 
-    appId:
-    "1:586704543568:web:956781fe0a3bed4f981655",
+ prices:{
 
-    measurementId:
-    "G-R5D2YJVV53"
+   "Gmail Sell":35,
+
+   "Facebook Sell":25,
+
+   "TikTok Sell":15,
+
+   "WhatsApp Sell":35,
+
+   "Telegram Sell":25,
+
+   "Instagram Sell":10,
+
+   "Digital Service":10,
+
+   "Ad Marketing":10,
+
+   "Freelancing":10,
+
+   "Quran Education":10,
+
+   "Quiz Job":10,
+
+   "Typing Job":10,
+
+   "Coin Sell":10,
+
+   "Ads View":10,
+
+   "Daily Spin Bonus":10,
+
+   "Target Bonus":10,
+
+   "Daily Bonus":10,
+
+   "Weekly Bonus":10,
+
+   "Monthly Salary":10,
+
+   "Gift Code":10,
+
+   "Referral":10,
+
+   "Leadership":10,
+
+   "Leaderboard":10
+
+ }
+
 };
 
 
-const app =
-initializeApp(firebaseConfig);
-
-const db =
-getFirestore(app);
-
-const auth =
-getAuth(app);
-
-
-/* TELEGRAM */
+/* =========================
+   TELEGRAM
+========================= */
 
 const tg =
-window.Telegram &&
-window.Telegram.WebApp
-?
-window.Telegram.WebApp
-:
-null;
-
+ window.Telegram &&
+ window.Telegram.WebApp
+ ? window.Telegram.WebApp
+ : null;
 
 if(tg){
 
-    tg.ready();
-    tg.expand();
+ tg.ready();
+ tg.expand();
 
 }
 
 
-/* BOT */
+/* =========================
+   USER
+========================= */
 
-const BOT_USERNAME =
-"Viewerab_bot";
+const telegramUser =
+ tg &&
+ tg.initDataUnsafe &&
+ tg.initDataUnsafe.user
 
+ ? tg.initDataUnsafe.user
 
-/* USER DATA */
+ : {
 
-let balance = 0;
+    id:"DEMO_USER",
 
-let referralCount = 0;
+    first_name:"Telegram",
 
-let referralEarnings = 0;
+    username:"user"
 
-let selectedMethod = "";
-
-let currentTelegramUser = null;
-
-
-/* COMPLETED TASKS */
-
-let completedTasks = [];
+ };
 
 
-/* DEFAULT TASKS */
+/* =========================
+   STATE
+========================= */
 
-const defaultTasks = [];
+let state={
 
+ balance:0,
 
-/* 20 VIDEO TASK */
+ earned:0,
 
-for(let i=1;i<=20;i++){
+ withdrawn:0,
 
-    defaultTasks.push({
+ tasksDone:0,
 
-        id:"video" + i,
+ referrals:0,
 
-        title:"Video Task " + i,
-
-        reward:15,
-
-        description:
-        "Video দেখুন এবং ৫ সেকেন্ড অপেক্ষা করে Task Complete করুন।",
-
-        url:"",
-
-        enabled:true,
-
-        type:"video"
-
-    });
-
-}
-
-
-/* OTHER TASKS */
-
-defaultTasks.push({
-
-    id:"normal",
-
-    title:"Normal Task",
-
-    reward:10,
-
-    description:
-    "Task সম্পন্ন করুন এবং Reward পান।",
-
-    url:"",
-
-    enabled:true,
-
-    type:"normal"
-
-});
-
-
-defaultTasks.push({
-
-    id:"telegram",
-
-    title:"Telegram Join Task",
-
-    reward:20,
-
-    description:
-    "Telegram Channel/Group Join করুন।",
-
-    url:"",
-
-    enabled:true,
-
-    type:"telegram"
-
-});
-
-
-/* DEFAULT SETTINGS */
-
-let appSettings = {
-
-    referralReward:70,
-
-    requiredReferrals:20,
-
-    minWithdraw:800,
-
-    videoSeconds:5,
-
-    tasks:defaultTasks
+ withdrawalHistory:[]
 
 };
 
 
-/* USER FIRESTORE DATA */
+let selectedMethod="bKash";
 
-async function loadUserData(){
 
-    if(!currentTelegramUser)
-    return;
+/* =========================
+   TASKS
+========================= */
 
-    const id =
-    String(currentTelegramUser.id);
+let tasks=[
 
-    try{
+ {
+  name:"Welcome Bonus",
+  desc:"Complete the welcome task.",
+  reward:50,
+  icon:"🎁",
+  link:""
+ },
 
-        const ref =
-        doc(db,"users",id);
+ {
+  name:"Telegram Join",
+  desc:"Join the required Telegram channel.",
+  reward:20,
+  icon:"➤",
+  link:""
+ },
 
-        const snap =
-        await getDoc(ref);
+ {
+  name:"Watch Video",
+  desc:"Watch the assigned video.",
+  reward:10,
+  icon:"▶",
+  link:""
+ }
 
-        if(snap.exists()){
+];
 
-            const data =
-            snap.data();
 
-            balance =
-            Number(data.balance || 0);
+/* =========================
+   CATEGORY ICONS
+========================= */
 
-            referralCount =
-            Number(data.referralCount || 0);
+const categories=[
 
-            referralEarnings =
-            Number(data.referralEarnings || 0);
+ ["📧","Gmail Sell"],
 
-            completedTasks =
-            Array.isArray(data.completedTasks)
-            ?
-            data.completedTasks
-            :
-            [];
+ ["f","Facebook Sell"],
 
-        }
+ ["♪","TikTok Sell"],
 
-        updateBalance();
+ ["▣","WhatsApp Sell"],
 
-    }
+ ["➤","Telegram Sell"],
 
-    catch(error){
+ ["◎","Instagram Sell"],
 
-        console.error(error);
+ ["💼","Digital Service"],
 
-    }
+ ["📢","Ad Marketing"],
+
+ ["🎓","Freelancing"],
+
+ ["📖","Quran Education"],
+
+ ["💡","Quiz Job"],
+
+ ["⌨️","Typing Job"],
+
+ ["🪙","Coin Sell"],
+
+ ["◉","Ads View"],
+
+ ["◔","Daily Spin Bonus"],
+
+ ["🎁","Target Bonus"],
+
+ ["🎁","Daily Bonus"],
+
+ ["🎁","Weekly Bonus"],
+
+ ["💳","Monthly Salary"],
+
+ ["★","Gift Code"],
+
+ ["👥","Referral"],
+
+ ["🏅","Leadership"],
+
+ ["🏆","Leaderboard"]
+
+];
+
+
+/* =========================
+   HELPER
+========================= */
+
+function $(id){
+
+ return document.getElementById(id);
 
 }
 
 
-/* SAVE USER DATA */
+function toast(text){
 
-async function saveUserData(){
+ $("toast").textContent=text;
 
-    if(!currentTelegramUser)
-    return;
+ $("toast").classList.add("show");
 
-    const id =
-    String(currentTelegramUser.id);
+ setTimeout(()=>{
 
-    try{
+  $("toast").classList.remove("show");
 
-        await setDoc(
-
-            doc(db,"users",id),
-
-            {
-
-                balance:balance,
-
-                referralCount:referralCount,
-
-                referralEarnings:referralEarnings,
-
-                completedTasks:completedTasks,
-
-                updatedAt:
-                new Date().toISOString()
-
-            },
-
-            {
-                merge:true
-            }
-
-        );
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-    }
+ },2200);
 
 }
 
 
-/* LOAD SETTINGS */
+function go(page){
 
-async function loadSettings(){
+ document.querySelectorAll(".page")
+ .forEach(x=>x.classList.remove("active"));
 
-    try{
-
-        const settingsRef =
-        doc(
-            db,
-            "settings",
-            "app"
-        );
-
-        const settingsSnap =
-        await getDoc(settingsRef);
+ $(page).classList.add("active");
 
 
-        if(settingsSnap.exists()){
+ document.querySelectorAll(".nav")
+ .forEach(x=>{
 
-            const data =
-            settingsSnap.data();
+  x.classList.toggle(
+   "active",
+   x.dataset.page===page
+  );
 
-            appSettings = {
-
-                referralReward:
-                Number(
-                    data.referralReward ??
-                    70
-                ),
-
-                requiredReferrals:
-                Number(
-                    data.requiredReferrals ??
-                    20
-                ),
-
-                minWithdraw:
-                Number(
-                    data.minWithdraw ??
-                    800
-                ),
-
-                videoSeconds:
-                Number(
-                    data.videoSeconds ??
-                    5
-                ),
-
-                tasks:
-                Array.isArray(data.tasks)
-                ?
-                data.tasks
-                :
-                defaultTasks
-
-            };
-
-        }
+ });
 
 
-        renderTasks();
-
-        updateBalance();
-
-        document.getElementById(
-            "firebaseStatus"
-        ).innerText =
-        "Firebase থেকে Settings লোড হয়েছে।";
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        renderTasks();
-
-        document.getElementById(
-            "firebaseStatus"
-        ).innerText =
-        "Default Settings ব্যবহার করা হচ্ছে।";
-
-    }
+ window.scrollTo(0,0);
 
 }
 
 
-/* RENDER TASKS */
+function isAdmin(){
+
+ return CONFIG.adminIds
+ .map(String)
+ .includes(String(telegramUser.id));
+
+}
+
+
+/* =========================
+   USER RENDER
+========================= */
+
+function renderUser(){
+
+ const name=
+ telegramUser.first_name ||
+ telegramUser.username ||
+ "Telegram User";
+
+
+ const initial=
+ String(name).charAt(0).toUpperCase();
+
+
+ $("avatar").textContent=initial;
+
+ $("profileAvatar").textContent=initial;
+
+ $("profileName").textContent=name;
+
+ $("userId").textContent=telegramUser.id;
+
+
+ $("balance").textContent=
+ state.balance.toFixed(2);
+
+ $("totalEarned").textContent=
+ state.earned.toFixed(2);
+
+ $("earned2").textContent=
+ state.earned.toFixed(2);
+
+
+ $("withdrawBalance").textContent=
+ state.balance.toFixed(2);
+
+ $("pBalance").textContent=
+ state.balance.toFixed(2);
+
+ $("withdrawn").textContent=
+ state.withdrawn.toFixed(2);
+
+
+ $("tasksDone").textContent=
+ state.tasksDone;
+
+ $("done").textContent=
+ state.tasksDone;
+
+
+ $("referrals").textContent=
+ state.referrals;
+
+ $("refTotal").textContent=
+ state.referrals;
+
+
+ $("refEarned").textContent=
+ (
+  state.referrals *
+  CONFIG.referralBonus
+ ).toFixed(2);
+
+
+ const percent=
+ Math.min(
+  100,
+  (state.tasksDone/20)*100
+ );
+
+
+ $("progress").style.width=
+ percent+"%";
+
+ $("percent").textContent=
+ Math.round(percent)+"%";
+
+
+ $("pending").textContent=
+ Math.max(
+  0,
+  20-state.tasksDone
+ );
+
+
+ $("homeRefBonus").textContent=
+ CONFIG.referralBonus;
+
+ $("refBonus").textContent=
+ CONFIG.referralBonus;
+
+
+ if(isAdmin()){
+
+  $("adminRow").style.display="flex";
+
+ }
+
+}
+
+
+/* =========================
+   CATEGORY
+========================= */
+
+function renderCategories(){
+
+ const box=$("categories");
+
+ box.innerHTML="";
+
+
+ categories.forEach(cat=>{
+
+  const price=
+   CONFIG.prices[cat[1]] ?? 10;
+
+
+  box.innerHTML+=`
+
+   <div class="category"
+        onclick="openCategory('${escapeAttr(cat[1])}')">
+
+    <div class="cat-icon">
+     ${cat[0]}
+    </div>
+
+    <b>${cat[1]}</b>
+
+    <small>
+     Sell • ৳${price}
+    </small>
+
+   </div>
+
+  `;
+
+ });
+
+}
+
+
+function escapeAttr(x){
+
+ return String(x)
+ .replaceAll("'","&#39;")
+ .replaceAll('"',"&quot;");
+
+}
+
+
+/* =========================
+   CATEGORY SUBMISSION
+========================= */
+
+function openCategory(name){
+
+ const price=
+ CONFIG.prices[name] ?? 10;
+
+
+ const details=
+ prompt(
+  name+
+  "\nReward: ৳"+price+
+  "\n\nআপনার বৈধ service/submission-এর তথ্য লিখুন:"
+ );
+
+
+ if(details===null)return;
+
+
+ if(!details.trim()){
+
+  toast("Submission information দিন।");
+
+  return;
+
+ }
+
+
+ /*
+  Password বা login credential
+  সংগ্রহ করা হচ্ছে না।
+ */
+
+ toast(
+  "Submission received • ৳"+price+
+  " reward pending verification"
+ );
+
+}
+
+
+/* =========================
+   TASKS
+========================= */
 
 function renderTasks(){
 
-    const list =
-    document.getElementById(
-        "taskList"
-    );
+ const box=$("taskList");
 
-    list.innerHTML = "";
+ box.innerHTML="";
 
 
-    const enabledTasks =
-    appSettings.tasks.filter(
-        task =>
-        task.enabled !== false
-    );
+ tasks.forEach((task,index)=>{
+
+  box.innerHTML+=`
+
+   <div class="card task">
+
+    <div class="task-icon">
+     ${task.icon}
+    </div>
 
 
-    enabledTasks.forEach(task => {
+    <div class="task-info">
 
-        const div =
-        document.createElement("div");
+     <h3>
+      ${task.name}
+     </h3>
 
-        div.className =
-        "task";
+     <div class="muted">
+      ${task.desc}
+     </div>
 
+     <div class="reward">
+      +৳${task.reward}
+     </div>
 
-        const alreadyDone =
-        completedTasks.includes(
-            task.id
-        );
-
-
-        div.innerHTML = `
-
-            <h3>
-                ${escapeHTML(task.title)}
-            </h3>
-
-            <p>
-                ${escapeHTML(task.description)}
-            </p>
-
-            <div class="reward">
-                Reward: ৳ ${Number(task.reward)||0}
-            </div>
-
-            ${
-                alreadyDone
-                ?
-                `
-                <button
-                    class="btn gray"
-                    disabled
-                >
-                    ✅ Completed
-                </button>
-                `
-                :
-                `
-                <button
-                    class="btn"
-                    onclick="startTask('${escapeAttr(task.id)}')"
-                >
-                    ${
-                        task.type === "video"
-                        ?
-                        "▶️ Watch Video"
-                        :
-                        "🚀 Start Task"
-                    }
-                </button>
-                `
-            }
-
-        `;
+    </div>
 
 
-        list.appendChild(div);
+    <button class="btn"
+            onclick="completeTask(${index})">
 
-    });
+     ${task.link ? "Open" : "Complete"}
 
+    </button>
 
-    document.getElementById(
-        "taskCount"
-    ).innerText =
-    enabledTasks.length;
+   </div>
 
+  `;
 
-    document.getElementById(
-        "referralRewardDisplay"
-    ).innerText =
-    Number(
-        appSettings.referralReward
-    ) || 0;
+ });
 
 }
 
 
-/* START TASK */
+function completeTask(index){
 
-window.startTask =
-async function(id){
+ const task=tasks[index];
 
-    const task =
-    appSettings.tasks.find(
-        x => x.id === id
-    );
+ if(!task)return;
 
 
-    if(!task)
-    return;
+ if(task.link){
+
+  window.open(
+   task.link,
+   "_blank"
+  );
+
+ }
 
 
-    if(completedTasks.includes(id)){
+ state.balance+=Number(task.reward);
 
-        alert("এই Task আগে Complete করা হয়েছে।");
+ state.earned+=Number(task.reward);
 
-        return;
-
-    }
+ state.tasksDone++;
 
 
-    if(
-        !task.url ||
-        !task.url.trim()
-    ){
-
-        alert(
-            task.title +
-            "\n\nএই Task-এর Link এখনো Admin সেট করেনি।"
-        );
-
-        return;
-
-    }
+ renderUser();
 
 
-    if(task.type === "video"){
-
-        startVideoTask(task);
-
-        return;
-
-    }
-
-
-    openTaskLink(task.url);
-
-
-    setTimeout(
-        () => {
-
-            completeTask(task);
-
-        },
-        3000
-    );
-
-};
-
-
-/* OPEN LINK */
-
-function openTaskLink(url){
-
-    if(
-        tg &&
-        tg.openTelegramLink &&
-        url.includes("t.me/")
-    ){
-
-        tg.openTelegramLink(url);
-
-    }
-
-    else{
-
-        window.open(
-            url,
-            "_blank"
-        );
-
-    }
+ toast(
+  "Task completed +৳"+
+  task.reward
+ );
 
 }
 
 
-/* VIDEO TASK */
+/* =========================
+   REFERRAL
+========================= */
 
-function startVideoTask(task){
+function referralLink(){
 
-    let seconds =
-    Number(
-        appSettings.videoSeconds
-    ) || 5;
-
-
-    const div =
-    document.createElement("div");
-
-    div.className =
-    "task";
-
-
-    div.innerHTML = `
-
-        <h3>
-            ${escapeHTML(task.title)}
-        </h3>
-
-        <p>
-            Video Link খুলুন।
-            তারপর ${seconds} সেকেন্ড অপেক্ষা করুন।
-        </p>
-
-        <button
-            class="btn"
-            id="openVideoBtn"
-        >
-            ▶️ Open Video
-        </button>
-
-        <div class="video-box">
-
-            <div>
-                Complete হবে:
-            </div>
-
-            <div
-                class="timer"
-                id="videoTimer"
-            >
-                ${seconds}
-            </div>
-
-            <button
-                class="btn green hidden"
-                id="completeVideoBtn"
-            >
-                ✅ Complete Task
-            </button>
-
-        </div>
-
-    `;
-
-
-    const list =
-    document.getElementById(
-        "taskList"
-    );
-
-    list.prepend(div);
-
-
-    document.getElementById(
-        "openVideoBtn"
-    ).onclick =
-    function(){
-
-        openTaskLink(task.url);
-
-    };
-
-
-    let remaining =
-    seconds;
-
-
-    const timer =
-    setInterval(
-
-        () => {
-
-            remaining--;
-
-            const timerElement =
-            document.getElementById(
-                "videoTimer"
-            );
-
-
-            if(!timerElement){
-
-                clearInterval(timer);
-
-                return;
-
-            }
-
-
-            timerElement.innerText =
-            remaining;
-
-
-            if(remaining <= 0){
-
-                clearInterval(timer);
-
-
-                const completeButton =
-                document.getElementById(
-                    "completeVideoBtn"
-                );
-
-
-                completeButton
-                .classList
-                .remove("hidden");
-
-
-                document.getElementById(
-                    "videoTimer"
-                ).innerText =
-                "Ready";
-
-            }
-
-        },
-
-        1000
-
-    );
-
-
-    document.getElementById(
-        "completeVideoBtn"
-    ).onclick =
-    async function(){
-
-        await completeTask(task);
-
-        div.remove();
-
-    };
+ return location.origin+
+ location.pathname+
+ "?ref="+
+ encodeURIComponent(
+  telegramUser.id
+ );
 
 }
 
 
-/* COMPLETE TASK */
+function renderReferral(){
 
-async function completeTask(task){
-
-    if(
-        completedTasks.includes(
-            task.id
-        )
-    ){
-
-        return;
-
-    }
-
-
-    const reward =
-    Number(task.reward) || 0;
-
-
-    balance += reward;
-
-
-    completedTasks.push(
-        task.id
-    );
-
-
-    await saveUserData();
-
-    updateBalance();
-
-    renderTasks();
-
-
-    alert(
-        "✅ Task Complete!\n\nReward: ৳" +
-        reward
-    );
+ $("refLink").textContent=
+ referralLink();
 
 }
 
 
-/* PAGE */
-
-window.showPage =
-function(page,button){
-
-    document
-    .querySelectorAll(".page")
-    .forEach(p => {
-
-        p.classList.remove("active");
-
-    });
-
-
-    const selected =
-    document.getElementById(page);
-
-
-    if(selected){
-
-        selected.classList.add("active");
-
-    }
-
-
-    document
-    .querySelectorAll(".nav-btn")
-    .forEach(b => {
-
-        b.classList.remove("active");
-
-    });
-
-
-    if(button){
-
-        button.classList.add("active");
-
-    }
-
-
-    if(page === "withdraw"){
-
-        document.getElementById(
-            "withdrawRefCount"
-        ).innerText =
-        referralCount;
-
-        document.getElementById(
-            "withdrawBalance"
-        ).innerText =
-        balance;
-
-    }
-
-};
-
-
-/* ADMIN LOGIN PAGE */
-
-window.openAdminLogin =
-function(){
-
-    showPage("adminLogin");
-
-};
-
-
-/* ADMIN LOGIN */
-
-window.adminLogin =
-async function(){
-
-    const email =
-    document.getElementById(
-        "adminEmail"
-    ).value.trim();
-
-
-    const password =
-    document.getElementById(
-        "adminPassword"
-    ).value;
-
-
-    const status =
-    document.getElementById(
-        "adminLoginStatus"
-    );
-
-
-    if(!email || !password){
-
-        status.innerText =
-        "Email এবং Password দিন।";
-
-        return;
-
-    }
-
-
-    status.innerText =
-    "Login হচ্ছে...";
-
-
-    try{
-
-        await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
-
-
-        status.innerText =
-        "Login সফল হয়েছে।";
-
-
-        setTimeout(
-            () => {
-
-                openAdminPanel();
-
-            },
-
-            500
-        );
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        status.innerText =
-        "Login হয়নি। Email/Password ঠিক আছে কিনা দেখুন।";
-
-    }
-
-};
-
-
-/* OPEN ADMIN */
-
-function openAdminPanel(){
-
-    showPage("admin");
-
-    document
-    .getElementById(
-        "adminContent"
-    )
-    .classList
-    .remove("hidden");
-
-
-    document.getElementById(
-        "adminStatus"
-    ).innerText =
-    "Admin Login সফল হয়েছে।";
-
-
-    renderAdminPanel();
+function copyRef(){
+
+ navigator.clipboard
+ ?.writeText(
+  referralLink()
+ );
+
+ toast(
+  "Referral link copied."
+ );
 
 }
 
 
-/* ADMIN PANEL */
+/* =========================
+   WITHDRAW
+========================= */
 
-function renderAdminPanel(){
+function setMethod(method){
 
-    document.getElementById(
-        "adminReferralReward"
-    ).value =
-    Number(
-        appSettings.referralReward
-    ) || 0;
+ selectedMethod=method;
 
 
-    document.getElementById(
-        "adminRequiredReferrals"
-    ).value =
-    Number(
-        appSettings.requiredReferrals
-    ) || 20;
+ if(method==="bKash"){
+
+  $("bkBtn").style.background=
+   "linear-gradient(135deg,#e91586,#ff3b75)";
+
+  $("bkBtn").style.color="white";
 
 
-    document.getElementById(
-        "adminMinWithdraw"
-    ).value =
-    Number(
-        appSettings.minWithdraw
-    ) || 800;
+  $("ngBtn").style.background=
+   "#f1eaff";
+
+  $("ngBtn").style.color=
+   "#7125ed";
+
+ }else{
+
+  $("ngBtn").style.background=
+   "linear-gradient(135deg,#e91586,#ff3b75)";
+
+  $("ngBtn").style.color=
+   "white";
 
 
-    document.getElementById(
-        "adminVideoSeconds"
-    ).value =
-    Number(
-        appSettings.videoSeconds
-    ) || 5;
+  $("bkBtn").style.background=
+   "#f1eaff";
 
+  $("bkBtn").style.color=
+   "#7125ed";
 
-    const list =
-    document.getElementById(
-        "adminTaskList"
-    );
-
-    list.innerHTML = "";
-
-
-    appSettings.tasks.forEach(
-    (task,index) => {
-
-        const div =
-        document.createElement("div");
-
-        div.className =
-        "admin-task";
-
-
-        div.innerHTML = `
-
-            <h3>
-                ${escapeHTML(task.title)}
-            </h3>
-
-            <input
-                id="taskTitle_${index}"
-                type="text"
-                value="${escapeAttr(task.title)}"
-                placeholder="Task Name"
-            >
-
-            <input
-                id="taskDescription_${index}"
-                type="text"
-                value="${escapeAttr(task.description)}"
-                placeholder="Task Description"
-            >
-
-            <input
-                id="taskReward_${index}"
-                type="number"
-                value="${Number(task.reward)||0}"
-                placeholder="Reward"
-            >
-
-            <input
-                id="taskUrl_${index}"
-                type="text"
-                value="${escapeAttr(task.url || "")}"
-                placeholder="Task Link / Video Link / Telegram Link"
-            >
-
-            <select
-                id="taskType_${index}"
-            >
-
-                <option
-                    value="video"
-                    ${task.type === "video" ? "selected" : ""}
-                >
-                    Video Task
-                </option>
-
-                <option
-                    value="normal"
-                    ${task.type === "normal" ? "selected" : ""}
-                >
-                    Normal Task
-                </option>
-
-                <option
-                    value="telegram"
-                    ${task.type === "telegram" ? "selected" : ""}
-                >
-                    Telegram Task
-                </option>
-
-            </select>
-
-            <select
-                id="taskEnabled_${index}"
-            >
-
-                <option
-                    value="true"
-                    ${task.enabled !== false ? "selected" : ""}
-                >
-                    Task চালু
-                </option>
-
-                <option
-                    value="false"
-                    ${task.enabled === false ? "selected" : ""}
-                >
-                    Task বন্ধ
-                </option>
-
-            </select>
-
-            <p class="small">
-                Admin এখান থেকে Link এবং Reward পরিবর্তন করতে পারবেন।
-            </p>
-
-        `;
-
-
-        list.appendChild(div);
-
-    });
+ }
 
 }
 
 
-/* SAVE ADMIN SETTINGS */
+function withdrawRequest(){
 
-window.saveAdminSettings =
-async function(){
+ const account=
+ $("account").value.trim();
 
-    const user =
-    auth.currentUser;
 
+ const amount=
+ Number(
+  $("amount").value
+ );
 
-    if(!user){
 
-        alert(
-            "আগে Admin Login করুন।"
-        );
+ const feeTxn=
+ $("feeTxn").value.trim();
 
-        return;
 
-    }
+ if(!account){
 
+  toast(
+   "Account number দিন।"
+  );
 
-    const referralReward =
-    Number(
-        document.getElementById(
-            "adminReferralReward"
-        ).value
-    ) || 0;
+  return;
 
+ }
 
-    const requiredReferrals =
-    Number(
-        document.getElementById(
-            "adminRequiredReferrals"
-        ).value
-    ) || 20;
 
+ if(!amount || amount<=0){
 
-    const minWithdraw =
-    Number(
-        document.getElementById(
-            "adminMinWithdraw"
-        ).value
-    ) || 800;
+  toast(
+   "Withdrawal amount দিন।"
+  );
 
+  return;
 
-    const videoSeconds =
-    Number(
-        document.getElementById(
-            "adminVideoSeconds"
-        ).value
-    ) || 5;
+ }
 
 
-    const newTasks =
-    appSettings.tasks.map(
-    (task,index) => {
+ if(
+  amount <
+  CONFIG.minWithdrawal
+ ){
 
-        return {
+  toast(
+   "Minimum withdrawal ৳"+
+   CONFIG.minWithdrawal
+  );
 
-            id:
-            task.id,
+  return;
 
-            title:
-            document.getElementById(
-                "taskTitle_" + index
-            ).value.trim(),
+ }
 
-            description:
-            document.getElementById(
-                "taskDescription_" + index
-            ).value.trim(),
 
-            reward:
-            Number(
-                document.getElementById(
-                    "taskReward_" + index
-                ).value
-            ) || 0,
+ if(amount>state.balance){
 
-            url:
-            document.getElementById(
-                "taskUrl_" + index
-            ).value.trim(),
+  toast(
+   "আপনার balance যথেষ্ট নয়।"
+  );
 
-            type:
-            document.getElementById(
-                "taskType_" + index
-            ).value,
+  return;
 
-            enabled:
-            document.getElementById(
-                "taskEnabled_" + index
-            ).value === "true"
+ }
 
-        };
 
-    });
+ if(!feeTxn){
 
+  toast(
+   "Fee transaction ID দিন।"
+  );
 
-    const newSettings = {
+  return;
 
-        referralReward:
-        referralReward,
+ }
 
-        requiredReferrals:
-        requiredReferrals,
 
-        minWithdraw:
-        minWithdraw,
+ /*
+  Frontend demo:
+  request pending রাখা হচ্ছে।
+ */
 
-        videoSeconds:
-        videoSeconds,
+ state.balance-=amount;
 
-        tasks:
-        newTasks,
+ state.withdrawn+=amount;
 
-        updatedAt:
-        new Date().toISOString(),
 
-        updatedBy:
-        user.uid
+ state.withdrawalHistory.unshift({
 
-    };
+  amount:amount,
 
+  method:selectedMethod,
 
-    try{
+  account:account,
 
-        await setDoc(
+  fee:CONFIG.withdrawalFee,
 
-            doc(
-                db,
-                "settings",
-                "app"
-            ),
+  feeTxn:feeTxn,
 
-            newSettings
+  status:"Pending",
 
-        );
+  date:new Date()
+   .toLocaleString()
 
+ });
 
-        appSettings =
-        newSettings;
 
+ renderUser();
 
-        renderTasks();
+ renderWithdrawHistory();
 
-        updateBalance();
 
-
-        document.getElementById(
-            "adminStatus"
-        ).innerText =
-        "✅ সব পরিবর্তন Firebase-এ Save হয়েছে।";
-
-
-        alert(
-            "Settings সফলভাবে Save হয়েছে।"
-        );
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        document.getElementById(
-            "adminStatus"
-        ).innerText =
-        "❌ Save হয়নি। Firebase Rules/Permission দেখুন।";
-
-
-        alert(
-            "Save হয়নি। Firebase Permission সমস্যা হতে পারে।"
-        );
-
-    }
-
-};
-
-
-/* ADMIN LOGOUT */
-
-window.adminLogout =
-async function(){
-
-    try{
-
-        await signOut(auth);
-
-
-        document
-        .getElementById(
-            "adminContent"
-        )
-        .classList
-        .add("hidden");
-
-
-        showPage("home");
-
-
-        alert(
-            "Admin Logout হয়েছে।"
-        );
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-    }
-
-};
-
-
-/* AUTH STATE */
-
-onAuthStateChanged(
-    auth,
-    user => {
-
-        if(user){
-
-            console.log(
-                "Admin logged in:",
-                user.email
-            );
-
-        }
-
-    }
-);
-
-
-/* TELEGRAM USER */
-
-async function loadTelegramUser(){
-
-    if(!tg){
-
-        document.getElementById(
-            "firebaseStatus"
-        ).innerText =
-        "Telegram WebApp পাওয়া যায়নি।";
-
-        return;
-
-    }
-
-
-    const user =
-    tg.initDataUnsafe &&
-    tg.initDataUnsafe.user
-    ?
-    tg.initDataUnsafe.user
-    :
-    null;
-
-
-    if(!user){
-
-        document.getElementById(
-            "firebaseStatus"
-        ).innerText =
-        "Telegram User তথ্য পাওয়া যায়নি।";
-
-        return;
-
-    }
-
-
-    currentTelegramUser =
-    user;
-
-
-    const telegramId =
-    String(user.id);
-
-
-    const firstName =
-    user.first_name ||
-    "Telegram";
-
-
-    const lastName =
-    user.last_name ||
-    "";
-
-
-    const fullName =
-    (
-        firstName +
-        " " +
-        lastName
-    ).trim();
-
-
-    document.getElementById(
-        "userName"
-    ).innerText =
-    fullName;
-
-
-    document.getElementById(
-        "userId"
-    ).innerText =
-    "ID: " +
-    telegramId;
-
-
-    document.getElementById(
-        "telegramId"
-    ).innerText =
-    telegramId;
-
-
-    document.getElementById(
-        "username"
-    ).innerText =
-    user.username
-    ?
-    "@" + user.username
-    :
-    "Not available";
-
-
-    document.getElementById(
-        "avatar"
-    ).innerText =
-    firstName
-    .charAt(0)
-    .toUpperCase();
-
-
-    const referralLink =
-    "https://t.me/" +
-    BOT_USERNAME +
-    "?startapp=ref_" +
-    telegramId;
-
-
-    document.getElementById(
-        "refLink"
-    ).innerText =
-    referralLink;
-
-
-    await saveTelegramUser(user);
-
-    await processReferral();
-
-    await loadUserData();
+ toast(
+  "Withdrawal request submitted."
+ );
 
 }
 
 
-/* SAVE TELEGRAM USER */
+function renderWithdrawHistory(){
 
-async function saveTelegramUser(user){
-
-    const telegramId =
-    String(user.id);
+ const box=
+ $("withdrawHistory");
 
 
-    const userRef =
-    doc(
-        db,
-        "users",
-        telegramId
-    );
+ if(
+  !state.withdrawalHistory.length
+ ){
+
+  box.innerHTML=
+   `<div class="empty">
+     No withdrawal request yet.
+    </div>`;
+
+  return;
+
+ }
 
 
-    await setDoc(
+ box.innerHTML=
+ state.withdrawalHistory
+ .map(item=>`
 
-        userRef,
+  <div class="row">
 
-        {
+   <span>
+    ৳${item.amount.toFixed(2)}
+   </span>
 
-            telegramId:
-            telegramId,
+   <span class="badge">
+    ${item.status}
+   </span>
 
-            firstName:
-            user.first_name || "",
+  </div>
 
-            lastName:
-            user.last_name || "",
+  <div class="muted">
 
-            username:
-            user.username || "",
+   ${item.method}
+   • Fee ৳${item.fee}
+   • ${item.date}
 
-            updatedAt:
-            new Date().toISOString()
+  </div>
 
-        },
-
-        {
-            merge:true
-        }
-
-    );
+ `)
+ .join("");
 
 }
 
 
-/* PROCESS REFERRAL */
+/* =========================
+   SUPPORT
+========================= */
 
-async function processReferral(){
+function support(){
 
-    if(!tg)
-    return;
-
-
-    const startParam =
-    tg.initDataUnsafe &&
-    tg.initDataUnsafe.start_param
-    ?
-    tg.initDataUnsafe.start_param
-    :
-    "";
+ const username=
+ CONFIG.support
+ .replace("@","")
+ .trim();
 
 
-    if(
-        !startParam ||
-        !startParam.startsWith("ref_")
-    )
-    return;
+ if(
+  tg &&
+  tg.openTelegramLink &&
+  username
+ ){
 
+  tg.openTelegramLink(
+   "https://t.me/"+
+   username
+  );
 
-    const referrerId =
-    startParam.replace(
-        "ref_",
-        ""
-    );
+ }else{
 
+  alert(
+   "Support Telegram: "+
+   CONFIG.support
+  );
 
-    const currentId =
-    String(
-        currentTelegramUser.id
-    );
-
-
-    if(
-        !referrerId ||
-        referrerId === currentId
-    )
-    return;
-
-
-    try{
-
-        const currentRef =
-        doc(
-            db,
-            "users",
-            currentId
-        );
-
-
-        const referrerRef =
-        doc(
-            db,
-            "users",
-            referrerId
-        );
-
-
-        await runTransaction(
-            db,
-            async transaction => {
-
-                const currentSnap =
-                await transaction.get(
-                    currentRef
-                );
-
-
-                const referrerSnap =
-                await transaction.get(
-                    referrerRef
-                );
-
-
-                if(
-                    !referrerSnap.exists()
-                )
-                return;
-
-
-                const currentData =
-                currentSnap.exists()
-                ?
-                currentSnap.data()
-                :
-                {};
-
-
-                if(
-                    currentData.referredBy
-                )
-                return;
-
-
-                const referrerData =
-                referrerSnap.data();
-
-
-                const oldCount =
-                Number(
-                    referrerData.referralCount || 0
-                );
-
-
-                const oldBalance =
-                Number(
-                    referrerData.balance || 0
-                );
-
-
-                const oldReferralEarn =
-                Number(
-                    referrerData.referralEarnings || 0
-                );
-
-
-                const reward =
-                Number(
-                    appSettings.referralReward
-                ) || 0;
-
-
-                transaction.set(
-
-                    referrerRef,
-
-                    {
-
-                        referralCount:
-                        oldCount + 1,
-
-                        balance:
-                        oldBalance + reward,
-
-                        referralEarnings:
-                        oldReferralEarn + reward,
-
-                        updatedAt:
-                        new Date().toISOString()
-
-                    },
-
-                    {
-                        merge:true
-                    }
-
-                );
-
-
-                transaction.set(
-
-                    currentRef,
-
-                    {
-
-                        referredBy:
-                        referrerId,
-
-                        updatedAt:
-                        new Date().toISOString()
-
-                    },
-
-                    {
-                        merge:true
-                    }
-
-                );
-
-            }
-        );
-
-    }
-
-    catch(error){
-
-        console.error(
-            "Referral error:",
-            error
-        );
-
-    }
+ }
 
 }
 
 
-/* COPY REFERRAL */
+/* =========================
+   RULES
+========================= */
 
-window.copyReferral =
-async function(){
+function rules(){
 
-    const link =
-    document.getElementById(
-        "refLink"
-    ).innerText;
+ alert(
 
+ `VIEW ERAN BD - App Rules
 
-    if(
-        !link ||
-        link === "Link তৈরি হচ্ছে..."
-    ){
+1. Fake account ব্যবহার করবেন না।
+2. Task-এর নিয়ম মেনে কাজ করুন।
+3. ভুল information দিয়ে submission করবেন না।
+4. Withdrawal minimum ৳800।
+5. Withdrawal processing fee ৳40 প্রযোজ্য।
+6. Payment/withdrawal verification সম্পন্ন হওয়ার পর request process হবে।
+7. Admin verification-এর প্রয়োজন হলে অপেক্ষা করুন।`
 
-        alert(
-            "Referral Link এখনো তৈরি হয়নি।"
-        );
-
-        return;
-
-    }
-
-
-    try{
-
-        await navigator
-        .clipboard
-        .writeText(link);
-
-
-        alert(
-            "Referral Link Copy হয়েছে।"
-        );
-
-    }
-
-    catch(error){
-
-        alert(
-            "Link Copy করা যায়নি।"
-        );
-
-    }
-
-};
-
-
-/* SHARE */
-
-window.shareReferral =
-function(){
-
-    const link =
-    document.getElementById(
-        "refLink"
-    ).innerText;
-
-
-    if(
-        !link ||
-        link === "Link তৈরি হচ্ছে..."
-    ){
-
-        alert(
-            "Referral Link এখনো তৈরি হয়নি।"
-        );
-
-        return;
-
-    }
-
-
-    if(
-        tg &&
-        tg.openTelegramLink
-    ){
-
-        tg.openTelegramLink(
-
-            "https://t.me/share/url?url=" +
-
-            encodeURIComponent(link) +
-
-            "&text=" +
-
-            encodeURIComponent(
-                "আমার Referral Link ব্যবহার করে Join করুন"
-            )
-
-        );
-
-    }
-
-};
-
-
-/* PAYMENT METHOD */
-
-window.selectMethod =
-function(method){
-
-    selectedMethod =
-    method;
-
-
-    document
-    .getElementById(
-        "bkashMethod"
-    )
-    .classList
-    .remove("selected");
-
-
-    document
-    .getElementById(
-        "nagadMethod"
-    )
-    .classList
-    .remove("selected");
-
-
-    if(method === "bkash"){
-
-        document
-        .getElementById(
-            "bkashMethod"
-        )
-        .classList
-        .add("selected");
-
-    }
-
-
-    if(method === "nagad"){
-
-        document
-        .getElementById(
-            "nagadMethod"
-        )
-        .classList
-        .add("selected");
-
-    }
-
-};
-
-
-/* WITHDRAW */
-
-window.withdrawRequest =
-async function(){
-
-    const status =
-    document.getElementById(
-        "withdrawStatus"
-    );
-
-
-    const account =
-    document.getElementById(
-        "accountNumber"
-    ).value.trim();
-
-
-    const amount =
-    Number(
-        document.getElementById(
-            "withdrawAmount"
-        ).value
-    );
-
-
-    if(!selectedMethod){
-
-        status.innerText =
-        "আগে bKash অথবা Nagad নির্বাচন করুন।";
-
-        return;
-
-    }
-
-
-    if(!account){
-
-        status.innerText =
-        "আপনার bKash/Nagad নম্বর লিখুন।";
-
-        return;
-
-    }
-
-
-    if(
-        !/^[0-9]{10,14}$/.test(account)
-    ){
-
-        status.innerText =
-        "সঠিক মোবাইল নম্বর দিন।";
-
-        return;
-
-    }
-
-
-    if(
-        referralCount <
-        Number(
-            appSettings.requiredReferrals
-        )
-    ){
-
-        status.innerText =
-        "Withdraw করতে কমপক্ষে " +
-        appSettings.requiredReferrals +
-        " Referral প্রয়োজন।";
-
-        return;
-
-    }
-
-
-    if(
-        amount <
-        Number(
-            appSettings.minWithdraw
-        )
-    ){
-
-        status.innerText =
-        "Minimum Withdraw ৳" +
-        appSettings.minWithdraw +
-        "।";
-
-        return;
-
-    }
-
-
-    if(amount > balance){
-
-        status.innerText =
-        "আপনার Balance যথেষ্ট নয়।";
-
-        return;
-
-    }
-
-
-    if(!currentTelegramUser){
-
-        status.innerText =
-        "Telegram User পাওয়া যায়নি।";
-
-        return;
-
-    }
-
-
-    try{
-
-        await addDoc(
-
-            collection(
-                db,
-                "withdrawRequests"
-            ),
-
-            {
-
-                telegramId:
-                String(
-                    currentTelegramUser.id
-                ),
-
-                username:
-                currentTelegramUser.username || "",
-
-                method:
-                selectedMethod,
-
-                accountNumber:
-                account,
-
-                amount:
-                amount,
-
-                referralCount:
-                referralCount,
-
-                status:
-                "pending",
-
-                createdAt:
-                new Date().toISOString()
-
-            }
-
-        );
-
-
-        balance -= amount;
-
-        await saveUserData();
-
-        updateBalance();
-
-
-        status.className =
-        "status success";
-
-
-        status.innerText =
-        "✅ Withdraw Request পাঠানো হয়েছে। Status: Pending";
-
-
-        document.getElementById(
-            "withdrawAmount"
-        ).value = "";
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        status.innerText =
-        "❌ Request Save হয়নি। Firebase Permission দেখুন।";
-
-    }
-
-};
-
-
-/* SUPPORT */
-
-window.openSupport =
-function(){
-
-    const username =
-    "Viewerab_bot";
-
-
-    if(
-        tg &&
-        tg.openTelegramLink
-    ){
-
-        tg.openTelegramLink(
-            "https://t.me/" +
-            username
-        );
-
-    }
-
-};
-
-
-/* UPDATE BALANCE */
-
-function updateBalance(){
-
-    document.getElementById(
-        "balance"
-    ).innerText =
-    balance;
-
-
-    document.getElementById(
-        "refCount"
-    ).innerText =
-    referralCount;
-
-
-    document.getElementById(
-        "referralNumber"
-    ).innerText =
-    referralCount;
-
-
-    document.getElementById(
-        "referralEarn"
-    ).innerText =
-    referralEarnings;
-
-
-    document.getElementById(
-        "referralRewardDisplay"
-    ).innerText =
-    Number(
-        appSettings.referralReward
-    ) || 0;
-
-
-    document.getElementById(
-        "withdrawRefCount"
-    ).innerText =
-    referralCount;
-
-
-    document.getElementById(
-        "withdrawBalance"
-    ).innerText =
-    balance;
+ );
 
 }
 
 
-/* SECURITY HELPERS */
+/* =========================
+   ADMIN
+========================= */
 
-function escapeHTML(value){
+function openAdmin(){
 
-    return String(value || "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+ if(!isAdmin()){
+
+  toast(
+   "Admin access denied."
+  );
+
+  return;
+
+ }
+
+
+ $("adminModal")
+ .classList.add("show");
+
+
+ $("aBkash").value=
+ CONFIG.bkash;
+
+
+ $("aNagad").value=
+ CONFIG.nagad;
+
+
+ $("aFee").value=
+ CONFIG.withdrawalFee;
+
+
+ $("aMin").value=
+ CONFIG.minWithdrawal;
+
+
+ $("aReferral").value=
+ CONFIG.referralBonus;
+
+
+ $("aAnnouncement").value=
+ CONFIG.announcement;
+
+
+ $("aSiteName").value=
+ CONFIG.siteName;
+
+
+ $("aSupport").value=
+ CONFIG.support;
+
+
+ renderPriceEditor();
 
 }
 
 
-function escapeAttr(value){
+function closeAdmin(){
 
-    return escapeHTML(value);
+ $("adminModal")
+ .classList.remove("show");
 
 }
 
 
-/* START */
+/* =========================
+   SAVE PAYMENT
+========================= */
+
+function savePayment(){
+
+ if(!isAdmin())return;
+
+
+ CONFIG.bkash=
+ $("aBkash").value.trim();
+
+
+ CONFIG.nagad=
+ $("aNagad").value.trim();
+
+
+ CONFIG.withdrawalFee=
+ Number(
+  $("aFee").value
+ ) || 40;
+
+
+ CONFIG.minWithdrawal=
+ Number(
+  $("aMin").value
+ ) || 800;
+
+
+ $("feeTop").textContent=
+ CONFIG.withdrawalFee;
+
+
+ $("withdrawBkash").textContent=
+ CONFIG.bkash ||
+ "Not set";
+
+
+ $("withdrawNagad").textContent=
+ CONFIG.nagad ||
+ "Admin Panel থেকে সেট করুন";
+
+
+ $("minWithdraw").textContent=
+ CONFIG.minWithdrawal;
+
+
+ toast(
+  "Payment settings saved."
+ );
+
+}
+
+
+/* =========================
+   PRICE EDITOR
+========================= */
+
+function renderPriceEditor(){
+
+ const box=
+ $("priceEditor");
+
+ box.innerHTML="";
+
+
+ Object.keys(CONFIG.prices)
+ .forEach(name=>{
+
+  box.innerHTML+=`
+
+   <div class="row">
+
+    <span>
+     ${name}
+    </span>
+
+    <input
+      class="input price-input"
+      style="width:100px;margin:0"
+      data-name="${escapeAttr(name)}"
+      type="number"
+      value="${CONFIG.prices[name]}">
+
+   </div>
+
+  `;
+
+ });
+
+}
+
+
+function savePrices(){
+
+ if(!isAdmin())return;
+
+
+ document
+ .querySelectorAll(".price-input")
+ .forEach(input=>{
+
+  const name=
+   input.dataset.name;
+
+
+  CONFIG.prices[name]=
+   Number(input.value)||0;
+
+ });
+
+
+ renderCategories();
+
+
+ toast(
+  "All prices updated."
+ );
+
+}
+
+
+/* =========================
+   REFERRAL SAVE
+========================= */
+
+function saveReferral(){
+
+ if(!isAdmin())return;
+
+
+ CONFIG.referralBonus=
+ Number(
+  $("aReferral").value
+ ) || 70;
+
+
+ $("homeRefBonus").textContent=
+ CONFIG.referralBonus;
+
+
+ $("refBonus").textContent=
+ CONFIG.referralBonus;
+
+
+ toast(
+  "Referral bonus updated."
+ );
+
+}
+
+
+/* =========================
+   ANNOUNCEMENT
+========================= */
+
+function saveAnnouncement(){
+
+ if(!isAdmin())return;
+
+
+ CONFIG.announcement=
+ $("aAnnouncement")
+ .value
+ .trim();
+
+
+ toast(
+  "Announcement saved."
+ );
+
+}
+
+
+/* =========================
+   SITE NAME
+========================= */
+
+function saveSite(){
+
+ if(!isAdmin())return;
+
+
+ CONFIG.siteName=
+ $("aSiteName")
+ .value
+ .trim() ||
+ "VIEW ERAN BD";
+
+
+ $("siteTitle").textContent=
+ CONFIG.siteName;
+
+
+ document.title=
+ CONFIG.siteName;
+
+
+ toast(
+  "Site name updated."
+ );
+
+}
+
+
+/* =========================
+   ADD TASK
+========================= */
+
+function addTask(){
+
+ if(!isAdmin())return;
+
+
+ const name=
+ $("newTaskName")
+ .value
+ .trim();
+
+
+ const desc=
+ $("newTaskDesc")
+ .value
+ .trim();
+
+
+ const reward=
+ Number(
+  $("newTaskReward").value
+ ) || 0;
+
+
+ const link=
+ $("newTaskLink")
+ .value
+ .trim();
+
+
+ if(!name){
+
+  toast(
+   "Task name দিন।"
+  );
+
+  return;
+
+ }
+
+
+ tasks.push({
+
+  name:name,
+
+  desc:
+   desc ||
+   "Complete this task.",
+
+  reward:reward,
+
+  link:link,
+
+  icon:"🎯"
+
+ });
+
+
+ renderTasks();
+
+
+ $("newTaskName").value="";
+
+ $("newTaskDesc").value="";
+
+ $("newTaskReward").value="";
+
+ $("newTaskLink").value="";
+
+
+ toast(
+  "Task added."
+ );
+
+}
+
+
+/* =========================
+   SUPPORT SAVE
+========================= */
+
+function saveSupport(){
+
+ if(!isAdmin())return;
+
+
+ CONFIG.support=
+ $("aSupport")
+ .value
+ .trim() ||
+ "@YOUR_SUPPORT_USERNAME";
+
+
+ toast(
+  "Support settings saved."
+ );
+
+}
+
+
+/* =========================
+   INITIAL SETTINGS
+========================= */
+
+$("siteTitle").textContent=
+ CONFIG.siteName;
+
+document.title=
+ CONFIG.siteName;
+
+
+$("feeTop").textContent=
+ CONFIG.withdrawalFee;
+
+
+$("withdrawBkash").textContent=
+ CONFIG.bkash ||
+ "Not set";
+
+
+$("withdrawNagad").textContent=
+ CONFIG.nagad ||
+ "Admin Panel থেকে সেট করুন";
+
+
+$("minWithdraw").textContent=
+ CONFIG.minWithdrawal;
+
+
+renderUser();
+
+renderCategories();
 
 renderTasks();
 
-updateBalance();
+renderReferral();
 
-loadSettings();
+renderWithdrawHistory();
 
-loadTelegramUser();
+setMethod("bKash");
 
 </script>
 
