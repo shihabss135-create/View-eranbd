@@ -17,16 +17,33 @@
 }
 
 body{
-    background:#f4f7fb;
+    background:
+        linear-gradient(rgba(244,247,251,.94),rgba(244,247,251,.94)),
+        radial-gradient(circle at 50% 20%,#1687f8 0,transparent 28%);
     color:#172033;
     padding-bottom:80px;
 }
 
+body:before{
+    content:"VIEW ERAN BD";
+    position:fixed;
+    left:50%;
+    top:48%;
+    transform:translate(-50%,-50%) rotate(-18deg);
+    font-size:42px;
+    font-weight:bold;
+    color:rgba(22,135,248,.045);
+    white-space:nowrap;
+    pointer-events:none;
+    z-index:-1;
+}
+
 .header{
-    background:#1687f8;
+    background:linear-gradient(135deg,#1687f8,#0754b8);
     color:white;
     padding:25px 18px 30px;
     border-radius:0 0 25px 25px;
+    box-shadow:0 5px 20px rgba(0,80,180,.2);
 }
 
 .header h1{
@@ -137,6 +154,10 @@ body{
     background:#f59e0b;
 }
 
+.btn.gray{
+    background:#687386;
+}
+
 input,select{
     width:100%;
     padding:13px;
@@ -157,6 +178,7 @@ input:focus,select:focus{
     border-radius:14px;
     padding:15px;
     margin-bottom:12px;
+    background:rgba(255,255,255,.97);
 }
 
 .task h3{
@@ -274,6 +296,61 @@ input:focus,select:focus{
 
 .hidden{
     display:none !important;
+}
+
+.video-box{
+    text-align:center;
+    background:#f4f8ff;
+    padding:15px;
+    border-radius:14px;
+    margin-top:10px;
+}
+
+.timer{
+    font-size:25px;
+    font-weight:bold;
+    color:#1687f8;
+    margin:8px;
+}
+
+.method-box{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:10px;
+}
+
+.method{
+    border:2px solid #e1e5eb;
+    border-radius:12px;
+    padding:13px;
+    text-align:center;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.method.selected{
+    border-color:#1687f8;
+    background:#eaf5ff;
+}
+
+.rule{
+    background:#fff8e6;
+    color:#8a6500;
+    padding:12px;
+    border-radius:12px;
+    font-size:13px;
+    line-height:1.6;
+    margin-bottom:12px;
+}
+
+.success{
+    background:#eaf8f0;
+    color:#16804b;
+}
+
+.video-complete{
+    background:#16a05d !important;
 }
 </style>
 </head>
@@ -430,7 +507,6 @@ input:focus,select:focus{
 
     </div>
 
-
     <div class="card">
 
         <h2>👤 Account Information</h2>
@@ -461,10 +537,7 @@ input:focus,select:focus{
             শুধুমাত্র Admin-এর জন্য।
         </p>
 
-        <button
-            class="btn dark"
-            onclick="openAdminLogin()"
-        >
+        <button class="btn dark" onclick="openAdminLogin()">
             🔐 Admin Panel
         </button>
 
@@ -480,24 +553,72 @@ input:focus,select:focus{
 
         <h2>💰 Withdraw</h2>
 
+        <div class="rule">
+            🔒 Withdraw করতে কমপক্ষে <b>20 Referral</b>
+            থাকতে হবে এবং Minimum Withdraw হলো
+            <b>৳800</b>।
+        </div>
+
+        <p>
+            আপনার Referral:
+            <b id="withdrawRefCount">0</b> / 20
+        </p>
+
+        <p>
+            আপনার Balance:
+            <b>৳ <span id="withdrawBalance">0</span></b>
+        </p>
+
+        <br>
+
+        <h3>Payment Method</h3>
+
+        <div class="method-box">
+
+            <div
+                id="bkashMethod"
+                class="method"
+                onclick="selectMethod('bkash')"
+            >
+                💗 bKash
+            </div>
+
+            <div
+                id="nagadMethod"
+                class="method"
+                onclick="selectMethod('nagad')"
+            >
+                🟠 Nagad
+            </div>
+
+        </div>
+
         <input
             id="accountNumber"
             type="text"
-            placeholder="আপনার নম্বর"
+            inputmode="numeric"
+            placeholder="bKash/Nagad নম্বর"
         >
 
         <input
             id="withdrawAmount"
             type="number"
-            placeholder="কত টাকা"
+            min="800"
+            placeholder="Minimum ৳800"
         >
 
         <button
             class="btn green"
             onclick="withdrawRequest()"
         >
-            Withdraw Request
+            💰 Withdraw Request
         </button>
+
+        <div
+            id="withdrawStatus"
+            class="status"
+        >
+        </div>
 
     </div>
 
@@ -515,10 +636,7 @@ input:focus,select:focus{
             কোনো সমস্যা হলে আমাদের Support-এর সাথে যোগাযোগ করুন।
         </p>
 
-        <button
-            class="btn"
-            onclick="openSupport()"
-        >
+        <button class="btn" onclick="openSupport()">
             💬 Contact Support
         </button>
 
@@ -550,25 +668,15 @@ input:focus,select:focus{
             placeholder="Admin Password"
         >
 
-        <button
-            class="btn"
-            onclick="adminLogin()"
-        >
+        <button class="btn" onclick="adminLogin()">
             Login
         </button>
 
-        <button
-            class="btn dark"
-            onclick="showPage('account')"
-        >
+        <button class="btn dark" onclick="showPage('account')">
             ফিরে যান
         </button>
 
-        <div
-            id="adminLoginStatus"
-            class="status"
-        >
-        </div>
+        <div id="adminLoginStatus" class="status"></div>
 
     </div>
 
@@ -583,24 +691,21 @@ input:focus,select:focus{
         <h2>⚙️ Admin Panel</h2>
 
         <p>
-            এখান থেকে Task এবং Reward পরিবর্তন করতে পারবেন।
+            এখান থেকে Task, Video, Reward এবং Withdraw
+            Settings পরিবর্তন করতে পারবেন।
         </p>
 
-        <div
-            id="adminStatus"
-            class="status"
-        >
+        <div id="adminStatus" class="status">
             Admin Login প্রয়োজন।
         </div>
 
     </div>
 
-
     <div id="adminContent" class="hidden">
 
         <div class="admin-box">
 
-            <h2>👥 Referral Reward</h2>
+            <h2>👥 Referral Settings</h2>
 
             <input
                 id="adminReferralReward"
@@ -608,32 +713,45 @@ input:focus,select:focus{
                 placeholder="Referral Reward"
             >
 
-        </div>
+            <input
+                id="adminRequiredReferrals"
+                type="number"
+                placeholder="Required Referrals"
+            >
 
+        </div>
 
         <div class="admin-box">
 
-            <h2>📋 Tasks</h2>
+            <h2>💰 Withdraw Settings</h2>
 
-            <div
-                id="adminTaskList"
-            ></div>
+            <input
+                id="adminMinWithdraw"
+                type="number"
+                placeholder="Minimum Withdraw"
+            >
+
+            <input
+                id="adminVideoSeconds"
+                type="number"
+                placeholder="Video Seconds"
+            >
 
         </div>
 
+        <div class="admin-box">
 
-        <button
-            class="btn green"
-            onclick="saveAdminSettings()"
-        >
+            <h2>📋 All Tasks</h2>
+
+            <div id="adminTaskList"></div>
+
+        </div>
+
+        <button class="btn green" onclick="saveAdminSettings()">
             💾 Save All Changes
         </button>
 
-
-        <button
-            class="btn red"
-            onclick="adminLogout()"
-        >
+        <button class="btn red" onclick="adminLogout()">
             🚪 Admin Logout
         </button>
 
@@ -702,7 +820,10 @@ import {
     getFirestore,
     doc,
     getDoc,
-    setDoc
+    setDoc,
+    collection,
+    addDoc,
+    runTransaction
 }
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -779,11 +900,95 @@ const BOT_USERNAME =
 "Viewerab_bot";
 
 
-/* ACCOUNT */
+/* USER DATA */
 
 let balance = 0;
+
 let referralCount = 0;
+
 let referralEarnings = 0;
+
+let selectedMethod = "";
+
+let currentTelegramUser = null;
+
+
+/* COMPLETED TASKS */
+
+let completedTasks = [];
+
+
+/* DEFAULT TASKS */
+
+const defaultTasks = [];
+
+
+/* 20 VIDEO TASK */
+
+for(let i=1;i<=20;i++){
+
+    defaultTasks.push({
+
+        id:"video" + i,
+
+        title:"Video Task " + i,
+
+        reward:15,
+
+        description:
+        "Video দেখুন এবং ৫ সেকেন্ড অপেক্ষা করে Task Complete করুন।",
+
+        url:"",
+
+        enabled:true,
+
+        type:"video"
+
+    });
+
+}
+
+
+/* OTHER TASKS */
+
+defaultTasks.push({
+
+    id:"normal",
+
+    title:"Normal Task",
+
+    reward:10,
+
+    description:
+    "Task সম্পন্ন করুন এবং Reward পান।",
+
+    url:"",
+
+    enabled:true,
+
+    type:"normal"
+
+});
+
+
+defaultTasks.push({
+
+    id:"telegram",
+
+    title:"Telegram Join Task",
+
+    reward:20,
+
+    description:
+    "Telegram Channel/Group Join করুন।",
+
+    url:"",
+
+    enabled:true,
+
+    type:"telegram"
+
+});
 
 
 /* DEFAULT SETTINGS */
@@ -792,38 +997,117 @@ let appSettings = {
 
     referralReward:70,
 
-    tasks:[
+    requiredReferrals:20,
 
-        {
-            id:"normal",
-            title:"Normal Task",
-            reward:10,
-            description:"Task সম্পন্ন করুন এবং Reward পান।",
-            url:"",
-            enabled:true
-        },
+    minWithdraw:800,
 
-        {
-            id:"video",
-            title:"Video Task",
-            reward:15,
-            description:"Video দেখুন এবং Task সম্পন্ন করুন।",
-            url:"",
-            enabled:true
-        },
+    videoSeconds:5,
 
-        {
-            id:"telegram",
-            title:"Telegram Join Task",
-            reward:20,
-            description:"Telegram Channel/Group Join করুন।",
-            url:"",
-            enabled:true
-        }
-
-    ]
+    tasks:defaultTasks
 
 };
+
+
+/* USER FIRESTORE DATA */
+
+async function loadUserData(){
+
+    if(!currentTelegramUser)
+    return;
+
+    const id =
+    String(currentTelegramUser.id);
+
+    try{
+
+        const ref =
+        doc(db,"users",id);
+
+        const snap =
+        await getDoc(ref);
+
+        if(snap.exists()){
+
+            const data =
+            snap.data();
+
+            balance =
+            Number(data.balance || 0);
+
+            referralCount =
+            Number(data.referralCount || 0);
+
+            referralEarnings =
+            Number(data.referralEarnings || 0);
+
+            completedTasks =
+            Array.isArray(data.completedTasks)
+            ?
+            data.completedTasks
+            :
+            [];
+
+        }
+
+        updateBalance();
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* SAVE USER DATA */
+
+async function saveUserData(){
+
+    if(!currentTelegramUser)
+    return;
+
+    const id =
+    String(currentTelegramUser.id);
+
+    try{
+
+        await setDoc(
+
+            doc(db,"users",id),
+
+            {
+
+                balance:balance,
+
+                referralCount:referralCount,
+
+                referralEarnings:referralEarnings,
+
+                completedTasks:completedTasks,
+
+                updatedAt:
+                new Date().toISOString()
+
+            },
+
+            {
+                merge:true
+            }
+
+        );
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+    }
+
+}
 
 
 /* LOAD SETTINGS */
@@ -848,7 +1132,6 @@ async function loadSettings(){
             const data =
             settingsSnap.data();
 
-
             appSettings = {
 
                 referralReward:
@@ -857,12 +1140,30 @@ async function loadSettings(){
                     70
                 ),
 
+                requiredReferrals:
+                Number(
+                    data.requiredReferrals ??
+                    20
+                ),
+
+                minWithdraw:
+                Number(
+                    data.minWithdraw ??
+                    800
+                ),
+
+                videoSeconds:
+                Number(
+                    data.videoSeconds ??
+                    5
+                ),
+
                 tasks:
                 Array.isArray(data.tasks)
                 ?
                 data.tasks
                 :
-                appSettings.tasks
+                defaultTasks
 
             };
 
@@ -896,19 +1197,22 @@ async function loadSettings(){
 }
 
 
-/* TASK LIST */
+/* RENDER TASKS */
 
 function renderTasks(){
 
     const list =
-    document.getElementById("taskList");
+    document.getElementById(
+        "taskList"
+    );
 
     list.innerHTML = "";
 
 
     const enabledTasks =
     appSettings.tasks.filter(
-        task => task.enabled !== false
+        task =>
+        task.enabled !== false
     );
 
 
@@ -917,7 +1221,14 @@ function renderTasks(){
         const div =
         document.createElement("div");
 
-        div.className = "task";
+        div.className =
+        "task";
+
+
+        const alreadyDone =
+        completedTasks.includes(
+            task.id
+        );
 
 
         div.innerHTML = `
@@ -931,15 +1242,36 @@ function renderTasks(){
             </p>
 
             <div class="reward">
-                Reward: ৳ ${Number(task.reward) || 0}
+                Reward: ৳ ${Number(task.reward)||0}
             </div>
 
-            <button
-                class="btn"
-                onclick="startTask('${task.id}')"
-            >
-                Start Task
-            </button>
+            ${
+                alreadyDone
+                ?
+                `
+                <button
+                    class="btn gray"
+                    disabled
+                >
+                    ✅ Completed
+                </button>
+                `
+                :
+                `
+                <button
+                    class="btn"
+                    onclick="startTask('${escapeAttr(task.id)}')"
+                >
+                    ${
+                        task.type === "video"
+                        ?
+                        "▶️ Watch Video"
+                        :
+                        "🚀 Start Task"
+                    }
+                </button>
+                `
+            }
 
         `;
 
@@ -958,7 +1290,9 @@ function renderTasks(){
     document.getElementById(
         "referralRewardDisplay"
     ).innerText =
-    Number(appSettings.referralReward) || 0;
+    Number(
+        appSettings.referralReward
+    ) || 0;
 
 }
 
@@ -966,7 +1300,7 @@ function renderTasks(){
 /* START TASK */
 
 window.startTask =
-function(id){
+async function(id){
 
     const task =
     appSettings.tasks.find(
@@ -978,44 +1312,272 @@ function(id){
     return;
 
 
-    if(
-        task.url &&
-        task.url.trim()
-    ){
+    if(completedTasks.includes(id)){
 
-        if(
-            tg &&
-            tg.openTelegramLink &&
-            task.url.includes("t.me/")
-        ){
+        alert("এই Task আগে Complete করা হয়েছে।");
 
-            tg.openTelegramLink(
-                task.url
-            );
-
-        }
-
-        else{
-
-            window.open(
-                task.url,
-                "_blank"
-            );
-
-        }
+        return;
 
     }
 
-    else{
+
+    if(
+        !task.url ||
+        !task.url.trim()
+    ){
 
         alert(
             task.title +
             "\n\nএই Task-এর Link এখনো Admin সেট করেনি।"
         );
 
+        return;
+
     }
 
+
+    if(task.type === "video"){
+
+        startVideoTask(task);
+
+        return;
+
+    }
+
+
+    openTaskLink(task.url);
+
+
+    setTimeout(
+        () => {
+
+            completeTask(task);
+
+        },
+        3000
+    );
+
 };
+
+
+/* OPEN LINK */
+
+function openTaskLink(url){
+
+    if(
+        tg &&
+        tg.openTelegramLink &&
+        url.includes("t.me/")
+    ){
+
+        tg.openTelegramLink(url);
+
+    }
+
+    else{
+
+        window.open(
+            url,
+            "_blank"
+        );
+
+    }
+
+}
+
+
+/* VIDEO TASK */
+
+function startVideoTask(task){
+
+    let seconds =
+    Number(
+        appSettings.videoSeconds
+    ) || 5;
+
+
+    const div =
+    document.createElement("div");
+
+    div.className =
+    "task";
+
+
+    div.innerHTML = `
+
+        <h3>
+            ${escapeHTML(task.title)}
+        </h3>
+
+        <p>
+            Video Link খুলুন।
+            তারপর ${seconds} সেকেন্ড অপেক্ষা করুন।
+        </p>
+
+        <button
+            class="btn"
+            id="openVideoBtn"
+        >
+            ▶️ Open Video
+        </button>
+
+        <div class="video-box">
+
+            <div>
+                Complete হবে:
+            </div>
+
+            <div
+                class="timer"
+                id="videoTimer"
+            >
+                ${seconds}
+            </div>
+
+            <button
+                class="btn green hidden"
+                id="completeVideoBtn"
+            >
+                ✅ Complete Task
+            </button>
+
+        </div>
+
+    `;
+
+
+    const list =
+    document.getElementById(
+        "taskList"
+    );
+
+    list.prepend(div);
+
+
+    document.getElementById(
+        "openVideoBtn"
+    ).onclick =
+    function(){
+
+        openTaskLink(task.url);
+
+    };
+
+
+    let remaining =
+    seconds;
+
+
+    const timer =
+    setInterval(
+
+        () => {
+
+            remaining--;
+
+            const timerElement =
+            document.getElementById(
+                "videoTimer"
+            );
+
+
+            if(!timerElement){
+
+                clearInterval(timer);
+
+                return;
+
+            }
+
+
+            timerElement.innerText =
+            remaining;
+
+
+            if(remaining <= 0){
+
+                clearInterval(timer);
+
+
+                const completeButton =
+                document.getElementById(
+                    "completeVideoBtn"
+                );
+
+
+                completeButton
+                .classList
+                .remove("hidden");
+
+
+                document.getElementById(
+                    "videoTimer"
+                ).innerText =
+                "Ready";
+
+            }
+
+        },
+
+        1000
+
+    );
+
+
+    document.getElementById(
+        "completeVideoBtn"
+    ).onclick =
+    async function(){
+
+        await completeTask(task);
+
+        div.remove();
+
+    };
+
+}
+
+
+/* COMPLETE TASK */
+
+async function completeTask(task){
+
+    if(
+        completedTasks.includes(
+            task.id
+        )
+    ){
+
+        return;
+
+    }
+
+
+    const reward =
+    Number(task.reward) || 0;
+
+
+    balance += reward;
+
+
+    completedTasks.push(
+        task.id
+    );
+
+
+    await saveUserData();
+
+    updateBalance();
+
+    renderTasks();
+
+
+    alert(
+        "✅ Task Complete!\n\nReward: ৳" +
+        reward
+    );
+
+}
 
 
 /* PAGE */
@@ -1058,6 +1620,21 @@ function(page,button){
 
     }
 
+
+    if(page === "withdraw"){
+
+        document.getElementById(
+            "withdrawRefCount"
+        ).innerText =
+        referralCount;
+
+        document.getElementById(
+            "withdrawBalance"
+        ).innerText =
+        balance;
+
+    }
+
 };
 
 
@@ -1077,16 +1654,15 @@ window.adminLogin =
 async function(){
 
     const email =
-    document
-    .getElementById("adminEmail")
-    .value
-    .trim();
+    document.getElementById(
+        "adminEmail"
+    ).value.trim();
 
 
     const password =
-    document
-    .getElementById("adminPassword")
-    .value;
+    document.getElementById(
+        "adminPassword"
+    ).value;
 
 
     const status =
@@ -1128,6 +1704,7 @@ async function(){
                 openAdminPanel();
 
             },
+
             500
         );
 
@@ -1145,39 +1722,65 @@ async function(){
 };
 
 
-/* ADMIN PANEL */
+/* OPEN ADMIN */
 
 function openAdminPanel(){
 
     showPage("admin");
 
     document
-    .getElementById("adminContent")
+    .getElementById(
+        "adminContent"
+    )
     .classList
     .remove("hidden");
 
-    document
-    .getElementById("adminStatus")
-    .innerText =
+
+    document.getElementById(
+        "adminStatus"
+    ).innerText =
     "Admin Login সফল হয়েছে।";
+
 
     renderAdminPanel();
 
 }
 
 
-/* ADMIN SETTINGS UI */
+/* ADMIN PANEL */
 
 function renderAdminPanel(){
 
-    document
-    .getElementById(
+    document.getElementById(
         "adminReferralReward"
-    )
-    .value =
+    ).value =
     Number(
         appSettings.referralReward
     ) || 0;
+
+
+    document.getElementById(
+        "adminRequiredReferrals"
+    ).value =
+    Number(
+        appSettings.requiredReferrals
+    ) || 20;
+
+
+    document.getElementById(
+        "adminMinWithdraw"
+    ).value =
+    Number(
+        appSettings.minWithdraw
+    ) || 800;
+
+
+    document.getElementById(
+        "adminVideoSeconds"
+    ).value =
+    Number(
+        appSettings.videoSeconds
+    ) || 5;
 
 
     const list =
@@ -1221,7 +1824,7 @@ function renderAdminPanel(){
             <input
                 id="taskReward_${index}"
                 type="number"
-                value="${Number(task.reward) || 0}"
+                value="${Number(task.reward)||0}"
                 placeholder="Reward"
             >
 
@@ -1231,6 +1834,33 @@ function renderAdminPanel(){
                 value="${escapeAttr(task.url || "")}"
                 placeholder="Task Link / Video Link / Telegram Link"
             >
+
+            <select
+                id="taskType_${index}"
+            >
+
+                <option
+                    value="video"
+                    ${task.type === "video" ? "selected" : ""}
+                >
+                    Video Task
+                </option>
+
+                <option
+                    value="normal"
+                    ${task.type === "normal" ? "selected" : ""}
+                >
+                    Normal Task
+                </option>
+
+                <option
+                    value="telegram"
+                    ${task.type === "telegram" ? "selected" : ""}
+                >
+                    Telegram Task
+                </option>
+
+            </select>
 
             <select
                 id="taskEnabled_${index}"
@@ -1253,7 +1883,7 @@ function renderAdminPanel(){
             </select>
 
             <p class="small">
-                Link পরিবর্তন করলে User-রা নতুন Link দেখতে পাবে।
+                Admin এখান থেকে Link এবং Reward পরিবর্তন করতে পারবেন।
             </p>
 
         `;
@@ -1291,7 +1921,31 @@ async function(){
         document.getElementById(
             "adminReferralReward"
         ).value
-    );
+    ) || 0;
+
+
+    const requiredReferrals =
+    Number(
+        document.getElementById(
+            "adminRequiredReferrals"
+        ).value
+    ) || 20;
+
+
+    const minWithdraw =
+    Number(
+        document.getElementById(
+            "adminMinWithdraw"
+        ).value
+    ) || 800;
+
+
+    const videoSeconds =
+    Number(
+        document.getElementById(
+            "adminVideoSeconds"
+        ).value
+    ) || 5;
 
 
     const newTasks =
@@ -1300,7 +1954,8 @@ async function(){
 
         return {
 
-            id:task.id,
+            id:
+            task.id,
 
             title:
             document.getElementById(
@@ -1324,6 +1979,11 @@ async function(){
                 "taskUrl_" + index
             ).value.trim(),
 
+            type:
+            document.getElementById(
+                "taskType_" + index
+            ).value,
+
             enabled:
             document.getElementById(
                 "taskEnabled_" + index
@@ -1337,7 +1997,16 @@ async function(){
     const newSettings = {
 
         referralReward:
-        referralReward || 0,
+        referralReward,
+
+        requiredReferrals:
+        requiredReferrals,
+
+        minWithdraw:
+        minWithdraw,
+
+        videoSeconds:
+        videoSeconds,
 
         tasks:
         newTasks,
@@ -1414,6 +2083,7 @@ async function(){
     try{
 
         await signOut(auth);
+
 
         document
         .getElementById(
@@ -1497,6 +2167,10 @@ async function loadTelegramUser(){
     }
 
 
+    currentTelegramUser =
+    user;
+
+
     const telegramId =
     String(user.id);
 
@@ -1556,19 +2230,6 @@ async function loadTelegramUser(){
     .toUpperCase();
 
 
-    try{
-
-        await saveTelegramUser(user);
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-    }
-
-
     const referralLink =
     "https://t.me/" +
     BOT_USERNAME +
@@ -1581,10 +2242,17 @@ async function loadTelegramUser(){
     ).innerText =
     referralLink;
 
+
+    await saveTelegramUser(user);
+
+    await processReferral();
+
+    await loadUserData();
+
 }
 
 
-/* SAVE USER */
+/* SAVE TELEGRAM USER */
 
 async function saveTelegramUser(user){
 
@@ -1632,7 +2300,197 @@ async function saveTelegramUser(user){
 }
 
 
-/* COPY */
+/* PROCESS REFERRAL */
+
+async function processReferral(){
+
+    if(!tg)
+    return;
+
+
+    const startParam =
+    tg.initDataUnsafe &&
+    tg.initDataUnsafe.start_param
+    ?
+    tg.initDataUnsafe.start_param
+    :
+    "";
+
+
+    if(
+        !startParam ||
+        !startParam.startsWith("ref_")
+    )
+    return;
+
+
+    const referrerId =
+    startParam.replace(
+        "ref_",
+        ""
+    );
+
+
+    const currentId =
+    String(
+        currentTelegramUser.id
+    );
+
+
+    if(
+        !referrerId ||
+        referrerId === currentId
+    )
+    return;
+
+
+    try{
+
+        const currentRef =
+        doc(
+            db,
+            "users",
+            currentId
+        );
+
+
+        const referrerRef =
+        doc(
+            db,
+            "users",
+            referrerId
+        );
+
+
+        await runTransaction(
+            db,
+            async transaction => {
+
+                const currentSnap =
+                await transaction.get(
+                    currentRef
+                );
+
+
+                const referrerSnap =
+                await transaction.get(
+                    referrerRef
+                );
+
+
+                if(
+                    !referrerSnap.exists()
+                )
+                return;
+
+
+                const currentData =
+                currentSnap.exists()
+                ?
+                currentSnap.data()
+                :
+                {};
+
+
+                if(
+                    currentData.referredBy
+                )
+                return;
+
+
+                const referrerData =
+                referrerSnap.data();
+
+
+                const oldCount =
+                Number(
+                    referrerData.referralCount || 0
+                );
+
+
+                const oldBalance =
+                Number(
+                    referrerData.balance || 0
+                );
+
+
+                const oldReferralEarn =
+                Number(
+                    referrerData.referralEarnings || 0
+                );
+
+
+                const reward =
+                Number(
+                    appSettings.referralReward
+                ) || 0;
+
+
+                transaction.set(
+
+                    referrerRef,
+
+                    {
+
+                        referralCount:
+                        oldCount + 1,
+
+                        balance:
+                        oldBalance + reward,
+
+                        referralEarnings:
+                        oldReferralEarn + reward,
+
+                        updatedAt:
+                        new Date().toISOString()
+
+                    },
+
+                    {
+                        merge:true
+                    }
+
+                );
+
+
+                transaction.set(
+
+                    currentRef,
+
+                    {
+
+                        referredBy:
+                        referrerId,
+
+                        updatedAt:
+                        new Date().toISOString()
+
+                    },
+
+                    {
+                        merge:true
+                    }
+
+                );
+
+            }
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Referral error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* COPY REFERRAL */
 
 window.copyReferral =
 async function(){
@@ -1730,10 +2588,67 @@ function(){
 };
 
 
+/* PAYMENT METHOD */
+
+window.selectMethod =
+function(method){
+
+    selectedMethod =
+    method;
+
+
+    document
+    .getElementById(
+        "bkashMethod"
+    )
+    .classList
+    .remove("selected");
+
+
+    document
+    .getElementById(
+        "nagadMethod"
+    )
+    .classList
+    .remove("selected");
+
+
+    if(method === "bkash"){
+
+        document
+        .getElementById(
+            "bkashMethod"
+        )
+        .classList
+        .add("selected");
+
+    }
+
+
+    if(method === "nagad"){
+
+        document
+        .getElementById(
+            "nagadMethod"
+        )
+        .classList
+        .add("selected");
+
+    }
+
+};
+
+
 /* WITHDRAW */
 
 window.withdrawRequest =
-function(){
+async function(){
+
+    const status =
+    document.getElementById(
+        "withdrawStatus"
+    );
+
 
     const account =
     document.getElementById(
@@ -1749,11 +2664,20 @@ function(){
     );
 
 
+    if(!selectedMethod){
+
+        status.innerText =
+        "আগে bKash অথবা Nagad নির্বাচন করুন।";
+
+        return;
+
+    }
+
+
     if(!account){
 
-        alert(
-            "আপনার নম্বর লিখুন।"
-        );
+        status.innerText =
+        "আপনার bKash/Nagad নম্বর লিখুন।";
 
         return;
 
@@ -1761,13 +2685,45 @@ function(){
 
 
     if(
-        !amount ||
-        amount <= 0
+        !/^[0-9]{10,14}$/.test(account)
     ){
 
-        alert(
-            "সঠিক Amount লিখুন।"
-        );
+        status.innerText =
+        "সঠিক মোবাইল নম্বর দিন।";
+
+        return;
+
+    }
+
+
+    if(
+        referralCount <
+        Number(
+            appSettings.requiredReferrals
+        )
+    ){
+
+        status.innerText =
+        "Withdraw করতে কমপক্ষে " +
+        appSettings.requiredReferrals +
+        " Referral প্রয়োজন।";
+
+        return;
+
+    }
+
+
+    if(
+        amount <
+        Number(
+            appSettings.minWithdraw
+        )
+    ){
+
+        status.innerText =
+        "Minimum Withdraw ৳" +
+        appSettings.minWithdraw +
+        "।";
 
         return;
 
@@ -1776,18 +2732,95 @@ function(){
 
     if(amount > balance){
 
-        alert(
-            "আপনার Balance যথেষ্ট নয়।"
-        );
+        status.innerText =
+        "আপনার Balance যথেষ্ট নয়।";
 
         return;
 
     }
 
 
-    alert(
-        "Withdraw Request গ্রহণ করা হয়েছে।"
-    );
+    if(!currentTelegramUser){
+
+        status.innerText =
+        "Telegram User পাওয়া যায়নি।";
+
+        return;
+
+    }
+
+
+    try{
+
+        await addDoc(
+
+            collection(
+                db,
+                "withdrawRequests"
+            ),
+
+            {
+
+                telegramId:
+                String(
+                    currentTelegramUser.id
+                ),
+
+                username:
+                currentTelegramUser.username || "",
+
+                method:
+                selectedMethod,
+
+                accountNumber:
+                account,
+
+                amount:
+                amount,
+
+                referralCount:
+                referralCount,
+
+                status:
+                "pending",
+
+                createdAt:
+                new Date().toISOString()
+
+            }
+
+        );
+
+
+        balance -= amount;
+
+        await saveUserData();
+
+        updateBalance();
+
+
+        status.className =
+        "status success";
+
+
+        status.innerText =
+        "✅ Withdraw Request পাঠানো হয়েছে। Status: Pending";
+
+
+        document.getElementById(
+            "withdrawAmount"
+        ).value = "";
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        status.innerText =
+        "❌ Request Save হয়নি। Firebase Permission দেখুন।";
+
+    }
 
 };
 
@@ -1816,7 +2849,7 @@ function(){
 };
 
 
-/* BALANCE */
+/* UPDATE BALANCE */
 
 function updateBalance(){
 
@@ -1851,10 +2884,22 @@ function updateBalance(){
         appSettings.referralReward
     ) || 0;
 
+
+    document.getElementById(
+        "withdrawRefCount"
+    ).innerText =
+    referralCount;
+
+
+    document.getElementById(
+        "withdrawBalance"
+    ).innerText =
+    balance;
+
 }
 
 
-/* SECURITY DISPLAY HELPERS */
+/* SECURITY HELPERS */
 
 function escapeHTML(value){
 
@@ -1888,4 +2933,4 @@ loadTelegramUser();
 </script>
 
 </body>
-        </html>
+</html>
