@@ -2,2645 +2,4195 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#6d28d9">
 <title>VIEW ERAN BD</title>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
-
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  -webkit-tap-highlight-color:transparent;
+}
+
 body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:#f5f3ff;
-color:#17142b;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f3ff;
+  color:#171329;
+  min-height:100vh;
 }
-button,input,select{
-font-family:inherit;
-}
-button{cursor:pointer}
-.hide{display:none!important}
 
-#loading{
-position:fixed;
-inset:0;
-background:linear-gradient(135deg,#6d28d9,#9333ea);
-display:flex;
-align-items:center;
-justify-content:center;
-z-index:9999;
-color:#fff;
+button,input,select,textarea{
+  font:inherit;
 }
-.loaderBox{text-align:center}
-.loader{
-width:45px;
-height:45px;
-border:4px solid rgba(255,255,255,.3);
-border-top-color:#fff;
-border-radius:50%;
-animation:spin 1s linear infinite;
-margin:auto auto 15px;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
 
-.auth{
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px;
-background:linear-gradient(135deg,#f5f3ff,#ede9fe);
+button{
+  cursor:pointer;
+  border:0;
 }
-.authBox{
-width:100%;
-max-width:440px;
-background:#fff;
-border-radius:25px;
-padding:25px;
-box-shadow:0 15px 45px rgba(79,35,150,.15);
+
+.hidden{
+  display:none!important;
 }
-.logo{
-text-align:center;
-font-size:28px;
-font-weight:900;
-color:#6d28d9;
-margin-bottom:5px;
+
+/* LOADING */
+#loadingScreen{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  background:linear-gradient(135deg,#5b21b6,#7c3aed);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
 }
-.sub{text-align:center;color:#777;margin-bottom:20px}
-.tabs{
-display:flex;
-background:#f3f0ff;
-padding:5px;
-border-radius:14px;
-margin-bottom:20px;
+
+.loadingBox{
+  text-align:center;
 }
-.tabs button{
-flex:1;
-border:0;
-padding:12px;
-border-radius:10px;
-background:transparent;
-font-weight:bold;
-color:#666;
+
+.loadingLogo{
+  width:80px;
+  height:80px;
+  border-radius:24px;
+  background:rgba(255,255,255,.18);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:34px;
+  font-weight:900;
+  margin:auto auto 18px;
+  box-shadow:0 15px 40px rgba(0,0,0,.18);
 }
-.tabs button.active{
-background:#7c3aed;
-color:#fff;
+
+.spinner{
+  width:34px;
+  height:34px;
+  border:3px solid rgba(255,255,255,.3);
+  border-top-color:#fff;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  margin:20px auto 0;
 }
-.field{margin-bottom:13px}
-.field label{
-display:block;
-font-size:13px;
-font-weight:bold;
-margin-bottom:6px;
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
 }
-.field input,.field select{
-width:100%;
-padding:13px;
-border:1px solid #ddd;
-border-radius:12px;
-outline:none;
-background:#fff;
+
+/* AUTH */
+#authScreen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:
+    radial-gradient(circle at top right,#ddd6fe 0,transparent 35%),
+    radial-gradient(circle at bottom left,#ede9fe 0,transparent 35%),
+    #f8f7ff;
 }
-.field input:focus,.field select:focus{
-border-color:#7c3aed;
+
+.authWrap{
+  width:100%;
+  max-width:440px;
 }
-.mainBtn{
-width:100%;
-border:0;
-padding:14px;
-border-radius:13px;
-background:linear-gradient(135deg,#6d28d9,#9333ea);
-color:#fff;
-font-weight:bold;
-font-size:15px;
+
+.authBrand{
+  text-align:center;
+  margin-bottom:22px;
 }
+
+.authLogo{
+  width:72px;
+  height:72px;
+  margin:auto;
+  border-radius:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:29px;
+  font-weight:900;
+  background:linear-gradient(135deg,#6d28d9,#9333ea);
+  box-shadow:0 18px 35px rgba(109,40,217,.25);
+}
+
+.authBrand h1{
+  margin-top:12px;
+  font-size:25px;
+}
+
+.authBrand p{
+  color:#77718d;
+  margin-top:5px;
+}
+
+.authCard{
+  background:#fff;
+  border:1px solid #ece8fa;
+  border-radius:24px;
+  padding:20px;
+  box-shadow:0 20px 55px rgba(48,35,91,.10);
+}
+
+.authTabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  background:#f2effc;
+  padding:4px;
+  border-radius:13px;
+  margin-bottom:18px;
+}
+
+.authTab{
+  padding:12px;
+  border-radius:10px;
+  background:transparent;
+  color:#77718d;
+  font-weight:700;
+}
+
+.authTab.active{
+  background:#fff;
+  color:#6d28d9;
+  box-shadow:0 4px 12px rgba(0,0,0,.07);
+}
+
+.formGroup{
+  margin-bottom:13px;
+}
+
+.formGroup label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:7px;
+  color:#48415c;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea{
+  width:100%;
+  border:1px solid #e3def1;
+  border-radius:12px;
+  padding:13px 14px;
+  outline:none;
+  background:#fbfaff;
+  color:#201a30;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus{
+  border-color:#8b5cf6;
+  box-shadow:0 0 0 3px rgba(139,92,246,.10);
+}
+
+.primaryBtn{
+  width:100%;
+  padding:14px;
+  border-radius:13px;
+  color:white;
+  font-weight:800;
+  background:linear-gradient(135deg,#6d28d9,#9333ea);
+  box-shadow:0 10px 25px rgba(109,40,217,.20);
+}
+
+.secondaryBtn{
+  padding:11px 14px;
+  border-radius:11px;
+  background:#f1edff;
+  color:#6d28d9;
+  font-weight:700;
+}
+
+.dangerBtn{
+  padding:11px 14px;
+  border-radius:11px;
+  background:#fee2e2;
+  color:#b91c1c;
+  font-weight:700;
+}
+
+.smallText{
+  color:#827b94;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.rememberRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:5px 0 14px;
+  font-size:13px;
+}
+
+.rememberRow label{
+  display:flex;
+  gap:7px;
+  align-items:center;
+}
+
 .linkBtn{
-border:0;
-background:none;
-color:#6d28d9;
-font-weight:bold;
-margin-top:12px;
-}
-.remember{
-display:flex;
-gap:8px;
-align-items:center;
-font-size:13px;
-margin:10px 0;
+  color:#6d28d9;
+  font-weight:700;
+  background:none;
 }
 
-#app{
-min-height:100vh;
-padding-bottom:80px;
+/* APP */
+#appScreen{
+  min-height:100vh;
+  padding-bottom:82px;
 }
+
 .topbar{
-position:sticky;
-top:0;
-z-index:20;
-height:65px;
-background:#fff;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 15px;
-box-shadow:0 2px 15px rgba(0,0,0,.06);
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid #ece8f5;
+  padding:13px 15px;
 }
+
+.topbarInner{
+  max-width:1000px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
 .brand{
-font-size:20px;
-font-weight:900;
-color:#6d28d9;
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
-.adminBtn{
-border:0;
-background:#ede9fe;
-color:#6d28d9;
-width:42px;
-height:42px;
-border-radius:12px;
-font-size:19px;
+
+.brandIcon{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  background:linear-gradient(135deg,#6d28d9,#9333ea);
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-weight:900;
+}
+
+.brandText b{
+  display:block;
+  font-size:15px;
+}
+
+.brandText span{
+  color:#8b8499;
+  font-size:11px;
+}
+
+.adminTopBtn{
+  display:none;
+  background:#171329;
+  color:#fff;
+  padding:9px 12px;
+  border-radius:11px;
+  font-size:12px;
+  font-weight:800;
 }
 
 .page{
-padding:15px;
-max-width:900px;
-margin:auto;
+  max-width:1000px;
+  margin:auto;
+  padding:15px;
 }
+
 .hero{
-background:linear-gradient(135deg,#6d28d9,#9333ea);
-color:#fff;
-padding:23px;
-border-radius:23px;
-box-shadow:0 12px 30px rgba(109,40,217,.25);
+  border-radius:24px;
+  padding:22px;
+  color:#fff;
+  background:linear-gradient(135deg,#5b21b6,#7c3aed,#9333ea);
+  box-shadow:0 18px 40px rgba(91,33,182,.22);
+  position:relative;
+  overflow:hidden;
 }
-.hero small{opacity:.8}
+
+.hero:after{
+  content:"";
+  width:170px;
+  height:170px;
+  border-radius:50%;
+  background:rgba(255,255,255,.09);
+  position:absolute;
+  right:-55px;
+  top:-65px;
+}
+
+.heroSmall{
+  font-size:13px;
+  opacity:.8;
+}
+
 .balance{
-font-size:35px;
-font-weight:900;
-margin:8px 0;
+  font-size:36px;
+  font-weight:900;
+  margin:7px 0;
 }
-.status{
-display:inline-block;
-padding:7px 12px;
-border-radius:20px;
-font-size:12px;
-font-weight:bold;
-background:rgba(255,255,255,.18);
+
+.statusPill{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:30px;
+  background:rgba(255,255,255,.16);
+  font-size:11px;
+  font-weight:800;
 }
+
 .quickGrid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:10px;
-margin:15px 0;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:9px;
+  margin-top:17px;
 }
-.quick{
-background:#fff;
-border:0;
-border-radius:16px;
-padding:14px 5px;
-box-shadow:0 4px 15px rgba(0,0,0,.06);
-font-weight:bold;
-color:#333;
+
+.quickBtn{
+  padding:13px 5px;
+  border-radius:13px;
+  background:rgba(255,255,255,.13);
+  color:#fff;
+  font-size:11px;
+  font-weight:700;
 }
-.quick b{
-display:block;
-font-size:21px;
-margin-bottom:5px;
-color:#7c3aed;
+
+.section{
+  margin-top:17px;
 }
+
+.sectionTitle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.sectionTitle h2{
+  font-size:17px;
+}
+
+.sectionTitle span{
+  color:#8b8499;
+  font-size:11px;
+}
+
 .card{
-background:#fff;
-border-radius:20px;
-padding:17px;
-margin-bottom:14px;
-box-shadow:0 4px 18px rgba(0,0,0,.05);
+  background:#fff;
+  border:1px solid #ece8f5;
+  border-radius:18px;
+  padding:16px;
+  box-shadow:0 8px 25px rgba(37,20,70,.05);
 }
-.card h3{
-margin:0 0 8px;
-}
+
 .notice{
-background:#faf5ff;
-border-left:4px solid #7c3aed;
-padding:13px;
-border-radius:10px;
-line-height:1.6;
-font-size:14px;
+  background:#faf7ff;
+  border-left:4px solid #7c3aed;
+  color:#5e5870;
+  line-height:1.6;
+  font-size:13px;
 }
+
+.adminAccess{
+  background:linear-gradient(135deg,#171329,#302653);
+  color:white;
+}
+
 .projectGrid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
 }
-.project{
-background:#fff;
-border-radius:18px;
-padding:16px;
-box-shadow:0 4px 15px rgba(0,0,0,.05);
+
+.projectCard{
+  background:#fff;
+  border:1px solid #ece8f5;
+  border-radius:17px;
+  padding:14px;
+  box-shadow:0 7px 22px rgba(37,20,70,.04);
 }
+
 .projectLogo{
-width:45px;
-height:45px;
-border-radius:13px;
-background:#f3e8ff;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:23px;
-margin-bottom:10px;
-}
-.project h4{margin:0 0 5px}
-.project p{
-margin:0 0 12px;
-font-size:12px;
-color:#777;
-}
-.project button{
-width:100%;
-border:0;
-background:#7c3aed;
-color:#fff;
-padding:10px;
-border-radius:10px;
-font-weight:bold;
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f0eaff;
+  color:#6d28d9;
+  font-weight:900;
+  font-size:18px;
+  margin-bottom:10px;
+  overflow:hidden;
 }
 
-.bottom{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-height:70px;
-background:#fff;
-display:flex;
-justify-content:space-around;
-align-items:center;
-box-shadow:0 -3px 20px rgba(0,0,0,.08);
-z-index:50;
+.projectLogo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
-.nav{
-border:0;
-background:none;
-font-size:11px;
-color:#777;
-}
-.nav span{
-display:block;
-font-size:21px;
-margin-bottom:3px;
-}
-.nav.active{color:#7c3aed;font-weight:bold}
 
+.projectCard h3{
+  font-size:14px;
+  margin-bottom:5px;
+}
+
+.projectCard p{
+  font-size:11px;
+  color:#827b94;
+  min-height:31px;
+  line-height:1.4;
+}
+
+.reward{
+  margin:9px 0;
+  font-size:13px;
+  font-weight:900;
+  color:#16a34a;
+}
+
+.openBtn{
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  background:#f1edff;
+  color:#6d28d9;
+  font-size:12px;
+  font-weight:800;
+}
+
+.infoRow{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:11px 0;
+  border-bottom:1px solid #f0edf6;
+  font-size:13px;
+}
+
+.infoRow:last-child{
+  border-bottom:0;
+}
+
+.infoRow span:first-child{
+  color:#817a91;
+}
+
+.infoRow strong{
+  text-align:right;
+  word-break:break-all;
+}
+
+.actionRow{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.actionRow>*{
+  flex:1;
+}
+
+/* BOTTOM NAV */
+.bottomNav{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:100;
+  background:rgba(255,255,255,.97);
+  border-top:1px solid #e9e5f0;
+  padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+  box-shadow:0 -10px 30px rgba(30,20,60,.06);
+}
+
+.bottomNavInner{
+  max-width:600px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+}
+
+.navBtn{
+  background:none;
+  color:#91899f;
+  padding:5px 2px;
+  font-size:10px;
+  font-weight:700;
+}
+
+.navIcon{
+  display:block;
+  font-size:19px;
+  margin-bottom:3px;
+}
+
+.navBtn.active{
+  color:#6d28d9;
+}
+
+/* MODAL */
 .modal{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.55);
-display:flex;
-align-items:center;
-justify-content:center;
-padding:15px;
-z-index:100;
+  position:fixed;
+  inset:0;
+  z-index:500;
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  background:rgba(18,12,31,.55);
+  padding:10px;
 }
+
+.modal.show{
+  display:flex;
+}
+
 .modalBox{
-background:#fff;
-width:100%;
-max-width:650px;
-max-height:90vh;
-overflow:auto;
-border-radius:22px;
-padding:20px;
+  width:100%;
+  max-width:620px;
+  max-height:90vh;
+  overflow:auto;
+  background:#fff;
+  border-radius:23px 23px 15px 15px;
+  padding:18px;
+  animation:up .18s ease;
 }
-.modalHead{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:15px;
+
+@keyframes up{
+  from{transform:translateY(30px);opacity:.5}
+  to{transform:translateY(0);opacity:1}
 }
-.close{
-border:0;
-background:#f3f4f6;
-width:35px;
-height:35px;
-border-radius:50%;
+
+.modalHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:15px;
 }
+
+.closeBtn{
+  width:35px;
+  height:35px;
+  border-radius:10px;
+  background:#f2eff8;
+  color:#514a61;
+}
+
+/* TOAST */
+#toast{
+  position:fixed;
+  left:50%;
+  bottom:92px;
+  transform:translateX(-50%) translateY(20px);
+  z-index:10000;
+  background:#171329;
+  color:white;
+  padding:11px 15px;
+  border-radius:12px;
+  font-size:12px;
+  max-width:90%;
+  text-align:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+}
+
+#toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* ADMIN */
 .adminTabs{
-display:flex;
-gap:6px;
-overflow:auto;
-margin-bottom:15px;
+  display:flex;
+  overflow:auto;
+  gap:7px;
+  padding-bottom:10px;
 }
-.adminTabs button{
-white-space:nowrap;
-border:0;
-padding:10px 13px;
-border-radius:10px;
-background:#f3f0ff;
-color:#6d28d9;
-font-weight:bold;
-}
-.adminTabs button.active{
-background:#7c3aed;
-color:#fff;
-}
-.adminSection{display:none}
-.adminSection.active{display:block}
 
-.adminItem{
-background:#fafafa;
-border:1px solid #eee;
-border-radius:15px;
-padding:13px;
-margin-bottom:10px;
+.adminTab{
+  flex:none;
+  padding:10px 13px;
+  border-radius:10px;
+  background:#f1edff;
+  color:#6d28d9;
+  font-weight:800;
+  font-size:11px;
 }
-.adminItem strong{display:block;margin-bottom:5px}
-.small{
-font-size:12px;
-color:#777;
-line-height:1.5;
-}
-.row{
-display:flex;
-gap:8px;
-align-items:center;
-flex-wrap:wrap;
-}
-.row>*{flex:1}
-.action{
-border:0;
-padding:9px 11px;
-border-radius:9px;
-font-weight:bold;
-}
-.green{background:#dcfce7;color:#166534}
-.red{background:#fee2e2;color:#991b1b}
-.purple{background:#ede9fe;color:#6d28d9}
-.dark{background:#17142b;color:#fff}
-.yellow{background:#fef3c7;color:#92400e}
 
-.stats{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
+.adminTab.active{
+  background:#6d28d9;
+  color:#fff;
 }
-.stat{
-background:#faf5ff;
-padding:15px;
-border-radius:15px;
+
+.statsGrid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
 }
-.stat b{
-display:block;
-font-size:23px;
-color:#6d28d9;
+
+.statCard{
+  background:#fff;
+  border:1px solid #ece8f5;
+  border-radius:16px;
+  padding:15px;
 }
+
+.statCard span{
+  color:#817a91;
+  font-size:11px;
+}
+
+.statCard strong{
+  display:block;
+  font-size:23px;
+  margin-top:5px;
+}
+
+.listItem{
+  background:#fff;
+  border:1px solid #ece8f5;
+  border-radius:15px;
+  padding:13px;
+  margin-bottom:9px;
+}
+
+.listTop{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.listItem h3{
+  font-size:13px;
+}
+
+.listItem p{
+  font-size:11px;
+  color:#827b94;
+  margin-top:5px;
+  line-height:1.5;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:20px;
+  background:#ede9fe;
+  color:#6d28d9;
+  font-size:10px;
+  font-weight:800;
+}
+
+.badge.green{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.badge.red{
+  background:#fee2e2;
+  color:#b91c1c;
+}
+
+.adminActions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:10px;
+}
+
+.adminActions button{
+  padding:8px 10px;
+  border-radius:9px;
+  font-size:10px;
+  font-weight:800;
+}
+
+.editBtn{
+  background:#ede9fe;
+  color:#6d28d9;
+}
+
+.approveBtn{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.rejectBtn{
+  background:#fee2e2;
+  color:#b91c1c;
+}
+
+.darkBtn{
+  background:#171329;
+  color:white;
+}
+
+.searchBox{
+  margin-bottom:12px;
+}
+
+.searchBox input{
+  width:100%;
+  padding:12px;
+  border:1px solid #e4dfef;
+  border-radius:12px;
+  outline:none;
+}
+
 .empty{
-text-align:center;
-padding:20px;
-color:#888;
-}
-.toast{
-position:fixed;
-left:50%;
-bottom:85px;
-transform:translateX(-50%);
-background:#17142b;
-color:#fff;
-padding:12px 18px;
-border-radius:12px;
-z-index:500;
-font-size:13px;
-box-shadow:0 8px 25px rgba(0,0,0,.2);
+  padding:25px;
+  text-align:center;
+  color:#8b8499;
+  font-size:13px;
 }
 
-@media(max-width:500px){
-.quickGrid{grid-template-columns:repeat(2,1fr)}
-.projectGrid{grid-template-columns:1fr 1fr}
+/* DESKTOP */
+@media(min-width:700px){
+  .projectGrid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .statsGrid{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .modal{
+    align-items:center;
+  }
+
+  .modalBox{
+    border-radius:22px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div id="loading">
-<div class="loaderBox">
-<div class="loader"></div>
-<b>VIEW ERAN BD</b>
-<div style="font-size:12px;margin-top:5px">Loading...</div>
-</div>
+<!-- LOADING -->
+<div id="loadingScreen">
+  <div class="loadingBox">
+    <div class="loadingLogo">VE</div>
+    <h2>VIEW ERAN BD</h2>
+    <p>Loading...</p>
+    <div class="spinner"></div>
+  </div>
 </div>
 
 <!-- AUTH -->
-<div id="auth" class="auth hide">
-<div class="authBox">
+<section id="authScreen" class="hidden">
+  <div class="authWrap">
 
-<div class="logo">VIEW ERAN BD</div>
-<div class="sub">আপনার অ্যাকাউন্টে প্রবেশ করুন</div>
+    <div class="authBrand">
+      <div class="authLogo">VE</div>
+      <h1>VIEW ERAN BD</h1>
+      <p>Work • Earn • Grow</p>
+    </div>
 
-<div class="tabs">
-<button id="loginTab" class="active" onclick="showAuth('login')">Login</button>
-<button id="signupTab" onclick="showAuth('signup')">Sign Up</button>
-</div>
+    <div class="authCard">
 
-<div id="loginForm">
+      <div class="authTabs">
+        <button id="loginTab" class="authTab active" onclick="showAuthTab('login')">
+          Login
+        </button>
+        <button id="signupTab" class="authTab" onclick="showAuthTab('signup')">
+          Sign Up
+        </button>
+      </div>
 
-<div class="field">
-<label>Email</label>
-<input id="loginEmail" type="email" placeholder="আপনার Email">
-</div>
+      <!-- LOGIN -->
+      <div id="loginForm">
 
-<div class="field">
-<label>Password</label>
-<input id="loginPass" type="password" placeholder="আপনার Password">
-</div>
+        <div class="formGroup">
+          <label>Email</label>
+          <input id="loginEmail" type="email" placeholder="Enter your email">
+        </div>
 
-<label class="remember">
-<input id="remember" type="checkbox">
-এই ফোনে Login মনে রাখুন
-</label>
+        <div class="formGroup">
+          <label>Password</label>
+          <input id="loginPass" type="password" placeholder="Enter password">
+        </div>
 
-<button class="mainBtn" onclick="login()">Login</button>
+        <div class="rememberRow">
+          <label>
+            <input id="rememberLogin" type="checkbox">
+            Remember login
+          </label>
 
-<div style="text-align:center">
-<button class="linkBtn" onclick="forgot()">Forgot Password?</button>
-</div>
+          <button class="linkBtn" onclick="forgot()">
+            Forgot password?
+          </button>
+        </div>
 
-</div>
+        <button id="loginBtn" class="primaryBtn" onclick="login()">
+          Login
+        </button>
 
-<div id="signupForm" class="hide">
+        <p class="smallText" style="margin-top:12px;text-align:center">
+          নিরাপত্তার জন্য অতিরিক্ত ভুল request সাময়িকভাবে বন্ধ হতে পারে।
+        </p>
+      </div>
 
-<div class="field">
-<label>Full Name</label>
-<input id="signupName" placeholder="আপনার নাম">
-</div>
+      <!-- SIGNUP -->
+      <div id="signupForm" class="hidden">
 
-<div class="field">
-<label>Email</label>
-<input id="signupEmail" type="email" placeholder="আপনার Email">
-</div>
+        <div class="formGroup">
+          <label>Full Name</label>
+          <input id="signupName" type="text" placeholder="Your full name">
+        </div>
 
-<div class="field">
-<label>Referral ID</label>
-<input id="signupRef" placeholder="Referral ID থাকলে দিন">
-</div>
+        <div class="formGroup">
+          <label>Email</label>
+          <input id="signupEmail" type="email" placeholder="Your email">
+        </div>
 
-<div class="field">
-<label>Password</label>
-<input id="signupPass" type="password" placeholder="কমপক্ষে 6 অক্ষর">
-</div>
+        <div class="formGroup">
+          <label>Referral ID (Optional)</label>
+          <input id="signupRef" type="text" placeholder="Referral ID">
+        </div>
 
-<div class="field">
-<label>Confirm Password</label>
-<input id="signupPass2" type="password" placeholder="Password আবার দিন">
-</div>
+        <div class="formGroup">
+          <label>Password</label>
+          <input id="signupPass" type="password" placeholder="Minimum 6 characters">
+        </div>
 
-<button class="mainBtn" onclick="signup()">Create Account</button>
+        <div class="formGroup">
+          <label>Confirm Password</label>
+          <input id="signupPass2" type="password" placeholder="Confirm password">
+        </div>
 
-</div>
+        <button id="signupBtn" class="primaryBtn" onclick="signup()">
+          Create Account
+        </button>
+      </div>
 
-</div>
-</div>
+    </div>
+  </div>
+</section>
 
 <!-- APP -->
-<div id="app" class="hide">
+<section id="appScreen" class="hidden">
 
-<div class="topbar">
-<div class="brand">VIEW ERAN BD</div>
-<button id="ab" class="adminBtn hide" onclick="openAdmin()">⚙️</button>
-</div>
+  <header class="topbar">
+    <div class="topbarInner">
 
-<div id="content"></div>
+      <div class="brand">
+        <div class="brandIcon">VE</div>
+        <div class="brandText">
+          <b>VIEW ERAN BD</b>
+          <span>Work • Earn • Grow</span>
+        </div>
+      </div>
 
-<div class="bottom">
-<button class="nav active" id="navHome" onclick="page('home')">
-<span>🏠</span>Home
-</button>
-<button class="nav" id="navWallet" onclick="page('wallet')">
-<span>💰</span>Wallet
-</button>
-<button class="nav" id="navTeam" onclick="page('team')">
-<span>👥</span>Team
-</button>
-<button class="nav" id="navProfile" onclick="page('profile')">
-<span>👤</span>Profile
-</button>
-<button class="nav" id="navHelp" onclick="page('help')">
-<span>❓</span>Help
-</button>
-</div>
+      <button id="adminTopBtn" class="adminTopBtn" onclick="openAdmin()">
+        ⚙ Admin
+      </button>
 
-</div>
+    </div>
+  </header>
+
+  <main id="mainContent"></main>
+
+  <nav class="bottomNav">
+    <div class="bottomNavInner">
+
+      <button id="navHome" class="navBtn active" onclick="goPage('home')">
+        <span class="navIcon">⌂</span>
+        Home
+      </button>
+
+      <button id="navWallet" class="navBtn" onclick="goPage('wallet')">
+        <span class="navIcon">৳</span>
+        Wallet
+      </button>
+
+      <button id="navTeam" class="navBtn" onclick="goPage('team')">
+        <span class="navIcon">👥</span>
+        Team
+      </button>
+
+      <button id="navProfile" class="navBtn" onclick="goPage('profile')">
+        <span class="navIcon">◉</span>
+        Profile
+      </button>
+
+      <button id="navHelp" class="navBtn" onclick="goPage('help')">
+        <span class="navIcon">?</span>
+        Help
+      </button>
+
+    </div>
+  </nav>
+</section>
 
 <!-- MODAL -->
-<div id="modal" class="modal hide">
-<div class="modalBox">
-<div class="modalHead">
-<h3 id="modalTitle" style="margin:0">Details</h3>
-<button class="close" onclick="closeModal()">✕</button>
-</div>
-<div id="modalBody"></div>
-</div>
+<div id="modal" class="modal" onclick="modalOutside(event)">
+  <div id="modalBox" class="modalBox"></div>
 </div>
 
-<div id="toast" class="toast hide"></div>
+<div id="toast"></div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
 
 <script>
-/* =========================
-   FIREBASE
-========================= */
+/* =========================================================
+   FIREBASE CONFIG
+========================================================= */
 
-const firebaseConfig={
-apiKey:"AIzaSyDx9qbofQzsAQIdBFLAJDh9n6-3M6wt5o4",
-authDomain:"tax-income-site-e99e5.firebaseapp.com",
-projectId:"tax-income-site-e99e5",
-storageBucket:"tax-income-site-e99e5.firebasestorage.app",
-messagingSenderId:"586704543568",
-appId:"1:586704543568:web:cdfd13a37aff9a2d981655",
-measurementId:"G-3NDQ16YH3T"
+const firebaseConfig = {
+  apiKey:"AIzaSyDx9qbofQzsAQIdBFLAJDh9n6-3M6wt5o4",
+  authDomain:"tax-income-site-e99e5.firebaseapp.com",
+  projectId:"tax-income-site-e99e5",
+  storageBucket:"tax-income-site-e99e5.firebasestorage.app",
+  messagingSenderId:"586704543568",
+  appId:"1:586704543568:web:cdfd13a37aff9a2d981655",
+  measurementId:"G-3NDQ16YH3T"
 };
 
 firebase.initializeApp(firebaseConfig);
 
-const auth=firebase.auth();
-const db=firebase.firestore();
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-/* =========================
+/* =========================================================
    ADMIN UID
-========================= */
+========================================================= */
 
-const ADM=[
-"gN4gcBaazIPFhfp9RVek3ktfvM93",
-"ivCEiPVeeZZCsPBUtRr7OFR4j042"
+const ADMIN_UIDS = [
+  "gN4gcBaazIPFhfp9RVek3ktfvM93",
+  "ivCEiPVeeZZCsPBUtRr7OFR4j042"
 ];
 
-/* =========================
+/* =========================================================
    DEFAULT CONFIG
-========================= */
+========================================================= */
 
-const DEFAULT_CFG={
-activationFee:30,
-activationBonus:20,
-withdrawalFee:30,
-bkash:"",
-nagad:"",
-telegram:"",
-support1:"",
-support2:"",
-notice:"সকল কাজের আপডেট ও বোনাসের তথ্য এখানে দেওয়া হবে।"
+const DEFAULT_CONFIG = {
+  activationFee:30,
+  activationBonus:20,
+  withdrawalFee:30,
+  bkash:"",
+  nagad:"",
+  telegram:"",
+  support1:"",
+  support2:"",
+  notice:"VIEW ERAN BD-তে স্বাগতম। কাজ করার আগে প্রতিটি কাজের নির্দেশনা ভালোভাবে পড়ুন।"
 };
 
-/* =========================
+/* =========================================================
    DEFAULT PROJECTS
-========================= */
+========================================================= */
 
-const DEFAULT_PROJECTS=[
-{
-id:"facebook",
-title:"Facebook Sell",
-subtitle:"Facebook related কাজ",
-logo:"📘",
-link:"",
-amount:0,
-active:true
-},
-{
-id:"gmail",
-title:"Gmail Sell",
-subtitle:"Gmail related কাজ",
-logo:"📧",
-link:"",
-amount:0,
-active:true
-},
-{
-id:"instagram",
-title:"Instagram Sell",
-subtitle:"Instagram related কাজ",
-logo:"📸",
-link:"",
-amount:0,
-active:true
-},
-{
-id:"jobpost",
-title:"Job Post",
-subtitle:"নির্ধারিত Job Post সম্পন্ন করুন",
-logo:"💼",
-link:"",
-amount:0,
-active:true
-},
-{
-id:"leadership",
-title:"Leadership",
-subtitle:"Leadership related task",
-logo:"👑",
-link:"",
-amount:0,
-active:true
-},
-{
-id:"target",
-title:"Target Bonus",
-subtitle:"Target পূরণ করে bonus পান",
-logo:"🎯",
-link:"",
-amount:0,
-active:true
-},
-{
-id:"refer",
-title:"Refer",
-subtitle:"বন্ধু Refer করুন",
-logo:"👥",
-link:"",
-amount:0,
-active:true
-},
-{
-id:"gift",
-title:"Gift Code",
-subtitle:"Gift Code task",
-logo:"🎁",
-link:"",
-amount:0,
-active:true
-},
-{
-id:"math",
-title:"অংক করুন",
-subtitle:"সহজ অংক সম্পন্ন করুন",
-logo:"🧮",
-link:"",
-amount:0,
-active:true
-},
-{
-id:"micro",
-title:"Micro Job",
-subtitle:"ছোট ছোট কাজ সম্পন্ন করুন",
-logo:"⚡",
-link:"",
-amount:0,
-active:true
-},
-{
-id:"typing",
-title:"Typing Job",
-subtitle:"Typing related কাজ",
-logo:"⌨️",
-link:"",
-amount:0,
-active:true
-},
-{
-id:"ads",
-title:"Ads View",
-subtitle:"নির্ধারিত Ads দেখুন",
-logo:"▶️",
-link:"",
-amount:0,
-active:true
-}
+const DEFAULT_PROJECTS = [
+
+  {
+    id:"facebook-sell",
+    title:"Facebook Sell",
+    subtitle:"Facebook related task",
+    logo:"f",
+    link:"",
+    amount:0,
+    active:true
+  },
+
+  {
+    id:"gmail-sell",
+    title:"Gmail Sell",
+    subtitle:"Gmail related task",
+    logo:"G",
+    link:"",
+    amount:0,
+    active:true
+  },
+
+  {
+    id:"instagram-sell",
+    title:"Instagram Sell",
+    subtitle:"Instagram related task",
+    logo:"◎",
+    link:"",
+    amount:0,
+    active:true
+  },
+
+  {
+    id:"job-post",
+    title:"Job Post",
+    subtitle:"Complete assigned job",
+    logo:"J",
+    link:"",
+    amount:0,
+    active:true
+  },
+
+  {
+    id:"leadership",
+    title:"Leadership",
+    subtitle:"Leadership task",
+    logo:"L",
+    link:"",
+    amount:0,
+    active:true
+  },
+
+  {
+    id:"target-bonus",
+    title:"Target Bonus",
+    subtitle:"Complete target",
+    logo:"★",
+    link:"",
+    amount:0,
+    active:true
+  },
+
+  {
+    id:"refer",
+    title:"Refer",
+    subtitle:"Invite new users",
+    logo:"R",
+    link:"",
+    amount:0,
+    active:true
+  },
+
+  {
+    id:"gift-code",
+    title:"Gift Code",
+    subtitle:"Gift code task",
+    logo:"🎁",
+    link:"",
+    amount:0,
+    active:true
+  },
+
+  {
+    id:"math",
+    title:"অংক করুন",
+    subtitle:"Complete the task",
+    logo:"∑",
+    link:"",
+    amount:0,
+    active:true
+  },
+
+  {
+    id:"micro-job",
+    title:"Micro Job",
+    subtitle:"Complete micro job",
+    logo:"M",
+    link:"",
+    amount:0,
+    active:true
+  },
+
+  {
+    id:"typing-job",
+    title:"Typing Job",
+    subtitle:"Complete typing task",
+    logo:"T",
+    link:"",
+    amount:0,
+    active:true
+  },
+
+  {
+    id:"ads-view",
+    title:"Ads View",
+    subtitle:"View assigned ads",
+    logo:"▶",
+    link:"",
+    amount:0,
+    active:true
+  }
+
 ];
 
-let cfg={...DEFAULT_CFG};
-let projects=[...DEFAULT_PROJECTS];
+/* =========================================================
+   GLOBAL STATE
+========================================================= */
 
-let me=null;
-let userData=null;
-let currentPage="home";
+let currentUser = null;
+let currentUserData = null;
+let appConfig = {...DEFAULT_CONFIG};
+let projects = [];
+let currentPage = "home";
+let adminPage = "dashboard";
+let allUsers = [];
+let activationRequests = [];
+let withdrawalRequests = [];
+let authBusy = false;
 
-/* =========================
+/* =========================================================
    HELPERS
-========================= */
+========================================================= */
 
-const $=id=>document.getElementById(id);
-
-function money(n){
-return "৳"+Number(n||0).toFixed(2);
+function $(id){
+  return document.getElementById(id);
 }
 
-function esc(v){
-return String(v??"")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;");
+function escapeHtml(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
-function toast(msg){
-$("toast").textContent=msg;
-$("toast").classList.remove("hide");
-setTimeout(()=>$("toast").classList.add("hide"),2500);
-}
-
-function openModal(title,body){
-$("modalTitle").textContent=title;
-$("modalBody").innerHTML=body;
-$("modal").classList.remove("hide");
-}
-
-function closeModal(){
-$("modal").classList.add("hide");
+function money(value){
+  const n = Number(value || 0);
+  return "৳" + n.toFixed(2);
 }
 
 function isAdmin(){
-return !!me && ADM.includes(me.uid);
+  return currentUser && ADMIN_UIDS.includes(currentUser.uid);
 }
 
-function dateText(v){
+function toast(message){
+  const el = $("toast");
+
+  el.textContent = message;
+  el.classList.add("show");
+
+  clearTimeout(window.__toastTimer);
+
+  window.__toastTimer = setTimeout(()=>{
+    el.classList.remove("show");
+  },3000);
+}
+
+function showModal(html){
+  $("modalBox").innerHTML = html;
+  $("modal").classList.add("show");
+}
+
+function closeModal(){
+  $("modal").classList.remove("show");
+}
+
+function modalOutside(e){
+  if(e.target.id==="modal"){
+    closeModal();
+  }
+}
+
+function safeUrl(url){
+  if(!url) return "";
+  try{
+    const u = new URL(url);
+    if(u.protocol==="http:" || u.protocol==="https:"){
+      return u.href;
+    }
+  }catch(e){}
+  return "";
+}
+
+/* =========================================================
+   AUTH REQUEST PROTECTION
+========================================================= */
+
+const AUTH_GUARD_KEY = "view_eran_auth_guard_v2";
+
+let authGuard = {
+  loginFails:0,
+  signupFails:0,
+  loginLockedUntil:0,
+  signupLockedUntil:0
+};
+
 try{
-if(!v)return "";
-if(v.toDate)return v.toDate().toLocaleString("bn-BD");
-return new Date(v).toLocaleString("bn-BD");
-}catch(e){return ""}
+  const saved = localStorage.getItem(AUTH_GUARD_KEY);
+
+  if(saved){
+    authGuard = {
+      ...authGuard,
+      ...JSON.parse(saved)
+    };
+  }
+}catch(e){}
+
+function saveAuthGuard(){
+  try{
+    localStorage.setItem(
+      AUTH_GUARD_KEY,
+      JSON.stringify(authGuard)
+    );
+  }catch(e){}
 }
 
-/* =========================
-   AUTH UI
-========================= */
+function authLocked(type){
 
-function showAuth(type){
-if(type==="login"){
-$("loginForm").classList.remove("hide");
-$("signupForm").classList.add("hide");
-$("loginTab").classList.add("active");
-$("signupTab").classList.remove("active");
-}else{
-$("loginForm").classList.add("hide");
-$("signupForm").classList.remove("hide");
-$("loginTab").classList.remove("active");
-$("signupTab").classList.add("active");
-}
-}
+  const key =
+    type==="signup"
+      ? "signupLockedUntil"
+      : "loginLockedUntil";
 
-async function signup(){
+  const until = Number(authGuard[key] || 0);
 
-const name=$("signupName").value.trim();
-const email=$("signupEmail").value.trim();
-const ref=$("signupRef").value.trim();
-const pass=$("signupPass").value;
-const pass2=$("signupPass2").value;
+  if(Date.now() < until){
 
-if(!name||!email||!pass){
-toast("সব তথ্য পূরণ করুন");
-return;
+    const seconds =
+      Math.ceil((until-Date.now())/1000);
+
+    toast(
+      "নিরাপত্তার কারণে সাময়িকভাবে বন্ধ আছে। "+
+      seconds+" সেকেন্ড পরে আবার চেষ্টা করুন।"
+    );
+
+    return true;
+  }
+
+  return false;
 }
 
-if(pass.length<6){
-toast("Password কমপক্ষে 6 অক্ষরের হতে হবে");
-return;
+function lockAuth(type,seconds){
+
+  const key =
+    type==="signup"
+      ? "signupLockedUntil"
+      : "loginLockedUntil";
+
+  authGuard[key] = Date.now() + seconds*1000;
+
+  saveAuthGuard();
+
+  toast(
+    "অনেকবার ভুল চেষ্টা হয়েছে। "+
+    seconds+" সেকেন্ড অপেক্ষা করুন।"
+  );
 }
 
-if(pass!==pass2){
-toast("Password মিলছে না");
-return;
+function registerAuthFail(type){
+
+  if(type==="login"){
+    authGuard.loginFails++;
+
+    if(authGuard.loginFails>=7){
+      lockAuth("login",300);
+    }
+    else if(authGuard.loginFails>=5){
+      lockAuth("login",120);
+    }
+    else if(authGuard.loginFails>=3){
+      lockAuth("login",30);
+    }
+  }
+
+  if(type==="signup"){
+    authGuard.signupFails++;
+
+    if(authGuard.signupFails>=7){
+      lockAuth("signup",300);
+    }
+    else if(authGuard.signupFails>=5){
+      lockAuth("signup",120);
+    }
+    else if(authGuard.signupFails>=3){
+      lockAuth("signup",30);
+    }
+  }
+
+  saveAuthGuard();
 }
 
-try{
+function resetAuthFail(type){
 
-const cred=await auth.createUserWithEmailAndPassword(email,pass);
+  if(type==="login"){
+    authGuard.loginFails=0;
+    authGuard.loginLockedUntil=0;
+  }
 
-const uid=cred.user.uid;
+  if(type==="signup"){
+    authGuard.signupFails=0;
+    authGuard.signupLockedUntil=0;
+  }
 
-await db.collection("users").doc(uid).set({
-uid,
-name,
-email,
-referredBy:ref,
-balance:0,
-totalEarn:0,
-todayEarn:0,
-active:false,
-referralCode:uid.substring(0,8),
-createdAt:firebase.firestore.FieldValue.serverTimestamp()
-});
-
-toast("Account তৈরি হয়েছে");
-
-}catch(e){
-toast(e.message);
+  saveAuthGuard();
 }
 
+function authErrorMessage(e){
+
+  if(e.code==="auth/too-many-requests"){
+    return "Firebase নিরাপত্তার কারণে অনেক request বন্ধ করেছে। কিছুক্ষণ পরে আবার চেষ্টা করুন।";
+  }
+
+  if(e.code==="auth/email-already-in-use"){
+    return "এই Email দিয়ে আগে থেকেই Account আছে। Login করুন।";
+  }
+
+  if(e.code==="auth/invalid-email"){
+    return "সঠিক Email দিন।";
+  }
+
+  if(e.code==="auth/weak-password"){
+    return "Password কমপক্ষে ৬ অক্ষরের হতে হবে।";
+  }
+
+  if(
+    e.code==="auth/invalid-credential" ||
+    e.code==="auth/wrong-password" ||
+    e.code==="auth/user-not-found"
+  ){
+    return "Email অথবা Password সঠিক নয়।";
+  }
+
+  if(e.code==="auth/user-disabled"){
+    return "এই Account বন্ধ করা হয়েছে।";
+  }
+
+  if(e.code==="auth/network-request-failed"){
+    return "Internet connection সমস্যা হয়েছে।";
+  }
+
+  return e.message || "একটি সমস্যা হয়েছে।";
 }
+
+/* =========================================================
+   AUTH TAB
+========================================================= */
+
+function showAuthTab(tab){
+
+  $("loginForm").classList.toggle("hidden",tab!=="login");
+  $("signupForm").classList.toggle("hidden",tab!=="signup");
+
+  $("loginTab").classList.toggle("active",tab==="login");
+  $("signupTab").classList.toggle("active",tab==="signup");
+}
+
+/* =========================================================
+   LOGIN
+========================================================= */
 
 async function login(){
 
-const email=$("loginEmail").value.trim();
-const pass=$("loginPass").value;
+  if(authBusy) return;
 
-if(!email||!pass){
-toast("Email এবং Password দিন");
-return;
+  if(authLocked("login")) return;
+
+  const email = $("loginEmail").value.trim();
+  const pass = $("loginPass").value;
+
+  if(!email || !pass){
+    toast("Email এবং Password দিন");
+    return;
+  }
+
+  authBusy=true;
+
+  const btn=$("loginBtn");
+
+  btn.disabled=true;
+  btn.textContent="Logging in...";
+
+  try{
+
+    await auth.signInWithEmailAndPassword(
+      email,
+      pass
+    );
+
+    resetAuthFail("login");
+
+    toast("Login সফল হয়েছে");
+
+  }catch(e){
+
+    if(
+      e.code==="auth/invalid-credential" ||
+      e.code==="auth/wrong-password" ||
+      e.code==="auth/user-not-found"
+    ){
+      registerAuthFail("login");
+    }
+
+    toast(authErrorMessage(e));
+
+  }finally{
+
+    authBusy=false;
+
+    btn.disabled=false;
+    btn.textContent="Login";
+  }
 }
 
-try{
-await auth.signInWithEmailAndPassword(email,pass);
-}catch(e){
-toast(e.message);
+/* =========================================================
+   SIGNUP
+========================================================= */
+
+async function signup(){
+
+  if(authBusy) return;
+
+  if(authLocked("signup")) return;
+
+  const name = $("signupName").value.trim();
+  const email = $("signupEmail").value.trim();
+  const ref = $("signupRef").value.trim();
+  const pass = $("signupPass").value;
+  const pass2 = $("signupPass2").value;
+
+  if(!name || !email || !pass){
+    toast("সব তথ্য পূরণ করুন");
+    return;
+  }
+
+  if(pass.length<6){
+    toast("Password কমপক্ষে ৬ অক্ষরের হতে হবে");
+    return;
+  }
+
+  if(pass!==pass2){
+    toast("Password মিলছে না");
+    return;
+  }
+
+  authBusy=true;
+
+  const btn=$("signupBtn");
+
+  btn.disabled=true;
+  btn.textContent="Creating...";
+
+  try{
+
+    const cred =
+      await auth.createUserWithEmailAndPassword(
+        email,
+        pass
+      );
+
+    const uid=cred.user.uid;
+
+    await db.collection("users")
+      .doc(uid)
+      .set({
+
+        uid:uid,
+        name:name,
+        email:email,
+        referredBy:ref,
+        balance:0,
+        totalEarn:0,
+        todayEarn:0,
+        active:false,
+        referralCode:uid.substring(0,8),
+        createdAt:
+          firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+    resetAuthFail("signup");
+
+    toast("Account তৈরি হয়েছে");
+
+  }catch(e){
+
+    if(e.code==="auth/too-many-requests"){
+      registerAuthFail("signup");
+    }
+
+    toast(authErrorMessage(e));
+
+  }finally{
+
+    authBusy=false;
+
+    btn.disabled=false;
+    btn.textContent="Create Account";
+  }
 }
 
-}
+/* =========================================================
+   FORGOT PASSWORD
+========================================================= */
 
 async function forgot(){
 
-const email=$("loginEmail").value.trim();
+  if(authBusy) return;
 
-if(!email){
-toast("আগে Email লিখুন");
-return;
+  if(authLocked("login")) return;
+
+  const email=$("loginEmail").value.trim();
+
+  if(!email){
+    toast("আগে Email লিখুন");
+    return;
+  }
+
+  try{
+
+    await auth.sendPasswordResetEmail(email);
+
+    resetAuthFail("login");
+
+    toast("Password reset link Email-এ পাঠানো হয়েছে");
+
+  }catch(e){
+
+    if(e.code==="auth/too-many-requests"){
+      registerAuthFail("login");
+    }
+
+    toast(authErrorMessage(e));
+  }
 }
 
-try{
-await auth.sendPasswordResetEmail(email);
-toast("Password reset link Email-এ পাঠানো হয়েছে");
-}catch(e){
-toast(e.message);
-}
-
-}
-
-/* =========================
+/* =========================================================
    AUTH STATE
-========================= */
+========================================================= */
 
 auth.onAuthStateChanged(async user=>{
 
-if(!user){
+  currentUser=user;
 
-me=null;
-userData=null;
+  if(!user){
 
-$("loading").classList.add("hide");
-$("app").classList.add("hide");
-$("auth").classList.remove("hide");
+    $("loadingScreen").classList.add("hidden");
+    $("appScreen").classList.add("hidden");
+    $("authScreen").classList.remove("hidden");
 
-return;
-}
+    return;
+  }
 
-try{
+  $("authScreen").classList.add("hidden");
+  $("appScreen").classList.remove("hidden");
 
-me=user;
+  if(isAdmin()){
+    $("adminTopBtn").style.display="block";
+  }else{
+    $("adminTopBtn").style.display="none";
+  }
 
-const configSnap=await db.collection("appData").doc("config").get();
+  try{
+    await loadUser();
+  }catch(e){
+    console.error(e);
+  }
 
-if(configSnap.exists){
-cfg={...DEFAULT_CFG,...configSnap.data()};
-}else{
-cfg={...DEFAULT_CFG};
-}
+  try{
+    await loadConfig();
+  }catch(e){
+    console.error(e);
+  }
 
-const projectSnap=await db.collection("appData").doc("projects").get();
+  try{
+    await loadProjects();
+  }catch(e){
+    console.error(e);
+  }
 
-if(projectSnap.exists && Array.isArray(projectSnap.data().items)){
-projects=projectSnap.data().items;
-}else{
-projects=[...DEFAULT_PROJECTS];
-}
+  $("loadingScreen").classList.add("hidden");
 
-const userSnap=await db.collection("users").doc(user.uid).get();
-
-if(userSnap.exists){
-userData=userSnap.data();
-}else{
-
-userData={
-uid:user.uid,
-name:user.displayName||"User",
-email:user.email||"",
-referredBy:"",
-balance:0,
-totalEarn:0,
-todayEarn:0,
-active:false,
-referralCode:user.uid.substring(0,8),
-createdAt:firebase.firestore.FieldValue.serverTimestamp()
-};
-
-await db.collection("users").doc(user.uid).set(userData);
-}
-
-$("loading").classList.add("hide");
-$("auth").classList.add("hide");
-$("app").classList.remove("hide");
-
-$("ab").classList.toggle("hide",!isAdmin());
-
-page("home");
-
-}catch(e){
-
-$("loading").classList.add("hide");
-toast(e.message);
-
-}
-
+  goPage("home");
 });
 
-/* =========================
-   PAGE
-========================= */
+/* =========================================================
+   LOAD USER
+========================================================= */
 
-function page(p){
+async function loadUser(){
 
-currentPage=p;
+  if(!currentUser) return;
 
-document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));
+  const ref=db.collection("users").doc(currentUser.uid);
 
-const map={
-home:"navHome",
-wallet:"navWallet",
-team:"navTeam",
-profile:"navProfile",
-help:"navHelp"
-};
+  const snap=await ref.get();
 
-if($(map[p]))$(map[p]).classList.add("active");
+  if(snap.exists){
 
-if(p==="home")renderHome();
-if(p==="wallet")renderWallet();
-if(p==="team")renderTeam();
-if(p==="profile")renderProfile();
-if(p==="help")renderHelp();
+    currentUserData=snap.data();
 
+  }else{
+
+    currentUserData={
+      uid:currentUser.uid,
+      name:currentUser.displayName || "User",
+      email:currentUser.email || "",
+      referredBy:"",
+      balance:0,
+      totalEarn:0,
+      todayEarn:0,
+      active:false,
+      referralCode:currentUser.uid.substring(0,8)
+    };
+
+    await ref.set({
+      ...currentUserData,
+      createdAt:
+        firebase.firestore.FieldValue.serverTimestamp()
+    });
+  }
 }
 
-/* =========================
+/* =========================================================
+   LOAD CONFIG
+========================================================= */
+
+async function loadConfig(){
+
+  try{
+
+    const snap=
+      await db.collection("appData")
+      .doc("config")
+      .get();
+
+    if(snap.exists){
+      appConfig={
+        ...DEFAULT_CONFIG,
+        ...snap.data()
+      };
+    }else{
+      appConfig={...DEFAULT_CONFIG};
+    }
+
+  }catch(e){
+
+    appConfig={...DEFAULT_CONFIG};
+    console.error(e);
+  }
+}
+
+/* =========================================================
+   LOAD PROJECTS
+========================================================= */
+
+async function loadProjects(){
+
+  try{
+
+    const snap=
+      await db.collection("appData")
+      .doc("projects")
+      .get();
+
+    if(snap.exists && Array.isArray(snap.data().items)){
+
+      projects=snap.data().items;
+
+    }else{
+
+      projects=[...DEFAULT_PROJECTS];
+    }
+
+  }catch(e){
+
+    projects=[...DEFAULT_PROJECTS];
+    console.error(e);
+  }
+}
+
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
+
+function goPage(page){
+
+  currentPage=page;
+
+  document.querySelectorAll(".navBtn")
+    .forEach(btn=>btn.classList.remove("active"));
+
+  const map={
+    home:"navHome",
+    wallet:"navWallet",
+    team:"navTeam",
+    profile:"navProfile",
+    help:"navHelp"
+  };
+
+  if($(map[page])){
+    $(map[page]).classList.add("active");
+  }
+
+  if(page==="home") renderHome();
+  if(page==="wallet") renderWallet();
+  if(page==="team") renderTeam();
+  if(page==="profile") renderProfile();
+  if(page==="help") renderHelp();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+/* =========================================================
    HOME
-========================= */
+========================================================= */
 
 function renderHome(){
 
-let activeProjects=projects.filter(x=>x.active!==false);
+  const balance=Number(currentUserData?.balance || 0);
+  const active=!!currentUserData?.active;
 
-let html=`
-<div class="page">
+  const activeProjects=projects.filter(p=>p.active!==false);
 
-<div class="hero">
-<small>Available Balance</small>
-<div class="balance">${money(userData.balance)}</div>
-<span class="status">
-${userData.active?"✓ ACCOUNT ACTIVE":"⚠ ACCOUNT INACTIVE"}
-</span>
-</div>
+  $("mainContent").innerHTML=`
 
-<div class="quickGrid">
-<button class="quick" onclick="page('wallet')">
-<b>💰</b>Wallet
-</button>
-<button class="quick" onclick="page('team')">
-<b>👥</b>Team
-</button>
-<button class="quick" onclick="page('profile')">
-<b>👤</b>Profile
-</button>
-<button class="quick" onclick="page('help')">
-<b>❓</b>Help
-</button>
-</div>
-`;
+    <div class="page">
 
-if(!userData.active){
+      <section class="hero">
 
-html+=`
-<div class="card">
-<h3>🔐 Account Activation</h3>
-<p>আপনার Account Active করতে নিচের বাটনে ক্লিক করুন।</p>
-<div class="small">
-Activation Fee: <b>${money(cfg.activationFee)}</b><br>
-Activation Bonus: <b>${money(cfg.activationBonus)}</b>
-</div>
-<br>
-<button class="mainBtn" onclick="activationModal()">Activate Account</button>
-</div>
-`;
+        <div class="heroSmall">Available Balance</div>
+
+        <div class="balance">${money(balance)}</div>
+
+        <span class="statusPill">
+          ${active ? "● ACTIVE ACCOUNT" : "● INACTIVE ACCOUNT"}
+        </span>
+
+        <div class="quickGrid">
+
+          <button class="quickBtn" onclick="goPage('wallet')">
+            💰 Wallet
+          </button>
+
+          <button class="quickBtn" onclick="goPage('team')">
+            👥 Team
+          </button>
+
+          <button class="quickBtn" onclick="goPage('profile')">
+            👤 Profile
+          </button>
+
+          <button class="quickBtn" onclick="goPage('help')">
+            ❓ Help
+          </button>
+
+        </div>
+
+      </section>
+
+      ${
+        isAdmin()
+        ? `
+          <section class="section">
+            <div class="card adminAccess">
+              <b>⚙ Admin Access</b>
+              <p style="font-size:12px;opacity:.75;margin:6px 0 12px">
+                আপনার Admin account থেকে users, requests, projects ও settings পরিচালনা করুন।
+              </p>
+              <button class="secondaryBtn" onclick="openAdmin()">
+                Open Admin Panel
+              </button>
+            </div>
+          </section>
+        `
+        :""
+      }
+
+      ${
+        !active
+        ? `
+          <section class="section">
+            <div class="card">
+              <b>Account Activation</b>
+              <p class="smallText" style="margin:6px 0 12px">
+                কাজ ও withdrawal ব্যবহারের জন্য আপনার account activate করুন।
+              </p>
+              <button class="primaryBtn" onclick="openActivation()">
+                Activate Account
+              </button>
+            </div>
+          </section>
+        `
+        :""
+      }
+
+      <section class="section">
+
+        <div class="sectionTitle">
+          <h2>Notice</h2>
+        </div>
+
+        <div class="card notice">
+          ${escapeHtml(appConfig.notice || "")}
+        </div>
+
+      </section>
+
+      ${
+        appConfig.telegram
+        ? `
+          <section class="section">
+            <div class="card">
+              <div class="sectionTitle">
+                <h2>Telegram</h2>
+                <span>Community</span>
+              </div>
+
+              <p class="smallText" style="margin-bottom:10px">
+                আমাদের Telegram community-তে যুক্ত হতে নিচের button ব্যবহার করুন।
+              </p>
+
+              <button class="primaryBtn"
+                onclick="openExternal('${escapeHtml(safeUrl(appConfig.telegram))}')">
+                Join Telegram
+              </button>
+            </div>
+          </section>
+        `
+        :""
+      }
+
+      <section class="section">
+
+        <div class="sectionTitle">
+          <h2>Available Tasks</h2>
+          <span>${activeProjects.length} Tasks</span>
+        </div>
+
+        <div class="projectGrid">
+
+          ${
+            activeProjects.length
+            ? activeProjects.map(projectCard).join("")
+            : `<div class="card empty" style="grid-column:1/-1">
+                এখন কোনো active task নেই।
+              </div>`
+          }
+
+        </div>
+
+      </section>
+
+    </div>
+  `;
 }
 
-html+=`
-<div class="card">
-<h3>📢 Notice</h3>
-<div class="notice">${esc(cfg.notice)}</div>
-</div>
-`;
+/* =========================================================
+   PROJECT CARD
+========================================================= */
 
-if(cfg.telegram){
+function projectCard(p){
 
-html+=`
-<div class="card">
-<h3>📲 Telegram</h3>
-<p>আমাদের Telegram Channel/Group-এ যুক্ত থাকুন।</p>
-<button class="mainBtn" onclick="openLink('${esc(cfg.telegram)}')">
-Join Telegram
-</button>
-</div>
-`;
+  const logo=p.logo || "✓";
+  const amount=Number(p.amount || 0);
+
+  const logoHtml =
+    String(logo).startsWith("http")
+    ? `<img src="${escapeHtml(logo)}" alt="">`
+    : escapeHtml(logo);
+
+  return `
+    <div class="projectCard">
+
+      <div class="projectLogo">
+        ${logoHtml}
+      </div>
+
+      <h3>${escapeHtml(p.title)}</h3>
+
+      <p>${escapeHtml(p.subtitle || "")}</p>
+
+      <div class="reward">
+        + ${money(amount)}
+      </div>
+
+      <button class="openBtn"
+        onclick="openProject('${escapeHtml(p.id)}')">
+        Open Task
+      </button>
+
+    </div>
+  `;
 }
 
-html+=`
-<div class="card">
-<h3>🚀 Available Tasks</h3>
-<p class="small">নিচের কাজগুলো Admin প্রয়োজন অনুযায়ী পরিবর্তন করতে পারবেন।</p>
-<div class="projectGrid">
-`;
+/* =========================================================
+   PROJECT MODAL
+========================================================= */
 
-activeProjects.forEach(p=>{
+function openProject(id){
 
-html+=`
-<div class="project">
-<div class="projectLogo">${esc(p.logo||"⭐")}</div>
-<h4>${esc(p.title)}</h4>
-<p>${esc(p.subtitle)}</p>
-${Number(p.amount)>0?`<p><b>Reward: ${money(p.amount)}</b></p>`:""}
-<button onclick="projectOpen('${esc(p.id)}')">Open Task</button>
-</div>
-`;
+  const p=projects.find(x=>x.id===id);
 
-});
+  if(!p) return;
 
-html+=`
-</div>
-</div>
-</div>
-`;
+  const title=String(p.title || "").toLowerCase();
 
-$("content").innerHTML=html;
+  const sensitive =
+    title.includes("facebook") ||
+    title.includes("gmail") ||
+    title.includes("instagram");
 
+  const url=safeUrl(p.link);
+
+  showModal(`
+
+    <div class="modalHeader">
+      <div>
+        <h2>${escapeHtml(p.title)}</h2>
+        <p class="smallText">${escapeHtml(p.subtitle || "")}</p>
+      </div>
+
+      <button class="closeBtn" onclick="closeModal()">×</button>
+    </div>
+
+    <div class="card" style="margin-bottom:12px">
+      <div class="infoRow">
+        <span>Reward</span>
+        <strong style="color:#16a34a">
+          ${money(p.amount)}
+        </strong>
+      </div>
+
+      <div class="infoRow">
+        <span>Status</span>
+        <strong>
+          ${p.active!==false ? "Active" : "Inactive"}
+        </strong>
+      </div>
+    </div>
+
+    ${
+      sensitive
+      ? `
+        <div class="card notice" style="margin-bottom:12px">
+          <b>Safety Notice</b><br>
+          কোনো কাজের জন্য Password, OTP, Login Credential বা ব্যক্তিগত secret information দেবেন না।
+        </div>
+      `
+      :""
+    }
+
+    ${
+      url
+      ? `
+        <button class="primaryBtn"
+          onclick="openExternal('${escapeHtml(url)}')">
+          Open Task Link
+        </button>
+      `
+      : `
+        <div class="card empty">
+          এই task-এর link এখনো Admin সেট করেননি।
+        </div>
+      `
+    }
+
+  `);
 }
 
-/* =========================
-   PROJECT
-========================= */
+/* =========================================================
+   EXTERNAL LINK
+========================================================= */
 
-function projectOpen(id){
+function openExternal(url){
 
-const p=projects.find(x=>x.id===id);
+  const valid=safeUrl(url);
 
-if(!p)return;
+  if(!valid){
+    toast("Valid link পাওয়া যায়নি");
+    return;
+  }
 
-let extra="";
-
-if(p.id==="facebook"||p.id==="gmail"||p.id==="instagram"){
-extra=`
-<div class="notice">
-⚠️ এখানে কোনো Password, OTP, Login Credential বা ব্যক্তিগত গোপন তথ্য দিতে হবে না।
-</div>
-<br>
-`;
+  window.open(valid,"_blank","noopener,noreferrer");
 }
 
-let body=`
-<div class="card" style="box-shadow:none;padding:0">
-<h3>${esc(p.logo||"⭐")} ${esc(p.title)}</h3>
-<p>${esc(p.subtitle)}</p>
-${Number(p.amount)>0?`<p><b>Reward: ${money(p.amount)}</b></p>`:""}
-${extra}
-`;
+/* =========================================================
+   WALLET
+========================================================= */
 
-if(p.link){
+function renderWallet(){
 
-body+=`
-<button class="mainBtn" onclick="openLink('${esc(p.link)}')">
-Open Task Link
-</button>
-`;
+  const balance=Number(currentUserData?.balance || 0);
+  const active=!!currentUserData?.active;
 
-}else{
+  $("mainContent").innerHTML=`
 
-body+=`
-<div class="notice">
-এই Task-এর Link এখনো Admin সেট করেননি।
-</div>
-`;
+    <div class="page">
 
+      <section class="hero">
+        <div class="heroSmall">Wallet Balance</div>
+        <div class="balance">${money(balance)}</div>
+        <span class="statusPill">
+          ${active ? "ACTIVE" : "INACTIVE"}
+        </span>
+      </section>
+
+      ${
+        !active
+        ? `
+          <section class="section">
+            <div class="card">
+              <h3>Account Activation Required</h3>
+              <p class="smallText" style="margin:7px 0 13px">
+                Withdrawal করার আগে account activate করতে হবে।
+              </p>
+              <button class="primaryBtn" onclick="openActivation()">
+                Activate Account
+              </button>
+            </div>
+          </section>
+        `
+        : `
+          <section class="section">
+
+            <div class="sectionTitle">
+              <h2>Withdraw Money</h2>
+              <span>Fee ${money(appConfig.withdrawalFee)}</span>
+            </div>
+
+            <div class="card">
+
+              <div class="formGroup">
+                <label>Payment Method</label>
+                <select id="withdrawMethod">
+                  <option value="bKash">bKash</option>
+                  <option value="Nagad">Nagad</option>
+                </select>
+              </div>
+
+              <div class="formGroup">
+                <label>Number</label>
+                <input id="withdrawNumber"
+                  type="tel"
+                  placeholder="01XXXXXXXXX">
+              </div>
+
+              <div class="formGroup">
+                <label>Amount</label>
+                <input id="withdrawAmount"
+                  type="number"
+                  min="100"
+                  placeholder="Minimum ৳100">
+              </div>
+
+              <button class="primaryBtn" onclick="submitWithdrawal()">
+                Submit Withdrawal
+              </button>
+
+            </div>
+
+          </section>
+        `
+      }
+
+      <section class="section">
+
+        <div class="sectionTitle">
+          <h2>Withdrawal History</h2>
+        </div>
+
+        <div id="withdrawHistory">
+          <div class="card empty">Loading...</div>
+        </div>
+
+      </section>
+
+    </div>
+  `;
+
+  loadMyWithdrawals();
 }
 
-body+=`</div>`;
-
-openModal(p.title,body);
-
-}
-
-function openLink(url){
-
-if(!url)return;
-
-if(!/^https?:\/\//i.test(url)){
-toast("সঠিক Link সেট করা হয়নি");
-return;
-}
-
-window.open(url,"_blank");
-
-}
-
-/* =========================
+/* =========================================================
    ACTIVATION
-========================= */
+========================================================= */
 
-function activationModal(){
+function openActivation(){
 
-openModal("Account Activation",`
+  showModal(`
 
-<div class="notice">
-Activation Fee: <b>${money(cfg.activationFee)}</b><br>
-Activation Bonus: <b>${money(cfg.activationBonus)}</b>
-</div>
+    <div class="modalHeader">
+      <div>
+        <h2>Activate Account</h2>
+        <p class="smallText">
+          Activation fee: ${money(appConfig.activationFee)}
+        </p>
+      </div>
 
-<br>
+      <button class="closeBtn" onclick="closeModal()">×</button>
+    </div>
 
-<div class="field">
-<label>Payment Method</label>
-<select id="actMethod">
-<option value="bKash">bKash</option>
-<option value="Nagad">Nagad</option>
-</select>
-</div>
+    <div class="card notice" style="margin-bottom:12px">
+      Payment করার আগে Admin-এর configured number দেখে নিন।
+    </div>
 
-<div class="card" style="padding:12px">
-<b>bKash:</b> ${esc(cfg.bkash||"Not Set")}<br>
-<b>Nagad:</b> ${esc(cfg.nagad||"Not Set")}
-</div>
+    <div class="infoRow">
+      <span>bKash</span>
+      <strong>${escapeHtml(appConfig.bkash || "Not set")}</strong>
+    </div>
 
-<div class="field">
-<label>Sender Number</label>
-<input id="actSender" placeholder="যে নম্বর থেকে টাকা পাঠিয়েছেন">
-</div>
+    <div class="infoRow">
+      <span>Nagad</span>
+      <strong>${escapeHtml(appConfig.nagad || "Not set")}</strong>
+    </div>
 
-<div class="field">
-<label>Transaction ID</label>
-<input id="actTrx" placeholder="Transaction ID">
-</div>
+    <div class="formGroup" style="margin-top:15px">
+      <label>Payment Method</label>
+      <select id="activationMethod">
+        <option value="bKash">bKash</option>
+        <option value="Nagad">Nagad</option>
+      </select>
+    </div>
 
-<button class="mainBtn" onclick="submitActivation()">
-Submit Activation
-</button>
-`);
+    <div class="formGroup">
+      <label>Your Sender Number</label>
+      <input id="activationSender"
+        type="tel"
+        placeholder="01XXXXXXXXX">
+    </div>
 
+    <div class="formGroup">
+      <label>Transaction ID</label>
+      <input id="activationTrx"
+        type="text"
+        placeholder="Enter transaction ID">
+    </div>
+
+    <button class="primaryBtn"
+      onclick="submitActivation()">
+      Submit Activation
+    </button>
+
+  `);
 }
+
+/* =========================================================
+   SUBMIT ACTIVATION
+========================================================= */
 
 async function submitActivation(){
 
-const method=$("actMethod").value;
-const sender=$("actSender").value.trim();
-const trx=$("actTrx").value.trim();
+  if(!currentUser){
+    toast("আগে Login করুন");
+    return;
+  }
 
-if(!sender||!trx){
-toast("Sender Number ও Transaction ID দিন");
-return;
+  const method=$("activationMethod").value;
+  const sender=$("activationSender").value.trim();
+  const trx=$("activationTrx").value.trim();
+
+  if(!sender || !trx){
+    toast("সব তথ্য পূরণ করুন");
+    return;
+  }
+
+  try{
+
+    await db.collection("activations").add({
+
+      uid:currentUser.uid,
+      email:currentUser.email || "",
+      name:currentUserData?.name || "",
+      method:method,
+      senderNumber:sender,
+      transactionId:trx,
+      amount:Number(appConfig.activationFee || 0),
+      status:"pending",
+      createdAt:
+        firebase.firestore.FieldValue.serverTimestamp()
+
+    });
+
+    closeModal();
+
+    toast("Activation request পাঠানো হয়েছে");
+
+  }catch(e){
+
+    console.error(e);
+
+    toast("Request পাঠানো যায়নি। আবার চেষ্টা করুন।");
+  }
 }
 
-try{
+/* =========================================================
+   SUBMIT WITHDRAWAL
+========================================================= */
 
-await db.collection("activations").add({
-uid:me.uid,
-name:userData.name||"",
-email:userData.email||me.email||"",
-amount:Number(cfg.activationFee),
-method,
-sender,
-trx,
-status:"pending",
-bonusCredited:false,
-createdAt:firebase.firestore.FieldValue.serverTimestamp()
-});
+async function submitWithdrawal(){
 
-closeModal();
-toast("Activation Request পাঠানো হয়েছে");
+  const method=$("withdrawMethod").value;
+  const number=$("withdrawNumber").value.trim();
+  const amount=Number($("withdrawAmount").value);
 
-}catch(e){
-toast(e.message);
+  const balance=Number(currentUserData?.balance || 0);
+  const fee=Number(appConfig.withdrawalFee || 0);
+
+  if(!number){
+    toast("Payment number দিন");
+    return;
+  }
+
+  if(!amount || amount<100){
+    toast("Minimum withdrawal ৳100");
+    return;
+  }
+
+  if(amount+fee>balance){
+    toast("আপনার balance যথেষ্ট নয়");
+    return;
+  }
+
+  try{
+
+    await db.collection("withdrawals").add({
+
+      uid:currentUser.uid,
+      email:currentUser.email || "",
+      name:currentUserData?.name || "",
+      method:method,
+      number:number,
+      amount:amount,
+      fee:fee,
+      status:"pending",
+      createdAt:
+        firebase.firestore.FieldValue.serverTimestamp()
+
+    });
+
+    toast("Withdrawal request পাঠানো হয়েছে");
+
+    $("withdrawNumber").value="";
+    $("withdrawAmount").value="";
+
+    loadMyWithdrawals();
+
+  }catch(e){
+
+    console.error(e);
+
+    toast("Withdrawal request পাঠানো যায়নি");
+  }
 }
 
+/* =========================================================
+   MY WITHDRAWALS
+========================================================= */
+
+async function loadMyWithdrawals(){
+
+  if(!currentUser || !$("withdrawHistory")) return;
+
+  try{
+
+    const snap=
+      await db.collection("withdrawals")
+      .where("uid","==",currentUser.uid)
+      .get();
+
+    let arr=[];
+
+    snap.forEach(doc=>{
+      arr.push({
+        id:doc.id,
+        ...doc.data()
+      });
+    });
+
+    arr.sort((a,b)=>{
+
+      const aTime=a.createdAt?.seconds || 0;
+      const bTime=b.createdAt?.seconds || 0;
+
+      return bTime-aTime;
+    });
+
+    if(!arr.length){
+
+      $("withdrawHistory").innerHTML=
+        `<div class="card empty">কোনো withdrawal request নেই।</div>`;
+
+      return;
+    }
+
+    $("withdrawHistory").innerHTML=
+      arr.map(withdrawalItem).join("");
+
+  }catch(e){
+
+    console.error(e);
+
+    $("withdrawHistory").innerHTML=
+      `<div class="card empty">History load করা যায়নি।</div>`;
+  }
 }
 
-/* =========================
-   WALLET
-========================= */
+function withdrawalItem(x){
 
-async function renderWallet(){
+  const status=x.status || "pending";
 
-let html=`
-<div class="page">
+  let cls="";
 
-<div class="hero">
-<small>Wallet Balance</small>
-<div class="balance">${money(userData.balance)}</div>
-</div>
-`;
+  if(status==="approved") cls="green";
+  if(status==="rejected") cls="red";
 
-if(!userData.active){
+  return `
+    <div class="listItem">
 
-html+=`
-<div class="card">
-<h3>🔒 Withdrawal Locked</h3>
-<p>Withdraw করতে আগে Account Active করতে হবে।</p>
-<button class="mainBtn" onclick="activationModal()">Activate Account</button>
-</div>
-`;
+      <div class="listTop">
 
-}else{
+        <div>
+          <h3>${escapeHtml(x.method || "")}</h3>
+          <p>
+            ${escapeHtml(x.number || "")}<br>
+            Amount: ${money(x.amount)}<br>
+            Fee: ${money(x.fee)}
+          </p>
+        </div>
 
-html+=`
-<div class="card">
-<h3>💸 Withdraw Money</h3>
+        <span class="badge ${cls}">
+          ${escapeHtml(status.toUpperCase())}
+        </span>
 
-<div class="notice">
-Withdrawal Fee: <b>${money(cfg.withdrawalFee)}</b>
-</div>
-<br>
+      </div>
 
-<div class="field">
-<label>Method</label>
-<select id="wdMethod">
-<option value="bKash">bKash</option>
-<option value="Nagad">Nagad</option>
-</select>
-</div>
-
-<div class="field">
-<label>Number</label>
-<input id="wdNumber" placeholder="bKash/Nagad Number">
-</div>
-
-<div class="field">
-<label>Amount</label>
-<input id="wdAmount" type="number" min="100" placeholder="Minimum ৳100">
-</div>
-
-<button class="mainBtn" onclick="submitWithdraw()">Submit Withdrawal</button>
-</div>
-`;
+    </div>
+  `;
 }
 
-html+=`
-<div class="card">
-<h3>📜 Withdrawal History</h3>
-<div id="withdrawHistory">Loading...</div>
-</div>
-
-</div>
-`;
-
-$("content").innerHTML=html;
-
-loadWithdrawHistory();
-
-}
-
-async function submitWithdraw(){
-
-const method=$("wdMethod").value;
-const number=$("wdNumber").value.trim();
-const amount=Number($("wdAmount").value);
-
-if(!number||!amount){
-toast("সব তথ্য দিন");
-return;
-}
-
-if(amount<100){
-toast("Minimum withdrawal ৳100");
-return;
-}
-
-const total=amount+Number(cfg.withdrawalFee||0);
-
-if(Number(userData.balance||0)<total){
-toast("আপনার balance যথেষ্ট নয়");
-return;
-}
-
-try{
-
-await db.collection("withdrawals").add({
-uid:me.uid,
-name:userData.name||"",
-email:userData.email||me.email||"",
-method,
-number,
-amount,
-fee:Number(cfg.withdrawalFee||0),
-status:"pending",
-balanceDeducted:false,
-createdAt:firebase.firestore.FieldValue.serverTimestamp()
-});
-
-toast("Withdrawal Request পাঠানো হয়েছে");
-
-$("wdNumber").value="";
-$("wdAmount").value="";
-
-loadWithdrawHistory();
-
-}catch(e){
-toast(e.message);
-}
-
-}
-
-async function loadWithdrawHistory(){
-
-const box=$("withdrawHistory");
-
-if(!box)return;
-
-try{
-
-const snap=await db.collection("withdrawals")
-.where("uid","==",me.uid)
-.limit(30)
-.get();
-
-if(snap.empty){
-box.innerHTML=`<div class="empty">কোনো Withdrawal নেই</div>`;
-return;
-}
-
-let arr=[];
-
-snap.forEach(doc=>{
-arr.push({id:doc.id,...doc.data()});
-});
-
-arr.sort((a,b)=>{
-const aa=a.createdAt?.toMillis?a.createdAt.toMillis():0;
-const bb=b.createdAt?.toMillis?b.createdAt.toMillis():0;
-return bb-aa;
-});
-
-box.innerHTML=arr.map(x=>`
-<div class="adminItem">
-<strong>${money(x.amount)}</strong>
-<div class="small">
-${esc(x.method)} • ${esc(x.number)}<br>
-Fee: ${money(x.fee)}<br>
-Status: <b>${esc(x.status)}</b><br>
-${dateText(x.createdAt)}
-</div>
-</div>
-`).join("");
-
-}catch(e){
-box.innerHTML=`<div class="small">${esc(e.message)}</div>`;
-}
-
-}
-
-/* =========================
+/* =========================================================
    TEAM
-========================= */
+========================================================= */
 
 async function renderTeam(){
 
-$("content").innerHTML=`
-<div class="page">
+  const referralId=
+    currentUserData?.referralCode ||
+    currentUser?.uid?.substring(0,8) ||
+    "";
 
-<div class="card">
-<h3>👥 My Referral Team</h3>
-<p>আপনার Referral ID:</p>
+  $("mainContent").innerHTML=`
 
-<div class="notice">
-<b>${esc(userData.referralCode||me.uid.substring(0,8))}</b>
-</div>
+    <div class="page">
 
-<br>
+      <section class="hero">
+        <div class="heroSmall">Your Referral ID</div>
+        <div style="font-size:24px;font-weight:900;margin:8px 0">
+          ${escapeHtml(referralId)}
+        </div>
 
-<button class="mainBtn" onclick="copyRef()">
-Copy Referral ID
-</button>
-</div>
+        <button class="quickBtn"
+          onclick="copyText('${escapeHtml(referralId)}')">
+          Copy Referral ID
+        </button>
+      </section>
 
-<div class="card">
-<h3>Team Statistics</h3>
-<div id="teamStats">Loading...</div>
-</div>
+      <section class="section">
 
-</div>
-`;
+        <div class="statsGrid">
 
-try{
+          <div class="statCard">
+            <span>Level 1 Members</span>
+            <strong id="teamCount">...</strong>
+          </div>
 
-const snap=await db.collection("users")
-.where("referredBy","==",userData.referralCode||me.uid.substring(0,8))
-.get();
+          <div class="statCard">
+            <span>Total Earn</span>
+            <strong>${money(currentUserData?.totalEarn || 0)}</strong>
+          </div>
 
-$("teamStats").innerHTML=`
-<div class="stats">
-<div class="stat">
-<span>Level 1</span>
-<b>${snap.size}</b>
-<small>Members</small>
-</div>
-<div class="stat">
-<span>Team Earn</span>
-<b>${money(userData.totalEarn)}</b>
-<small>Your Total Earn</small>
-</div>
-</div>
-`;
+        </div>
 
-}catch(e){
-$("teamStats").innerHTML=`<div class="small">${esc(e.message)}</div>`;
+      </section>
+
+      <section class="section">
+        <div class="card">
+
+          <h3>How Referral Works</h3>
+
+          <p class="smallText" style="margin-top:8px">
+            আপনার Referral ID অন্যদের দিলে তারা Sign Up করার সময় সেটি ব্যবহার করতে পারবে।
+          </p>
+
+        </div>
+      </section>
+
+    </div>
+  `;
+
+  try{
+
+    const snap=
+      await db.collection("users")
+      .where("referredBy","==",referralId)
+      .get();
+
+    if($("teamCount")){
+      $("teamCount").textContent=snap.size;
+    }
+
+  }catch(e){
+
+    if($("teamCount")){
+      $("teamCount").textContent="0";
+    }
+  }
 }
 
-}
-
-function copyRef(){
-
-const text=userData.referralCode||me.uid.substring(0,8);
-
-navigator.clipboard?.writeText(text)
-.then(()=>toast("Referral ID copied"))
-.catch(()=>toast(text));
-
-}
-
-/* =========================
+/* =========================================================
    PROFILE
-========================= */
+========================================================= */
 
 function renderProfile(){
 
-$("content").innerHTML=`
-<div class="page">
+  const u=currentUserData || {};
 
-<div class="card">
-<h3>👤 Profile</h3>
+  $("mainContent").innerHTML=`
 
-<div class="adminItem">
-<strong>Name</strong>
-${esc(userData.name||"")}
-</div>
+    <div class="page">
 
-<div class="adminItem">
-<strong>Email</strong>
-${esc(userData.email||me.email||"")}
-</div>
+      <section class="section">
 
-<div class="adminItem">
-<strong>Role</strong>
-<span style="color:${isAdmin()?"#7c3aed":"#555"};font-weight:bold">
-${isAdmin()?"ADMIN":"USER"}
-</span>
-</div>
+        <div class="sectionTitle">
+          <h2>My Profile</h2>
+        </div>
 
-<div class="adminItem">
-<strong>Balance</strong>
-${money(userData.balance)}
-</div>
+        <div class="card">
 
-<div class="adminItem">
-<strong>Referral ID</strong>
-${esc(userData.referralCode||"")}
-</div>
+          <div class="infoRow">
+            <span>Email</span>
+            <strong>${escapeHtml(u.email || currentUser?.email || "")}</strong>
+          </div>
 
-</div>
+          <div class="infoRow">
+            <span>UID</span>
+            <strong>${escapeHtml(currentUser?.uid || "")}</strong>
+          </div>
 
-<div class="card">
-<h3>⚙️ Account Settings</h3>
+          <div class="infoRow">
+            <span>Role</span>
+            <strong>${isAdmin() ? "Admin" : "User"}</strong>
+          </div>
 
-<div class="field">
-<label>Full Name</label>
-<input id="newName" value="${esc(userData.name||"")}">
-</div>
+          <div class="infoRow">
+            <span>Balance</span>
+            <strong>${money(u.balance)}</strong>
+          </div>
 
-<button class="mainBtn" onclick="saveProfile()">Save Name</button>
+          <div class="infoRow">
+            <span>Referral ID</span>
+            <strong>${escapeHtml(u.referralCode || "")}</strong>
+          </div>
 
-<br><br>
+        </div>
 
-<button class="action red" style="width:100%" onclick="logout()">
-Logout
-</button>
+      </section>
 
-</div>
+      <section class="section">
 
-</div>
-`;
+        <div class="card">
 
+          <div class="formGroup">
+            <label>Name</label>
+            <input id="profileName"
+              value="${escapeHtml(u.name || "")}">
+          </div>
+
+          <button class="primaryBtn"
+            onclick="saveProfileName()">
+            Save Name
+          </button>
+
+        </div>
+
+      </section>
+
+      ${
+        isAdmin()
+        ? `
+          <section class="section">
+            <div class="card adminAccess">
+              <h3>Admin</h3>
+              <p style="font-size:12px;opacity:.7;margin:6px 0 12px">
+                Admin panel খুলুন।
+              </p>
+              <button class="secondaryBtn"
+                onclick="openAdmin()">
+                Open Admin Panel
+              </button>
+            </div>
+          </section>
+        `
+        :""
+      }
+
+      <section class="section">
+
+        <div class="card">
+
+          <button class="dangerBtn"
+            style="width:100%"
+            onclick="logout()">
+            Logout
+          </button>
+
+        </div>
+
+      </section>
+
+    </div>
+  `;
 }
 
-async function saveProfile(){
+/* =========================================================
+   SAVE PROFILE
+========================================================= */
 
-const name=$("newName").value.trim();
+async function saveProfileName(){
 
-if(!name){
-toast("Name দিন");
-return;
+  const name=$("profileName").value.trim();
+
+  if(!name){
+    toast("Name দিন");
+    return;
+  }
+
+  try{
+
+    await db.collection("users")
+      .doc(currentUser.uid)
+      .update({
+        name:name
+      });
+
+    currentUserData.name=name;
+
+    toast("Name updated");
+
+    renderProfile();
+
+  }catch(e){
+
+    console.error(e);
+
+    toast("Name update করা যায়নি");
+  }
 }
 
-try{
+/* =========================================================
+   COPY
+========================================================= */
 
-await db.collection("users").doc(me.uid).update({
-name
-});
+async function copyText(text){
 
-userData.name=name;
+  try{
 
-toast("Profile Updated");
-renderProfile();
+    await navigator.clipboard.writeText(text);
 
-}catch(e){
-toast(e.message);
+    toast("Copied");
+
+  }catch(e){
+
+    toast("Copy করা যায়নি");
+  }
 }
 
-}
-
-async function logout(){
-
-try{
-await auth.signOut();
-}catch(e){
-toast(e.message);
-}
-
-}
-
-/* =========================
+/* =========================================================
    HELP
-========================= */
+========================================================= */
 
 function renderHelp(){
 
-$("content").innerHTML=`
-<div class="page">
+  $("mainContent").innerHTML=`
 
-<div class="card">
-<h3>🆘 Support</h3>
+    <div class="page">
 
-<div class="adminItem">
-<strong>Support 1</strong>
-${esc(cfg.support1||"Not Set")}
-</div>
+      <section class="hero">
+        <div class="heroSmall">Need Help?</div>
+        <div style="font-size:26px;font-weight:900;margin-top:6px">
+          Support Center
+        </div>
+      </section>
 
-<div class="adminItem">
-<strong>Support 2</strong>
-${esc(cfg.support2||"Not Set")}
-</div>
+      <section class="section">
 
-${
-cfg.telegram
-?
-`<button class="mainBtn" onclick="openLink('${esc(cfg.telegram)}')">Telegram Support</button>`
-:
-`<div class="notice">Telegram Link সেট করা হয়নি।</div>`
+        <div class="card">
+
+          <div class="sectionTitle">
+            <h2>Support</h2>
+          </div>
+
+          ${
+            appConfig.support1
+            ? `
+              <div class="infoRow">
+                <span>Support 1</span>
+                <strong>${escapeHtml(appConfig.support1)}</strong>
+              </div>
+            `
+            :""
+          }
+
+          ${
+            appConfig.support2
+            ? `
+              <div class="infoRow">
+                <span>Support 2</span>
+                <strong>${escapeHtml(appConfig.support2)}</strong>
+              </div>
+            `
+            :""
+          }
+
+          ${
+            appConfig.telegram
+            ? `
+              <button class="primaryBtn"
+                style="margin-top:13px"
+                onclick="openExternal('${escapeHtml(safeUrl(appConfig.telegram))}')">
+                Telegram Support
+              </button>
+            `
+            :""
+          }
+
+        </div>
+
+      </section>
+
+      <section class="section">
+
+        <div class="card notice">
+          <b>Important</b><br>
+          Password, OTP বা কোনো ব্যক্তিগত secret information কারো সঙ্গে share করবেন না।
+        </div>
+
+      </section>
+
+    </div>
+  `;
 }
 
-</div>
+/* =========================================================
+   LOGOUT
+========================================================= */
 
-<div class="card">
-<h3>📢 Notice</h3>
-<div class="notice">${esc(cfg.notice)}</div>
-</div>
+async function logout(){
 
-</div>
-`;
+  try{
 
+    await auth.signOut();
+
+    toast("Logout হয়েছে");
+
+  }catch(e){
+
+    toast("Logout করা যায়নি");
+  }
 }
 
 /* =========================================================
    ADMIN PANEL
 ========================================================= */
 
-function openAdmin(){
+async function openAdmin(){
 
-if(!isAdmin()){
-toast("আপনার Admin Access নেই");
-return;
+  if(!isAdmin()){
+    toast("Admin access নেই");
+    return;
+  }
+
+  adminPage="dashboard";
+
+  showModal(`
+
+    <div class="modalHeader">
+      <div>
+        <h2>Admin Panel</h2>
+        <p class="smallText">
+          VIEW ERAN BD Management
+        </p>
+      </div>
+
+      <button class="closeBtn" onclick="closeModal()">
+        ×
+      </button>
+    </div>
+
+    <div class="adminTabs">
+
+      <button class="adminTab active"
+        onclick="adminNavigate('dashboard',this)">
+        Dashboard
+      </button>
+
+      <button class="adminTab"
+        onclick="adminNavigate('users',this)">
+        Users
+      </button>
+
+      <button class="adminTab"
+        onclick="adminNavigate('activation',this)">
+        Activation
+      </button>
+
+      <button class="adminTab"
+        onclick="adminNavigate('withdraw',this)">
+        Withdraw
+      </button>
+
+      <button class="adminTab"
+        onclick="adminNavigate('projects',this)">
+        Projects
+      </button>
+
+      <button class="adminTab"
+        onclick="adminNavigate('settings',this)">
+        Settings
+      </button>
+
+    </div>
+
+    <div id="adminContent">
+      Loading...
+    </div>
+
+  `);
+
+  renderAdminDashboard();
 }
 
-adminDashboard();
+/* =========================================================
+   ADMIN NAVIGATION
+========================================================= */
 
-openModal("ADMIN PANEL",`
+function adminNavigate(page,button){
 
-<div class="adminTabs">
-<button id="atDash" class="active" onclick="adminTab('dash')">Dashboard</button>
-<button id="atUsers" onclick="adminTab('users')">Users</button>
-<button id="atAct" onclick="adminTab('act')">Activation</button>
-<button id="atWd" onclick="adminTab('wd')">Withdraw</button>
-<button id="atProjects" onclick="adminTab('projects')">Projects</button>
-<button id="atSettings" onclick="adminTab('settings')">Settings</button>
-</div>
+  adminPage=page;
 
-<div id="adminDash" class="adminSection active"></div>
-<div id="adminUsers" class="adminSection"></div>
-<div id="adminAct" class="adminSection"></div>
-<div id="adminWd" class="adminSection"></div>
-<div id="adminProjects" class="adminSection"></div>
-<div id="adminSettings" class="adminSection"></div>
+  document.querySelectorAll(".adminTab")
+    .forEach(x=>x.classList.remove("active"));
 
-`);
+  if(button){
+    button.classList.add("active");
+  }
 
+  if(page==="dashboard") renderAdminDashboard();
+  if(page==="users") renderAdminUsers();
+  if(page==="activation") renderAdminActivation();
+  if(page==="withdraw") renderAdminWithdraw();
+  if(page==="projects") renderAdminProjects();
+  if(page==="settings") renderAdminSettings();
 }
 
-function adminTab(tab){
-
-document.querySelectorAll(".adminSection").forEach(x=>x.classList.remove("active"));
-document.querySelectorAll(".adminTabs button").forEach(x=>x.classList.remove("active"));
-
-const map={
-dash:["adminDash","atDash"],
-users:["adminUsers","atUsers"],
-act:["adminAct","atAct"],
-wd:["adminWd","atWd"],
-projects:["adminProjects","atProjects"],
-settings:["adminSettings","atSettings"]
-};
-
-$(map[tab][0]).classList.add("active");
-$(map[tab][1]).classList.add("active");
-
-if(tab==="dash")adminDashboard();
-if(tab==="users")adminUsers();
-if(tab==="act")adminActivations();
-if(tab==="wd")adminWithdrawals();
-if(tab==="projects")adminProjects();
-if(tab==="settings")adminSettings();
-
-}
-
-/* =========================
+/* =========================================================
    ADMIN DASHBOARD
-========================= */
+========================================================= */
 
-async function adminDashboard(){
+async function renderAdminDashboard(){
 
-const box=$("adminDash");
+  const box=$("adminContent");
 
-if(!box)return;
+  if(!box) return;
 
-box.innerHTML=`<div class="empty">Loading Dashboard...</div>`;
+  box.innerHTML=`
+    <div class="card empty">Loading dashboard...</div>
+  `;
 
-try{
+  try{
 
-const users=await db.collection("users").limit(100).get();
-const acts=await db.collection("activations")
-.where("status","==","pending")
-.limit(50).get();
-const wds=await db.collection("withdrawals")
-.where("status","==","pending")
-.limit(50).get();
+    const usersSnap=
+      await db.collection("users").get();
 
-let active=0;
-let balance=0;
+    const activeUsers=
+      usersSnap.docs.filter(
+        x=>x.data().active===true
+      ).length;
 
-users.forEach(d=>{
-const u=d.data();
-if(u.active)active++;
-balance+=Number(u.balance||0);
-});
+    let totalBalance=0;
 
-box.innerHTML=`
+    usersSnap.forEach(x=>{
+      totalBalance+=Number(x.data().balance || 0);
+    });
 
-<div class="stats">
+    const actSnap=
+      await db.collection("activations")
+      .where("status","==","pending")
+      .get();
 
-<div class="stat">
-Users
-<b>${users.size}</b>
-</div>
+    const wdSnap=
+      await db.collection("withdrawals")
+      .where("status","==","pending")
+      .get();
 
-<div class="stat">
-Active
-<b>${active}</b>
-</div>
+    const adminCount=
+      usersSnap.docs.filter(
+        x=>ADMIN_UIDS.includes(x.id)
+      ).length;
 
-<div class="stat">
-Pending Activation
-<b>${acts.size}</b>
-</div>
+    box.innerHTML=`
 
-<div class="stat">
-Pending Withdraw
-<b>${wds.size}</b>
-</div>
+      <div class="statsGrid">
 
-<div class="stat">
-Total Balance
-<b>${money(balance)}</b>
-</div>
+        <div class="statCard">
+          <span>Total Users</span>
+          <strong>${usersSnap.size}</strong>
+        </div>
 
-<div class="stat">
-Admin
-<b>${ADM.length}</b>
-</div>
+        <div class="statCard">
+          <span>Active Users</span>
+          <strong>${activeUsers}</strong>
+        </div>
 
-</div>
+        <div class="statCard">
+          <span>Pending Activation</span>
+          <strong>${actSnap.size}</strong>
+        </div>
 
-<br>
+        <div class="statCard">
+          <span>Pending Withdraw</span>
+          <strong>${wdSnap.size}</strong>
+        </div>
 
-<div class="adminItem">
-<strong>Current Admin UID</strong>
-<div class="small">${esc(me.uid)}</div>
-</div>
+        <div class="statCard">
+          <span>Total Balance</span>
+          <strong>${money(totalBalance)}</strong>
+        </div>
 
-`;
+        <div class="statCard">
+          <span>Admins</span>
+          <strong>${adminCount}</strong>
+        </div>
 
-}catch(e){
-box.innerHTML=`<div class="small">${esc(e.message)}</div>`;
+      </div>
+
+      <div class="section">
+
+        <div class="card">
+
+          <div class="infoRow">
+            <span>Current Admin UID</span>
+            <strong>${escapeHtml(currentUser.uid)}</strong>
+          </div>
+
+          <div class="infoRow">
+            <span>Admin Status</span>
+            <strong>Authorized</strong>
+          </div>
+
+        </div>
+
+      </div>
+    `;
+
+  }catch(e){
+
+    console.error(e);
+
+    box.innerHTML=`
+      <div class="card empty">
+        Dashboard load করা যায়নি।
+      </div>
+    `;
+  }
 }
 
-}
-
-/* =========================
+/* =========================================================
    ADMIN USERS
-========================= */
+========================================================= */
 
-async function adminUsers(){
+async function renderAdminUsers(){
 
-const box=$("adminUsers");
+  const box=$("adminContent");
 
-if(!box)return;
+  box.innerHTML=`
+    <div class="searchBox">
+      <input id="userSearch"
+        oninput="filterAdminUsers()"
+        placeholder="Search name, email or UID">
+    </div>
 
-box.innerHTML=`
-<div class="field">
-<input id="userSearch" placeholder="Name / Email / UID দিয়ে Search" oninput="filterAdminUsers()">
-</div>
-<div id="usersList">Loading...</div>
-`;
+    <div id="adminUserList">
+      Loading...
+    </div>
+  `;
 
-try{
+  try{
 
-const snap=await db.collection("users").limit(100).get();
+    const snap=
+      await db.collection("users").get();
 
-let users=[];
+    allUsers=[];
 
-snap.forEach(d=>{
-users.push({id:d.id,...d.data()});
-});
+    snap.forEach(doc=>{
+      allUsers.push({
+        id:doc.id,
+        ...doc.data()
+      });
+    });
 
-window.ADMIN_USERS=users;
+    renderUserList(allUsers);
 
-renderAdminUsers(users);
+  }catch(e){
 
-}catch(e){
-$("usersList").innerHTML=`<div class="small">${esc(e.message)}</div>`;
+    console.error(e);
+
+    $("adminUserList").innerHTML=
+      `<div class="card empty">Users load করা যায়নি।</div>`;
+  }
 }
 
-}
-
-function renderAdminUsers(users){
-
-const box=$("usersList");
-
-if(!box)return;
-
-if(!users.length){
-box.innerHTML=`<div class="empty">User পাওয়া যায়নি</div>`;
-return;
-}
-
-box.innerHTML=users.map(u=>`
-
-<div class="adminItem">
-<strong>${esc(u.name||"No Name")}</strong>
-
-<div class="small">
-Email: ${esc(u.email||"")}<br>
-UID: ${esc(u.uid||u.id)}<br>
-Balance: <b>${money(u.balance)}</b><br>
-Status:
-<b style="color:${u.active?"green":"#999"}">
-${u.active?"ACTIVE":"INACTIVE"}
-</b>
-</div>
-
-<br>
-
-<div class="row">
-
-<button class="action purple" onclick="viewUser('${esc(u.uid||u.id)}')">
-View
-</button>
-
-<button class="action ${u.active?"red":"green"}"
-onclick="toggleUser('${esc(u.uid||u.id)}',${u.active?true:false})">
-${u.active?"Deactivate":"Activate"}
-</button>
-
-<button class="action yellow"
-onclick="balanceModal('${esc(u.uid||u.id)}')">
-Balance
-</button>
-
-</div>
-
-</div>
-
-`).join("");
-
-}
+/* =========================================================
+   FILTER USERS
+========================================================= */
 
 function filterAdminUsers(){
 
-const q=$("userSearch").value.toLowerCase();
+  const q=
+    $("userSearch").value.trim().toLowerCase();
 
-const arr=(window.ADMIN_USERS||[]).filter(u=>
-String(u.name||"").toLowerCase().includes(q)||
-String(u.email||"").toLowerCase().includes(q)||
-String(u.uid||u.id||"").toLowerCase().includes(q)
-);
+  const result=
+    allUsers.filter(u=>{
 
-renderAdminUsers(arr);
+      return (
+        String(u.name || "").toLowerCase().includes(q) ||
+        String(u.email || "").toLowerCase().includes(q) ||
+        String(u.uid || u.id || "").toLowerCase().includes(q)
+      );
 
+    });
+
+  renderUserList(result);
 }
 
-async function viewUser(uid){
+/* =========================================================
+   USER LIST
+========================================================= */
 
-try{
+function renderUserList(users){
 
-const snap=await db.collection("users").doc(uid).get();
+  const box=$("adminUserList");
 
-if(!snap.exists){
-toast("User পাওয়া যায়নি");
-return;
+  if(!users.length){
+
+    box.innerHTML=
+      `<div class="card empty">User পাওয়া যায়নি।</div>`;
+
+    return;
+  }
+
+  box.innerHTML=
+    users.map(u=>`
+
+      <div class="listItem">
+
+        <div class="listTop">
+
+          <div>
+
+            <h3>
+              ${escapeHtml(u.name || "No Name")}
+            </h3>
+
+            <p>
+              ${escapeHtml(u.email || "")}<br>
+              UID: ${escapeHtml(u.uid || u.id)}<br>
+              Balance: ${money(u.balance)}<br>
+              Status: ${u.active ? "Active" : "Inactive"}
+            </p>
+
+          </div>
+
+          <span class="badge ${u.active ? "green" : "red"}">
+            ${u.active ? "ACTIVE" : "INACTIVE"}
+          </span>
+
+        </div>
+
+        <div class="adminActions">
+
+          <button class="editBtn"
+            onclick="viewAdminUser('${escapeHtml(u.uid || u.id)}')">
+            View
+          </button>
+
+          <button class="${u.active ? "rejectBtn" : "approveBtn"}"
+            onclick="toggleUserActive('${escapeHtml(u.uid || u.id)}',${!u.active})">
+            ${u.active ? "Deactivate" : "Activate"}
+          </button>
+
+          <button class="darkBtn"
+            onclick="openBalanceChange('${escapeHtml(u.uid || u.id)}')">
+            Balance
+          </button>
+
+        </div>
+
+      </div>
+
+    `).join("");
 }
 
-const u=snap.data();
+/* =========================================================
+   VIEW USER
+========================================================= */
 
-openModal("User Details",`
+function viewAdminUser(uid){
 
-<div class="adminItem">
-<strong>${esc(u.name||"No Name")}</strong>
-<div class="small">
-Email: ${esc(u.email||"")}<br>
-UID: ${esc(u.uid||uid)}<br>
-Referral: ${esc(u.referralCode||"")}<br>
-Referred By: ${esc(u.referredBy||"")}<br>
-Balance: ${money(u.balance)}<br>
-Total Earn: ${money(u.totalEarn)}<br>
-Today Earn: ${money(u.todayEarn)}<br>
-Status: ${u.active?"ACTIVE":"INACTIVE"}<br>
-Created: ${dateText(u.createdAt)}
-</div>
-</div>
+  const u=allUsers.find(x=>
+    (x.uid || x.id)===uid
+  );
 
-<button class="mainBtn" onclick="closeModal();openAdmin();setTimeout(()=>balanceModal('${uid}'),100)">
-Change Balance
-</button>
-`);
+  if(!u) return;
 
-}catch(e){
-toast(e.message);
+  showModal(`
+
+    <div class="modalHeader">
+
+      <div>
+        <h2>User Details</h2>
+      </div>
+
+      <button class="closeBtn"
+        onclick="closeModal()">
+        ×
+      </button>
+
+    </div>
+
+    <div class="card">
+
+      <div class="infoRow">
+        <span>Name</span>
+        <strong>${escapeHtml(u.name || "")}</strong>
+      </div>
+
+      <div class="infoRow">
+        <span>Email</span>
+        <strong>${escapeHtml(u.email || "")}</strong>
+      </div>
+
+      <div class="infoRow">
+        <span>UID</span>
+        <strong>${escapeHtml(u.uid || u.id)}</strong>
+      </div>
+
+      <div class="infoRow">
+        <span>Balance</span>
+        <strong>${money(u.balance)}</strong>
+      </div>
+
+      <div class="infoRow">
+        <span>Total Earn</span>
+        <strong>${money(u.totalEarn)}</strong>
+      </div>
+
+      <div class="infoRow">
+        <span>Referral ID</span>
+        <strong>${escapeHtml(u.referralCode || "")}</strong>
+      </div>
+
+      <div class="infoRow">
+        <span>Referred By</span>
+        <strong>${escapeHtml(u.referredBy || "")}</strong>
+      </div>
+
+      <div class="infoRow">
+        <span>Status</span>
+        <strong>${u.active ? "Active" : "Inactive"}</strong>
+      </div>
+
+    </div>
+
+  `);
 }
 
+/* =========================================================
+   TOGGLE USER
+========================================================= */
+
+async function toggleUserActive(uid,active){
+
+  if(!isAdmin()) return;
+
+  try{
+
+    await db.collection("users")
+      .doc(uid)
+      .update({
+        active:active
+      });
+
+    toast(
+      active
+      ? "User activated"
+      : "User deactivated"
+    );
+
+    renderAdminUsers();
+
+  }catch(e){
+
+    console.error(e);
+
+    toast("User status update করা যায়নি");
+  }
 }
 
-async function toggleUser(uid,current){
+/* =========================================================
+   BALANCE CHANGE
+========================================================= */
 
-if(!isAdmin())return;
+function openBalanceChange(uid){
 
-try{
+  const u=allUsers.find(x=>
+    (x.uid || x.id)===uid
+  );
 
-await db.collection("users").doc(uid).update({
-active:!current
-});
+  if(!u) return;
 
-toast(current?"Account Deactivated":"Account Activated");
+  showModal(`
 
-adminUsers();
+    <div class="modalHeader">
 
-}catch(e){
-toast(e.message);
+      <div>
+        <h2>Balance Change</h2>
+        <p class="smallText">
+          ${escapeHtml(u.name || u.email || "")}
+        </p>
+      </div>
+
+      <button class="closeBtn"
+        onclick="closeModal()">
+        ×
+      </button>
+
+    </div>
+
+    <div class="card" style="margin-bottom:12px">
+
+      <div class="infoRow">
+        <span>Current Balance</span>
+        <strong>${money(u.balance)}</strong>
+      </div>
+
+    </div>
+
+    <div class="formGroup">
+      <label>Action</label>
+
+      <select id="balanceAction">
+        <option value="add">Add</option>
+        <option value="subtract">Subtract</option>
+        <option value="set">Set Exact</option>
+      </select>
+    </div>
+
+    <div class="formGroup">
+      <label>Amount</label>
+      <input id="balanceAmount"
+        type="number"
+        min="0"
+        placeholder="Amount">
+    </div>
+
+    <button class="primaryBtn"
+      onclick="changeUserBalance('${escapeHtml(uid)}')">
+      Save Balance
+    </button>
+
+  `);
 }
 
+/* =========================================================
+   CHANGE BALANCE
+========================================================= */
+
+async function changeUserBalance(uid){
+
+  const action=$("balanceAction").value;
+  const amount=Number($("balanceAmount").value);
+
+  if(!Number.isFinite(amount) || amount<0){
+    toast("সঠিক amount দিন");
+    return;
+  }
+
+  try{
+
+    const ref=db.collection("users").doc(uid);
+
+    const snap=await ref.get();
+
+    if(!snap.exists){
+      toast("User পাওয়া যায়নি");
+      return;
+    }
+
+    const data=snap.data();
+
+    const current=Number(data.balance || 0);
+
+    let next=current;
+
+    if(action==="add"){
+      next=current+amount;
+    }
+
+    if(action==="subtract"){
+      next=Math.max(0,current-amount);
+    }
+
+    if(action==="set"){
+      next=amount;
+    }
+
+    await ref.update({
+      balance:next
+    });
+
+    closeModal();
+
+    toast("Balance updated");
+
+    renderAdminUsers();
+
+  }catch(e){
+
+    console.error(e);
+
+    toast("Balance update করা যায়নি");
+  }
 }
 
-function balanceModal(uid){
+/* =========================================================
+   ADMIN ACTIVATION
+========================================================= */
 
-openModal("Change User Balance",`
+async function renderAdminActivation(){
 
-<div class="field">
-<label>Amount</label>
-<input id="balAmount" type="number" placeholder="যেমন 100">
-</div>
+  const box=$("adminContent");
 
-<div class="field">
-<label>Action</label>
-<select id="balAction">
-<option value="add">Balance Add</option>
-<option value="subtract">Balance Subtract</option>
-<option value="set">Set Exact Balance</option>
-</select>
-</div>
+  box.innerHTML=`
+    <div class="card empty">Loading activation requests...</div>
+  `;
 
-<button class="mainBtn" onclick="changeBalance('${uid}')">
-Save Balance
-</button>
+  try{
 
-`);
+    const snap=
+      await db.collection("activations")
+      .where("status","==","pending")
+      .get();
 
+    activationRequests=[];
+
+    snap.forEach(doc=>{
+      activationRequests.push({
+        id:doc.id,
+        ...doc.data()
+      });
+    });
+
+    activationRequests.sort((a,b)=>
+      (b.createdAt?.seconds || 0)-
+      (a.createdAt?.seconds || 0)
+    );
+
+    if(!activationRequests.length){
+
+      box.innerHTML=
+        `<div class="card empty">
+          কোনো pending activation নেই।
+        </div>`;
+
+      return;
+    }
+
+    box.innerHTML=
+      activationRequests
+      .map(activationAdminItem)
+      .join("");
+
+  }catch(e){
+
+    console.error(e);
+
+    box.innerHTML=
+      `<div class="card empty">
+        Activation requests load করা যায়নি।
+      </div>`;
+  }
 }
 
-async function changeBalance(uid){
+/* =========================================================
+   ACTIVATION ADMIN ITEM
+========================================================= */
 
-const amount=Number($("balAmount").value);
-const action=$("balAction").value;
+function activationAdminItem(x){
 
-if(amount<0||Number.isNaN(amount)){
-toast("সঠিক Amount দিন");
-return;
+  return `
+
+    <div class="listItem">
+
+      <div class="listTop">
+
+        <div>
+
+          <h3>
+            ${escapeHtml(x.name || "User")}
+          </h3>
+
+          <p>
+            Email: ${escapeHtml(x.email || "")}<br>
+            Method: ${escapeHtml(x.method || "")}<br>
+            Sender: ${escapeHtml(x.senderNumber || "")}<br>
+            Transaction ID: ${escapeHtml(x.transactionId || "")}<br>
+            Amount: ${money(x.amount)}
+          </p>
+
+        </div>
+
+        <span class="badge">
+          PENDING
+        </span>
+
+      </div>
+
+      <div class="adminActions">
+
+        <button class="approveBtn"
+          onclick="approveActivation('${escapeHtml(x.id)}')">
+          Approve
+        </button>
+
+        <button class="rejectBtn"
+          onclick="rejectActivation('${escapeHtml(x.id)}')">
+          Reject
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
 }
 
-try{
+/* =========================================================
+   APPROVE ACTIVATION
+========================================================= */
 
-await db.runTransaction(async transaction=>{
+async function approveActivation(id){
 
-const ref=db.collection("users").doc(uid);
-const snap=await transaction.get(ref);
+  try{
 
-if(!snap.exists)throw new Error("User not found");
+    const ref=
+      db.collection("activations").doc(id);
 
-const old=Number(snap.data().balance||0);
+    const snap=await ref.get();
 
-let next=old;
+    if(!snap.exists){
+      toast("Request পাওয়া যায়নি");
+      return;
+    }
 
-if(action==="add")next=old+amount;
-if(action==="subtract")next=Math.max(0,old-amount);
-if(action==="set")next=amount;
+    const data=snap.data();
 
-transaction.update(ref,{
-balance:next
-});
+    if(data.status!=="pending"){
+      toast("এই request already processed");
+      return;
+    }
 
-});
+    const userRef=
+      db.collection("users").doc(data.uid);
 
-toast("Balance Updated");
+    const userSnap=await userRef.get();
 
-closeModal();
-openAdmin();
+    if(!userSnap.exists){
+      toast("User পাওয়া যায়নি");
+      return;
+    }
 
-}catch(e){
-toast(e.message);
+    const user=userSnap.data();
+
+    const currentBalance=
+      Number(user.balance || 0);
+
+    const bonus=
+      Number(appConfig.activationBonus || 0);
+
+    await userRef.update({
+
+      active:true,
+
+      balance:
+        currentBalance+bonus,
+
+      totalEarn:
+        Number(user.totalEarn || 0)+bonus
+
+    });
+
+    await ref.update({
+      status:"approved",
+      approvedAt:
+        firebase.firestore.FieldValue.serverTimestamp(),
+      approvedBy:currentUser.uid
+    });
+
+    toast("Activation approved");
+
+    renderAdminActivation();
+
+  }catch(e){
+
+    console.error(e);
+
+    toast("Approve করা যায়নি");
+  }
 }
 
-}
-
-/* =========================
-   ADMIN ACTIVATIONS
-========================= */
-
-async function adminActivations(){
-
-const box=$("adminAct");
-
-if(!box)return;
-
-box.innerHTML=`<div class="empty">Loading...</div>`;
-
-try{
-
-const snap=await db.collection("activations")
-.where("status","==","pending")
-.limit(100)
-.get();
-
-if(snap.empty){
-box.innerHTML=`<div class="empty">Pending Activation নেই</div>`;
-return;
-}
-
-let arr=[];
-
-snap.forEach(d=>arr.push({id:d.id,...d.data()}));
-
-arr.sort((a,b)=>{
-const aa=a.createdAt?.toMillis?a.createdAt.toMillis():0;
-const bb=b.createdAt?.toMillis?b.createdAt.toMillis():0;
-return bb-aa;
-});
-
-box.innerHTML=arr.map(x=>`
-
-<div class="adminItem">
-
-<strong>${esc(x.name||"User")}</strong>
-
-<div class="small">
-Email: ${esc(x.email||"")}<br>
-UID: ${esc(x.uid||"")}<br>
-Method: ${esc(x.method||"")}<br>
-Amount: ${money(x.amount)}<br>
-Sender: ${esc(x.sender||"")}<br>
-TRX: <b>${esc(x.trx||"")}</b><br>
-Date: ${dateText(x.createdAt)}
-</div>
-
-<br>
-
-<div class="row">
-
-<button class="action green"
-onclick="approveActivation('${x.id}','${esc(x.uid||"")}')">
-Approve
-</button>
-
-<button class="action red"
-onclick="rejectActivation('${x.id}')">
-Reject
-</button>
-
-</div>
-
-</div>
-
-`).join("");
-
-}catch(e){
-box.innerHTML=`<div class="small">${esc(e.message)}</div>`;
-}
-
-}
-
-async function approveActivation(id,uid){
-
-if(!isAdmin())return;
-
-try{
-
-await db.runTransaction(async transaction=>{
-
-const actRef=db.collection("activations").doc(id);
-const userRef=db.collection("users").doc(uid);
-
-const actSnap=await transaction.get(actRef);
-const userSnap=await transaction.get(userRef);
-
-if(!actSnap.exists)throw new Error("Activation not found");
-if(!userSnap.exists)throw new Error("User not found");
-
-const a=actSnap.data();
-const u=userSnap.data();
-
-if(a.status!=="pending"){
-throw new Error("এই request already processed");
-}
-
-let newBalance=Number(u.balance||0);
-
-if(!a.bonusCredited){
-newBalance+=Number(cfg.activationBonus||0);
-}
-
-transaction.update(userRef,{
-active:true,
-balance:newBalance
-});
-
-transaction.update(actRef,{
-status:"approved",
-bonusCredited:true,
-approvedBy:me.uid,
-approvedAt:firebase.firestore.FieldValue.serverTimestamp()
-});
-
-});
-
-toast("Activation Approved");
-
-adminActivations();
-
-}catch(e){
-toast(e.message);
-}
-
-}
+/* =========================================================
+   REJECT ACTIVATION
+========================================================= */
 
 async function rejectActivation(id){
 
-if(!isAdmin())return;
+  try{
 
-try{
+    await db.collection("activations")
+      .doc(id)
+      .update({
 
-await db.collection("activations").doc(id).update({
-status:"rejected",
-rejectedBy:me.uid,
-rejectedAt:firebase.firestore.FieldValue.serverTimestamp()
-});
+        status:"rejected",
 
-toast("Activation Rejected");
+        rejectedAt:
+          firebase.firestore.FieldValue.serverTimestamp(),
 
-adminActivations();
+        rejectedBy:currentUser.uid
+      });
 
-}catch(e){
-toast(e.message);
+    toast("Activation rejected");
+
+    renderAdminActivation();
+
+  }catch(e){
+
+    console.error(e);
+
+    toast("Reject করা যায়নি");
+  }
 }
 
+/* =========================================================
+   ADMIN WITHDRAW
+========================================================= */
+
+async function renderAdminWithdraw(){
+
+  const box=$("adminContent");
+
+  box.innerHTML=`
+    <div class="card empty">
+      Loading withdrawal requests...
+    </div>
+  `;
+
+  try{
+
+    const snap=
+      await db.collection("withdrawals")
+      .where("status","==","pending")
+      .get();
+
+    withdrawalRequests=[];
+
+    snap.forEach(doc=>{
+      withdrawalRequests.push({
+        id:doc.id,
+        ...doc.data()
+      });
+    });
+
+    withdrawalRequests.sort((a,b)=>
+      (b.createdAt?.seconds || 0)-
+      (a.createdAt?.seconds || 0)
+    );
+
+    if(!withdrawalRequests.length){
+
+      box.innerHTML=
+        `<div class="card empty">
+          কোনো pending withdrawal নেই।
+        </div>`;
+
+      return;
+    }
+
+    box.innerHTML=
+      withdrawalRequests
+      .map(withdrawAdminItem)
+      .join("");
+
+  }catch(e){
+
+    console.error(e);
+
+    box.innerHTML=
+      `<div class="card empty">
+        Withdrawal requests load করা যায়নি।
+      </div>`;
+  }
 }
 
-/* =========================
-   ADMIN WITHDRAWALS
-========================= */
+/* =========================================================
+   WITHDRAW ADMIN ITEM
+========================================================= */
 
-async function adminWithdrawals(){
+function withdrawAdminItem(x){
 
-const box=$("adminWd");
+  return `
 
-if(!box)return;
+    <div class="listItem">
 
-box.innerHTML=`<div class="empty">Loading...</div>`;
+      <div class="listTop">
 
-try{
+        <div>
 
-const snap=await db.collection("withdrawals")
-.where("status","==","pending")
-.limit(100)
-.get();
+          <h3>
+            ${escapeHtml(x.name || "User")}
+          </h3>
 
-if(snap.empty){
-box.innerHTML=`<div class="empty">Pending Withdrawal নেই</div>`;
-return;
+          <p>
+            Email: ${escapeHtml(x.email || "")}<br>
+            Method: ${escapeHtml(x.method || "")}<br>
+            Number: ${escapeHtml(x.number || "")}<br>
+            Amount: ${money(x.amount)}<br>
+            Fee: ${money(x.fee)}
+          </p>
+
+        </div>
+
+        <span class="badge">
+          PENDING
+        </span>
+
+      </div>
+
+      <div class="adminActions">
+
+        <button class="approveBtn"
+          onclick="approveWithdrawal('${escapeHtml(x.id)}')">
+          Approve
+        </button>
+
+        <button class="rejectBtn"
+          onclick="rejectWithdrawal('${escapeHtml(x.id)}')">
+          Reject
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
 }
 
-let arr=[];
+/* =========================================================
+   APPROVE WITHDRAWAL
+========================================================= */
 
-snap.forEach(d=>arr.push({id:d.id,...d.data()}));
+async function approveWithdrawal(id){
 
-arr.sort((a,b)=>{
-const aa=a.createdAt?.toMillis?a.createdAt.toMillis():0;
-const bb=b.createdAt?.toMillis?b.createdAt.toMillis():0;
-return bb-aa;
-});
+  try{
 
-box.innerHTML=arr.map(x=>`
+    const ref=
+      db.collection("withdrawals").doc(id);
 
-<div class="adminItem">
+    const snap=await ref.get();
 
-<strong>${esc(x.name||"User")}</strong>
+    if(!snap.exists){
+      toast("Request পাওয়া যায়নি");
+      return;
+    }
 
-<div class="small">
-Email: ${esc(x.email||"")}<br>
-UID: ${esc(x.uid||"")}<br>
-Method: ${esc(x.method||"")}<br>
-Number: ${esc(x.number||"")}<br>
-Amount: ${money(x.amount)}<br>
-Fee: ${money(x.fee)}<br>
-Total: <b>${money(Number(x.amount||0)+Number(x.fee||0))}</b><br>
-Date: ${dateText(x.createdAt)}
-</div>
+    const data=snap.data();
 
-<br>
+    if(data.status!=="pending"){
+      toast("Already processed");
+      return;
+    }
 
-<div class="row">
+    const userRef=
+      db.collection("users").doc(data.uid);
 
-<button class="action green"
-onclick="approveWithdrawal('${x.id}','${esc(x.uid||"")}')">
-Approve
-</button>
+    const userSnap=await userRef.get();
 
-<button class="action red"
-onclick="rejectWithdrawal('${x.id}')">
-Reject
-</button>
+    if(!userSnap.exists){
+      toast("User পাওয়া যায়নি");
+      return;
+    }
 
-</div>
+    const user=userSnap.data();
 
-</div>
+    const balance=
+      Number(user.balance || 0);
 
-`).join("");
+    const amount=
+      Number(data.amount || 0);
 
-}catch(e){
-box.innerHTML=`<div class="small">${esc(e.message)}</div>`;
+    const fee=
+      Number(data.fee || 0);
+
+    if(amount+fee>balance){
+
+      await ref.update({
+        status:"rejected",
+        rejectedReason:"Insufficient balance",
+        rejectedAt:
+          firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      toast("Balance যথেষ্ট না থাকায় rejected");
+
+      renderAdminWithdraw();
+
+      return;
+    }
+
+    await userRef.update({
+
+      balance:
+        balance-amount-fee
+
+    });
+
+    await ref.update({
+
+      status:"approved",
+
+      approvedAt:
+        firebase.firestore.FieldValue.serverTimestamp(),
+
+      approvedBy:currentUser.uid
+
+    });
+
+    toast("Withdrawal approved");
+
+    renderAdminWithdraw();
+
+  }catch(e){
+
+    console.error(e);
+
+    toast("Approve করা যায়নি");
+  }
 }
 
-}
-
-async function approveWithdrawal(id,uid){
-
-if(!isAdmin())return;
-
-try{
-
-await db.runTransaction(async transaction=>{
-
-const wdRef=db.collection("withdrawals").doc(id);
-const userRef=db.collection("users").doc(uid);
-
-const wdSnap=await transaction.get(wdRef);
-const userSnap=await transaction.get(userRef);
-
-if(!wdSnap.exists)throw new Error("Withdrawal not found");
-if(!userSnap.exists)throw new Error("User not found");
-
-const w=wdSnap.data();
-const u=userSnap.data();
-
-if(w.status!=="pending"){
-throw new Error("এই request already processed");
-}
-
-let balance=Number(u.balance||0);
-
-const total=
-Number(w.amount||0)+
-Number(w.fee||0);
-
-if(balance<total){
-throw new Error("User balance এখন যথেষ্ট নয়");
-}
-
-if(!w.balanceDeducted){
-
-balance-=total;
-
-transaction.update(userRef,{
-balance
-});
-
-}
-
-transaction.update(wdRef,{
-status:"approved",
-balanceDeducted:true,
-approvedBy:me.uid,
-approvedAt:firebase.firestore.FieldValue.serverTimestamp()
-});
-
-});
-
-toast("Withdrawal Approved");
-
-adminWithdrawals();
-
-}catch(e){
-toast(e.message);
-}
-
-}
+/* =========================================================
+   REJECT WITHDRAWAL
+========================================================= */
 
 async function rejectWithdrawal(id){
 
-if(!isAdmin())return;
+  try{
 
-try{
+    await db.collection("withdrawals")
+      .doc(id)
+      .update({
 
-await db.collection("withdrawals").doc(id).update({
-status:"rejected",
-rejectedBy:me.uid,
-rejectedAt:firebase.firestore.FieldValue.serverTimestamp()
-});
+        status:"rejected",
 
-toast("Withdrawal Rejected");
+        rejectedAt:
+          firebase.firestore.FieldValue.serverTimestamp(),
 
-adminWithdrawals();
+        rejectedBy:currentUser.uid
 
-}catch(e){
-toast(e.message);
+      });
+
+    toast("Withdrawal rejected");
+
+    renderAdminWithdraw();
+
+  }catch(e){
+
+    console.error(e);
+
+    toast("Reject করা যায়নি");
+  }
 }
 
-}
-
-/* =========================
+/* =========================================================
    ADMIN PROJECTS
-========================= */
-
-async function adminProjects(){
-
-const box=$("adminProjects");
-
-if(!box)return;
-
-box.innerHTML=`
-<button class="mainBtn" onclick="newProjectModal()">
-+ Add New Project
-</button>
-<br><br>
-<div id="projectAdminList"></div>
-`;
-
-renderAdminProjects();
-
-}
+========================================================= */
 
 function renderAdminProjects(){
 
-const box=$("projectAdminList");
+  const box=$("adminContent");
 
-if(!box)return;
+  box.innerHTML=`
 
-box.innerHTML=projects.map((p,i)=>`
+    <button class="primaryBtn"
+      onclick="openProjectEditor()">
+      + Add New Project
+    </button>
 
-<div class="adminItem">
+    <div style="margin-top:12px">
 
-<strong>${esc(p.logo||"⭐")} ${esc(p.title)}</strong>
+      ${
+        projects.length
+        ? projects.map(adminProjectItem).join("")
+        : `<div class="card empty">No projects</div>`
+      }
 
-<div class="small">
-${esc(p.subtitle||"")}<br>
-Reward: ${money(p.amount)}<br>
-Status: ${p.active===false?"OFF":"ON"}<br>
-Link: ${esc(p.link||"Not Set")}
-</div>
-
-<br>
-
-<div class="row">
-
-<button class="action purple"
-onclick="editProject(${i})">
-Edit
-</button>
-
-<button class="action ${p.active===false?"green":"red"}"
-onclick="toggleProject(${i})">
-${p.active===false?"Enable":"Disable"}
-</button>
-
-<button class="action red"
-onclick="deleteProject(${i})">
-Delete
-</button>
-
-</div>
-
-</div>
-
-`).join("");
-
+    </div>
+  `;
 }
 
-function editProject(i){
+/* =========================================================
+   ADMIN PROJECT ITEM
+========================================================= */
 
-const p=projects[i];
+function adminProjectItem(p){
 
-openModal("Edit Project",`
+  return `
 
-<div class="field">
-<label>Title</label>
-<input id="pTitle" value="${esc(p.title)}">
-</div>
+    <div class="listItem">
 
-<div class="field">
-<label>Subtitle</label>
-<input id="pSubtitle" value="${esc(p.subtitle)}">
-</div>
+      <div class="listTop">
 
-<div class="field">
-<label>Logo / Emoji</label>
-<input id="pLogo" value="${esc(p.logo||"⭐")}">
-</div>
+        <div>
 
-<div class="field">
-<label>Task Link</label>
-<input id="pLink" value="${esc(p.link||"")}" placeholder="https://...">
-</div>
+          <h3>
+            ${escapeHtml(p.title || "")}
+          </h3>
 
-<div class="field">
-<label>Reward Amount</label>
-<input id="pAmount" type="number" value="${Number(p.amount||0)}">
-</div>
+          <p>
+            ${escapeHtml(p.subtitle || "")}<br>
+            Reward: ${money(p.amount)}<br>
+            Status: ${p.active!==false ? "Active" : "Disabled"}
+          </p>
 
-<div class="field">
-<label>Status</label>
-<select id="pActive">
-<option value="true" ${p.active!==false?"selected":""}>ON</option>
-<option value="false" ${p.active===false?"selected":""}>OFF</option>
-</select>
-</div>
+        </div>
 
-<button class="mainBtn" onclick="saveProject(${i})">
-Save Project
-</button>
+        <span class="badge ${p.active!==false ? "green" : "red"}">
+          ${p.active!==false ? "ON" : "OFF"}
+        </span>
 
-`);
+      </div>
 
+      <div class="adminActions">
+
+        <button class="editBtn"
+          onclick="openProjectEditor('${escapeHtml(p.id)}')">
+          Edit
+        </button>
+
+        <button class="${p.active!==false ? "rejectBtn" : "approveBtn"}"
+          onclick="toggleProject('${escapeHtml(p.id)}')">
+          ${p.active!==false ? "Disable" : "Enable"}
+        </button>
+
+        <button class="darkBtn"
+          onclick="deleteProject('${escapeHtml(p.id)}')">
+          Delete
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
 }
 
-async function saveProject(i){
+/* =========================================================
+   PROJECT EDITOR
+========================================================= */
 
-projects[i]={
-...projects[i],
-title:$("pTitle").value.trim(),
-subtitle:$("pSubtitle").value.trim(),
-logo:$("pLogo").value.trim(),
-link:$("pLink").value.trim(),
-amount:Number($("pAmount").value||0),
-active:$("pActive").value==="true"
-};
+function openProjectEditor(id=""){
 
-await saveProjects();
+  const p=
+    projects.find(x=>x.id===id) ||
+    {
+      id:"",
+      title:"",
+      subtitle:"",
+      logo:"",
+      link:"",
+      amount:0,
+      active:true
+    };
 
-toast("Project Updated");
+  showModal(`
 
-closeModal();
-openAdmin();
+    <div class="modalHeader">
 
+      <div>
+        <h2>${id ? "Edit Project" : "Add Project"}</h2>
+      </div>
+
+      <button class="closeBtn"
+        onclick="closeModal()">
+        ×
+      </button>
+
+    </div>
+
+    <div class="formGroup">
+      <label>Project ID</label>
+      <input id="projectId"
+        value="${escapeHtml(p.id)}"
+        ${id ? "readonly" : ""}
+        placeholder="example-task">
+    </div>
+
+    <div class="formGroup">
+      <label>Title</label>
+      <input id="projectTitle"
+        value="${escapeHtml(p.title)}">
+    </div>
+
+    <div class="formGroup">
+      <label>Subtitle</label>
+      <input id="projectSubtitle"
+        value="${escapeHtml(p.subtitle)}">
+    </div>
+
+    <div class="formGroup">
+      <label>Logo / Emoji / Image URL</label>
+      <input id="projectLogo"
+        value="${escapeHtml(p.logo)}">
+    </div>
+
+    <div class="formGroup">
+      <label>Task Link</label>
+      <input id="projectLink"
+        value="${escapeHtml(p.link)}"
+        placeholder="https://...">
+    </div>
+
+    <div class="formGroup">
+      <label>Reward Amount</label>
+      <input id="projectAmount"
+        type="number"
+        min="0"
+        value="${Number(p.amount || 0)}">
+    </div>
+
+    <button class="primaryBtn"
+      onclick="saveProject('${escapeHtml(id)}')">
+      Save Project
+    </button>
+
+  `);
 }
 
-function newProjectModal(){
+/* =========================================================
+   SAVE PROJECT
+========================================================= */
 
-openModal("Add Project",`
+async function saveProject(oldId=""){
 
-<div class="field">
-<label>Title</label>
-<input id="pTitle" placeholder="Project Title">
-</div>
+  const id=$("projectId").value.trim();
+  const title=$("projectTitle").value.trim();
+  const subtitle=$("projectSubtitle").value.trim();
+  const logo=$("projectLogo").value.trim();
+  const link=$("projectLink").value.trim();
+  const amount=Number($("projectAmount").value);
 
-<div class="field">
-<label>Subtitle</label>
-<input id="pSubtitle" placeholder="Project description">
-</div>
+  if(!id || !title){
+    toast("Project ID এবং Title দিন");
+    return;
+  }
 
-<div class="field">
-<label>Logo / Emoji</label>
-<input id="pLogo" value="⭐">
-</div>
+  const project={
+    id:id,
+    title:title,
+    subtitle:subtitle,
+    logo:logo,
+    link:link,
+    amount:Number.isFinite(amount) ? amount : 0,
+    active:true
+  };
 
-<div class="field">
-<label>Task Link</label>
-<input id="pLink" placeholder="https://...">
-</div>
+  if(oldId){
 
-<div class="field">
-<label>Reward Amount</label>
-<input id="pAmount" type="number" value="0">
-</div>
+    const index=
+      projects.findIndex(x=>x.id===oldId);
 
-<button class="mainBtn" onclick="addProject()">
-Add Project
-</button>
+    if(index!==-1){
 
-`);
+      project.active=
+        projects[index].active!==false;
 
+      projects[index]=project;
+
+    }
+
+  }else{
+
+    if(projects.some(x=>x.id===id)){
+      toast("এই Project ID আগে থেকেই আছে");
+      return;
+    }
+
+    projects.push(project);
+  }
+
+  await saveProjects();
+
+  closeModal();
+
+  toast("Project saved");
+
+  renderAdminProjects();
 }
 
-async function addProject(){
-
-const title=$("pTitle").value.trim();
-
-if(!title){
-toast("Title দিন");
-return;
-}
-
-const id=
-"p_"+Date.now()+"_"+Math.random().toString(36).substring(2,7);
-
-projects.push({
-id,
-title,
-subtitle:$("pSubtitle").value.trim(),
-logo:$("pLogo").value.trim()||"⭐",
-link:$("pLink").value.trim(),
-amount:Number($("pAmount").value||0),
-active:true
-});
-
-await saveProjects();
-
-toast("Project Added");
-
-closeModal();
-openAdmin();
-
-}
-
-async function toggleProject(i){
-
-projects[i].active=projects[i].active===false;
-
-await saveProjects();
-
-toast("Project Status Updated");
-
-renderAdminProjects();
-
-}
-
-async function deleteProject(i){
-
-if(!confirm("এই Project Delete করবেন?"))return;
-
-projects.splice(i,1);
-
-await saveProjects();
-
-toast("Project Deleted");
-
-renderAdminProjects();
-
-}
+/* =========================================================
+   SAVE PROJECTS FIRESTORE
+========================================================= */
 
 async function saveProjects(){
 
-await db.collection("appData").doc("projects").set({
-items:projects,
-updatedAt:firebase.firestore.FieldValue.serverTimestamp(),
-updatedBy:me.uid
-});
-
+  await db.collection("appData")
+    .doc("projects")
+    .set({
+      items:projects,
+      updatedAt:
+        firebase.firestore.FieldValue.serverTimestamp()
+    });
 }
 
-/* =========================
+/* =========================================================
+   TOGGLE PROJECT
+========================================================= */
+
+async function toggleProject(id){
+
+  const p=projects.find(x=>x.id===id);
+
+  if(!p) return;
+
+  p.active=p.active===false;
+
+  try{
+
+    await saveProjects();
+
+    toast(
+      p.active
+      ? "Project enabled"
+      : "Project disabled"
+    );
+
+    renderAdminProjects();
+
+  }catch(e){
+
+    console.error(e);
+
+    toast("Project update করা যায়নি");
+  }
+}
+
+/* =========================================================
+   DELETE PROJECT
+========================================================= */
+
+async function deleteProject(id){
+
+  const p=projects.find(x=>x.id===id);
+
+  if(!p) return;
+
+  const ok=
+    confirm("এই Project delete করতে চান?");
+
+  if(!ok) return;
+
+  projects=
+    projects.filter(x=>x.id!==id);
+
+  try{
+
+    await saveProjects();
+
+    toast("Project deleted");
+
+    renderAdminProjects();
+
+  }catch(e){
+
+    console.error(e);
+
+    toast("Delete করা যায়নি");
+  }
+}
+
+/* =========================================================
    ADMIN SETTINGS
-========================= */
+========================================================= */
 
-function adminSettings(){
+function renderAdminSettings(){
 
-const box=$("adminSettings");
+  const box=$("adminContent");
 
-if(!box)return;
+  box.innerHTML=`
 
-box.innerHTML=`
+    <div class="card">
 
-<div class="field">
-<label>Activation Fee</label>
-<input id="sActivationFee" type="number" value="${Number(cfg.activationFee||0)}">
-</div>
+      <div class="formGroup">
+        <label>Activation Fee</label>
+        <input id="setActivationFee"
+          type="number"
+          value="${Number(appConfig.activationFee || 0)}">
+      </div>
 
-<div class="field">
-<label>Activation Bonus</label>
-<input id="sActivationBonus" type="number" value="${Number(cfg.activationBonus||0)}">
-</div>
+      <div class="formGroup">
+        <label>Activation Bonus</label>
+        <input id="setActivationBonus"
+          type="number"
+          value="${Number(appConfig.activationBonus || 0)}">
+      </div>
 
-<div class="field">
-<label>Withdrawal Fee</label>
-<input id="sWithdrawalFee" type="number" value="${Number(cfg.withdrawalFee||0)}">
-</div>
+      <div class="formGroup">
+        <label>Withdrawal Fee</label>
+        <input id="setWithdrawalFee"
+          type="number"
+          value="${Number(appConfig.withdrawalFee || 0)}">
+      </div>
 
-<div class="field">
-<label>bKash Number</label>
-<input id="sBkash" value="${esc(cfg.bkash||"")}">
-</div>
+      <div class="formGroup">
+        <label>bKash Number</label>
+        <input id="setBkash"
+          value="${escapeHtml(appConfig.bkash || "")}">
+      </div>
 
-<div class="field">
-<label>Nagad Number</label>
-<input id="sNagad" value="${esc(cfg.nagad||"")}">
-</div>
+      <div class="formGroup">
+        <label>Nagad Number</label>
+        <input id="setNagad"
+          value="${escapeHtml(appConfig.nagad || "")}">
+      </div>
 
-<div class="field">
-<label>Telegram Link</label>
-<input id="sTelegram" value="${esc(cfg.telegram||"")}" placeholder="https://t.me/...">
-</div>
+      <div class="formGroup">
+        <label>Telegram Link</label>
+        <input id="setTelegram"
+          value="${escapeHtml(appConfig.telegram || "")}">
+      </div>
 
-<div class="field">
-<label>Support 1</label>
-<input id="sSupport1" value="${esc(cfg.support1||"")}">
-</div>
+      <div class="formGroup">
+        <label>Support 1</label>
+        <input id="setSupport1"
+          value="${escapeHtml(appConfig.support1 || "")}">
+      </div>
 
-<div class="field">
-<label>Support 2</label>
-<input id="sSupport2" value="${esc(cfg.support2||"")}">
-</div>
+      <div class="formGroup">
+        <label>Support 2</label>
+        <input id="setSupport2"
+          value="${escapeHtml(appConfig.support2 || "")}">
+      </div>
 
-<div class="field">
-<label>Notice</label>
-<textarea id="sNotice"
-style="width:100%;min-height:100px;padding:12px;border:1px solid #ddd;border-radius:12px">${esc(cfg.notice||"")}</textarea>
-</div>
+      <div class="formGroup">
+        <label>Notice</label>
+        <textarea id="setNotice"
+          rows="4">${escapeHtml(appConfig.notice || "")}</textarea>
+      </div>
 
-<button class="mainBtn" onclick="saveA()">
-Save All Settings
-</button>
+      <button class="primaryBtn"
+        onclick="saveSettings()">
+        Save Settings
+      </button>
 
-<br><br>
+    </div>
 
-<div class="adminItem">
-<strong>Admin UID 1</strong>
-<div class="small">${ADM[0]}</div>
-</div>
-
-<div class="adminItem">
-<strong>Admin UID 2</strong>
-<div class="small">${ADM[1]}</div>
-</div>
-
-`;
-
+  `;
 }
 
-async function saveA(){
+/* =========================================================
+   SAVE SETTINGS
+========================================================= */
 
-if(!isAdmin()){
-toast("Admin Access নেই");
-return;
+async function saveSettings(){
+
+  const next={
+
+    activationFee:
+      Number($("setActivationFee").value || 0),
+
+    activationBonus:
+      Number($("setActivationBonus").value || 0),
+
+    withdrawalFee:
+      Number($("setWithdrawalFee").value || 0),
+
+    bkash:
+      $("setBkash").value.trim(),
+
+    nagad:
+      $("setNagad").value.trim(),
+
+    telegram:
+      $("setTelegram").value.trim(),
+
+    support1:
+      $("setSupport1").value.trim(),
+
+    support2:
+      $("setSupport2").value.trim(),
+
+    notice:
+      $("setNotice").value.trim()
+  };
+
+  try{
+
+    await db.collection("appData")
+      .doc("config")
+      .set({
+        ...next,
+        updatedAt:
+          firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+    appConfig={
+      ...DEFAULT_CONFIG,
+      ...next
+    };
+
+    toast("Settings saved");
+
+    renderAdminSettings();
+
+  }catch(e){
+
+    console.error(e);
+
+    toast("Settings save করা যায়নি");
+  }
 }
 
-cfg={
-activationFee:Number($("sActivationFee").value||0),
-activationBonus:Number($("sActivationBonus").value||0),
-withdrawalFee:Number($("sWithdrawalFee").value||0),
-bkash:$("sBkash").value.trim(),
-nagad:$("sNagad").value.trim(),
-telegram:$("sTelegram").value.trim(),
-support1:$("sSupport1").value.trim(),
-support2:$("sSupport2").value.trim(),
-notice:$("sNotice").value.trim()
-};
+/* =========================================================
+   ADMIN INITIALIZATION
+========================================================= */
 
-try{
+window.addEventListener("load",()=>{
 
-await db.collection("appData").doc("config").set({
-...cfg,
-updatedAt:firebase.firestore.FieldValue.serverTimestamp(),
-updatedBy:me.uid
+  setTimeout(()=>{
+
+    if(!$("loadingScreen").classList.contains("hidden")){
+
+      $("loadingScreen").classList.add("hidden");
+
+      if(!currentUser){
+        $("authScreen").classList.remove("hidden");
+      }
+
+    }
+
+  },7000);
+
 });
-
-toast("Settings Saved");
-
-}catch(e){
-toast(e.message);
-}
-
-}
-
 </script>
 
 </body>
