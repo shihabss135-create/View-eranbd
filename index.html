@@ -12,588 +12,221 @@ href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;70
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <style>
-*{
- box-sizing:border-box;
- margin:0;
- padding:0;
- font-family:"Hind Siliguri",sans-serif
-}
-
-body{
- background:#f5f7fb;
- color:#222;
- padding-bottom:75px
-}
-
-button,input,select{
- font-family:inherit
-}
-
-button{
- border:0;
- cursor:pointer
-}
-
-/* HEADER */
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Hind Siliguri",sans-serif}
+body{background:#f5f7fb;color:#222;padding-bottom:75px}
+button,input,select{font-family:inherit}
+button{border:0;cursor:pointer}
 
 .header{
- height:65px;
- background:linear-gradient(135deg,#ff7200,#ffad00);
- color:white;
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:0 14px;
- position:sticky;
- top:0;
- z-index:100;
- box-shadow:0 4px 18px #ff850055
+height:65px;background:linear-gradient(135deg,#ff7200,#ffad00);
+color:#fff;display:flex;align-items:center;justify-content:space-between;
+padding:0 14px;position:sticky;top:0;z-index:100;
+box-shadow:0 4px 18px #ff850055
 }
-
-.logo{
- display:flex;
- align-items:center;
- gap:9px;
- font-size:20px;
- font-weight:700
-}
-
+.logo{display:flex;align-items:center;gap:9px;font-size:20px;font-weight:700}
 .logoIcon{
- width:40px;
- height:40px;
- border-radius:13px;
- background:white;
- color:#ff7200;
- display:flex;
- align-items:center;
- justify-content:center;
- box-shadow:0 0 15px #fff
+width:40px;height:40px;border-radius:13px;background:#fff;color:#ff7200;
+display:flex;align-items:center;justify-content:center;box-shadow:0 0 15px #fff
 }
-
-.headerRight{
- display:flex;
- gap:8px
-}
-
+.headerRight{display:flex;gap:8px}
 .headerBtn{
- width:38px;
- height:38px;
- border-radius:50%;
- background:#ffffff25;
- color:white;
- font-size:17px
+width:38px;height:38px;border-radius:50%;background:#ffffff25;
+color:#fff;font-size:17px
 }
 
-/* CONTAINER */
-
-.container{
- width:min(100%,530px);
- margin:auto;
- padding:12px
-}
-
-.page{
- display:none
-}
-
-.page.active{
- display:block
-}
-
-/* BALANCE */
+.container{width:min(100%,530px);margin:auto;padding:12px}
+.page{display:none}
+.page.active{display:block}
 
 .balanceCard{
- background:linear-gradient(135deg,#fff,#fff8ee);
- border-radius:20px;
- padding:17px;
- box-shadow:0 5px 20px #00000010;
- border:1px solid #ffe0bd
+background:linear-gradient(135deg,#fff,#fff8ee);border-radius:20px;
+padding:17px;box-shadow:0 5px 20px #00000010;border:1px solid #ffe0bd
 }
-
-.balanceTitle{
- color:#777;
- font-size:13px
-}
-
-.balance{
- font-size:31px;
- font-weight:700;
- color:#ff7100
-}
-
-/* LIVE */
+.balanceTitle{color:#777;font-size:13px}
+.balance{font-size:31px;font-weight:700;color:#ff7100}
 
 .siteLive{
- margin-top:12px;
- background:white;
- border-radius:15px;
- display:grid;
- grid-template-columns:repeat(3,1fr);
- padding:8px;
- box-shadow:0 3px 12px #00000008
+margin-top:12px;background:#fff;border-radius:15px;
+display:grid;grid-template-columns:repeat(3,1fr);padding:8px;
+box-shadow:0 3px 12px #00000008
 }
-
-.liveBox{
- text-align:center;
- padding:7px 2px
-}
-
-.liveIcon{
- color:#ff7900;
- font-size:17px
-}
-
-.liveValue{
- font-weight:700;
- font-size:12px
-}
-
-.liveLabel{
- font-size:9px;
- color:#888
-}
-
-/* SECTION */
+.liveBox{text-align:center;padding:7px 2px}
+.liveIcon{color:#ff7900;font-size:17px}
+.liveValue{font-weight:700;font-size:12px}
+.liveLabel{font-size:9px;color:#888}
 
 .sectionTitle{
- display:flex;
- justify-content:space-between;
- align-items:center;
- margin:17px 3px 10px;
- font-size:17px
+display:flex;justify-content:space-between;align-items:center;
+margin:17px 3px 10px;font-size:17px
 }
+.sectionTitle span{font-size:11px;color:#ff7600}
 
-.sectionTitle span{
- font-size:11px;
- color:#ff7600
-}
-
-/* GRID */
-
-.grid{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:10px
-}
-
-/* LOGO CARD */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 
 .service{
- min-height:92px;
- background:white;
- border-radius:18px;
- position:relative;
- display:flex;
- flex-direction:column;
- justify-content:center;
- align-items:center;
- gap:6px;
- overflow:hidden;
- box-shadow:0 5px 16px #0000000c
+min-height:92px;background:#fff;border-radius:18px;position:relative;
+display:flex;flex-direction:column;justify-content:center;
+align-items:center;gap:6px;overflow:hidden;
+box-shadow:0 5px 16px #0000000c
 }
 
 .service:before{
- content:"";
- position:absolute;
- inset:-2px;
- border-radius:20px;
- padding:2px;
- background:conic-gradient(
- #ff0000,
- #ffcc00,
- #00ff88,
- #00cfff,
- #7b00ff,
- #ff00c8,
- #ff0000
- );
- -webkit-mask:
- linear-gradient(#fff 0 0) content-box,
- linear-gradient(#fff 0 0);
- -webkit-mask-composite:xor;
- mask-composite:exclude;
- animation:rotateLight 3s linear infinite
+content:"";position:absolute;inset:-2px;border-radius:20px;padding:2px;
+background:conic-gradient(
+#ff0000,#ffcc00,#00ff88,#00cfff,#7b00ff,#ff00c8,#ff0000
+);
+-webkit-mask:linear-gradient(#fff 0 0) content-box,
+linear-gradient(#fff 0 0);
+-webkit-mask-composite:xor;mask-composite:exclude;
+animation:rotateLight 3s linear infinite
 }
 
 .service:after{
- content:"";
- position:absolute;
- width:65px;
- height:65px;
- border-radius:50%;
- background:conic-gradient(
- transparent,
- #fff,
- transparent,
- #00d9ff,
- transparent
- );
- filter:blur(7px);
- opacity:.35;
- animation:rotateLight 2.5s linear infinite
+content:"";position:absolute;width:65px;height:65px;border-radius:50%;
+background:conic-gradient(transparent,#fff,transparent,#00d9ff,transparent);
+filter:blur(7px);opacity:.35;
+animation:rotateLight 2.5s linear infinite
 }
 
 @keyframes rotateLight{
- from{transform:rotate(0deg)}
- to{transform:rotate(360deg)}
+from{transform:rotate(0deg)}
+to{transform:rotate(360deg)}
 }
 
-.service i,
-.serviceName{
- position:relative;
- z-index:3
-}
-
-.service i{
- font-size:27px
-}
-
-.serviceName{
- font-size:11px;
- font-weight:600;
- text-align:center
-}
-
-.s1 i{color:#1877f2}
-.s2 i{color:#e1306c}
-.s3 i{color:#111}
-.s4 i{color:#229ed9}
-.s5 i{color:#25d366}
-.s6 i{color:#ea4335}
-.s7 i{color:#4285f4}
-.s8 i{color:#7c3aed}
-.s9 i{color:#ff7600}
-
-/* TASK */
+.service i,.serviceName{position:relative;z-index:3}
+.service i{font-size:27px}
+.serviceName{font-size:11px;font-weight:600;text-align:center}
+.s1 i{color:#1877f2}.s2 i{color:#e1306c}.s3 i{color:#111}
+.s4 i{color:#229ed9}.s5 i{color:#25d366}.s6 i{color:#ea4335}
+.s7 i{color:#4285f4}.s8 i{color:#7c3aed}.s9 i{color:#ff7600}
 
 .taskCard{
- background:white;
- border-radius:17px;
- padding:14px;
- margin-bottom:10px;
- box-shadow:0 4px 15px #0000000b
+background:#fff;border-radius:17px;padding:14px;margin-bottom:10px;
+box-shadow:0 4px 15px #0000000b
 }
-
-.taskTop{
- display:flex;
- align-items:center;
- gap:10px
-}
-
+.taskTop{display:flex;align-items:center;gap:10px}
 .taskIcon{
- width:47px;
- height:47px;
- border-radius:14px;
- background:linear-gradient(135deg,#ff7600,#ffb300);
- color:white;
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:20px;
- flex-shrink:0
+width:47px;height:47px;border-radius:14px;
+background:linear-gradient(135deg,#ff7600,#ffb300);
+color:#fff;display:flex;align-items:center;justify-content:center;
+font-size:20px;flex-shrink:0
 }
-
-.taskInfo{
- flex:1
-}
-
-.taskInfo h3{
- font-size:14px
-}
-
-.taskInfo p{
- font-size:11px;
- color:#888
-}
-
-.reward{
- color:#ff7100;
- font-weight:700
-}
+.taskInfo{flex:1}
+.taskInfo h3{font-size:14px}
+.taskInfo p{font-size:11px;color:#888}
+.reward{color:#ff7100;font-weight:700}
 
 .taskBtn{
- width:100%;
- margin-top:11px;
- padding:10px;
- border-radius:11px;
- background:linear-gradient(135deg,#ff7300,#ffab00);
- color:white;
- font-weight:700
+width:100%;margin-top:11px;padding:10px;border-radius:11px;
+background:linear-gradient(135deg,#ff7300,#ffab00);
+color:#fff;font-weight:700
 }
-
-/* PROFILE */
 
 .profile{
- background:white;
- border-radius:19px;
- padding:20px;
- text-align:center;
- box-shadow:0 4px 18px #0000000c
+background:#fff;border-radius:19px;padding:20px;text-align:center;
+box-shadow:0 4px 18px #0000000c
 }
-
 .avatar{
- width:75px;
- height:75px;
- border-radius:50%;
- margin:auto;
- display:flex;
- align-items:center;
- justify-content:center;
- background:linear-gradient(135deg,#ff7200,#ffb000);
- color:white;
- font-size:30px
+width:75px;height:75px;border-radius:50%;margin:auto;
+display:flex;align-items:center;justify-content:center;
+background:linear-gradient(135deg,#ff7200,#ffb000);
+color:#fff;font-size:30px
 }
+.profile h2{margin-top:10px}
+.profile p{color:#777;font-size:12px}
 
-.profile h2{
- margin-top:10px
-}
-
-.profile p{
- color:#777;
- font-size:12px
-}
-
-/* FORMS */
-
-.formGroup{
- margin-bottom:11px
-}
-
-.formGroup label{
- display:block;
- font-size:12px;
- font-weight:600;
- margin-bottom:5px
-}
-
+.formGroup{margin-bottom:11px}
+.formGroup label{display:block;font-size:12px;font-weight:600;margin-bottom:5px}
 .input{
- width:100%;
- padding:11px;
- border:1px solid #dfe4eb;
- border-radius:10px;
- outline:none;
- background:white
+width:100%;padding:11px;border:1px solid #dfe4eb;
+border-radius:10px;outline:none;background:#fff
 }
-
-.input:focus{
- border-color:#ff7900
-}
+.input:focus{border-color:#ff7900}
 
 .primary{
- width:100%;
- padding:11px;
- border-radius:11px;
- color:white;
- background:linear-gradient(135deg,#ff7200,#ffab00);
- font-weight:700
+width:100%;padding:11px;border-radius:11px;color:#fff;
+background:linear-gradient(135deg,#ff7200,#ffab00);font-weight:700
 }
-
 .smallBtn{
- padding:8px 10px;
- border-radius:9px;
- background:#ff7900;
- color:white;
- font-size:11px;
- font-weight:700
+padding:8px 10px;border-radius:9px;background:#ff7900;
+color:#fff;font-size:11px;font-weight:700
 }
-
-.danger{
- background:#e53935
-}
-
-.success{
- background:#159b6c
-}
-
-/* INFO */
+.danger{background:#e53935}
+.success{background:#159b6c}
 
 .infoBox{
- background:#fff8ed;
- border:1px solid #ffe0bd;
- border-radius:13px;
- padding:12px;
- font-size:12px;
- margin-bottom:11px
+background:#fff8ed;border:1px solid #ffe0bd;border-radius:13px;
+padding:12px;font-size:12px;margin-bottom:11px
 }
-
-/* REFERRAL */
 
 .refBox{
- background:white;
- padding:15px;
- border-radius:17px;
- box-shadow:0 4px 15px #0000000b
+background:#fff;padding:15px;border-radius:17px;
+box-shadow:0 4px 15px #0000000b
 }
-
 .refLink{
- padding:10px;
- background:#f3f5f8;
- border-radius:10px;
- font-size:10px;
- word-break:break-all;
- margin:10px 0
+padding:10px;background:#f3f5f8;border-radius:10px;
+font-size:10px;word-break:break-all;margin:10px 0
 }
 
-/* STATS */
-
-.statGrid{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:9px
-}
-
+.statGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
 .statCard{
- background:white;
- padding:14px;
- border-radius:14px;
- box-shadow:0 3px 12px #00000009
+background:#fff;padding:14px;border-radius:14px;
+box-shadow:0 3px 12px #00000009
 }
+.statCard b{display:block;color:#ff7600;font-size:20px}
 
-.statCard b{
- display:block;
- color:#ff7600;
- font-size:20px
-}
-
-/* ADMIN */
-
-.adminLoginBox{
- border:2px solid #ffe0bd
-}
+.adminLoginBox{border:2px solid #ffe0bd}
 
 .adminTabs{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:7px;
- margin-bottom:12px
+display:grid;grid-template-columns:repeat(3,1fr);
+gap:7px;margin-bottom:12px
 }
-
 .adminTab{
- padding:9px 3px;
- background:white;
- border-radius:10px;
- font-size:10px;
- font-weight:700;
- border:1px solid #e5e9ef
+padding:9px 3px;background:#fff;border-radius:10px;
+font-size:10px;font-weight:700;border:1px solid #e5e9ef
 }
+.adminTab.active{background:#ff7800;color:#fff}
 
-.adminTab.active{
- background:#ff7800;
- color:white
-}
-
-.adminSection{
- display:none
-}
-
-.adminSection.active{
- display:block
-}
+.adminSection{display:none}
+.adminSection.active{display:block}
 
 .adminTask{
- background:white;
- border-radius:15px;
- padding:13px;
- margin-bottom:10px;
- box-shadow:0 3px 13px #00000008
+background:#fff;border-radius:15px;padding:13px;margin-bottom:10px;
+box-shadow:0 3px 13px #00000008
 }
-
-.adminTask h3{
- font-size:14px;
- margin-bottom:8px
-}
-
-.adminGrid{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:8px
-}
-
+.adminTask h3{font-size:14px;margin-bottom:8px}
+.adminGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .adminBadge{
- display:inline-block;
- padding:4px 8px;
- border-radius:20px;
- background:#fff0df;
- color:#f06e00;
- font-size:9px;
- font-weight:700;
- margin-bottom:6px
+display:inline-block;padding:4px 8px;border-radius:20px;
+background:#fff0df;color:#f06e00;font-size:9px;
+font-weight:700;margin-bottom:6px
 }
-
-/* BOTTOM */
 
 .bottomNav{
- position:fixed;
- left:0;
- right:0;
- bottom:0;
- height:67px;
- background:white;
- display:grid;
- grid-template-columns:repeat(5,1fr);
- box-shadow:0 -4px 20px #00000012;
- z-index:200
+position:fixed;left:0;right:0;bottom:0;height:67px;background:#fff;
+display:grid;grid-template-columns:repeat(5,1fr);
+box-shadow:0 -4px 20px #00000012;z-index:200
 }
-
 .navItem{
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- gap:3px;
- color:#999;
- background:white;
- font-size:10px
+display:flex;flex-direction:column;align-items:center;
+justify-content:center;gap:3px;color:#999;background:#fff;font-size:10px
 }
-
-.navItem i{
- font-size:19px
-}
-
-.navItem.active{
- color:#ff7600
-}
-
-/* TOAST */
+.navItem i{font-size:19px}
+.navItem.active{color:#ff7600}
 
 .toast{
- position:fixed;
- left:50%;
- bottom:82px;
- transform:translateX(-50%);
- background:#222;
- color:white;
- padding:10px 15px;
- border-radius:10px;
- font-size:12px;
- display:none;
- z-index:500;
- max-width:90%;
- text-align:center
+position:fixed;left:50%;bottom:82px;transform:translateX(-50%);
+background:#222;color:#fff;padding:10px 15px;border-radius:10px;
+font-size:12px;display:none;z-index:500;max-width:90%;text-align:center
 }
-
-.empty{
- text-align:center;
- padding:25px;
- color:#888
-}
+.empty{text-align:center;padding:25px;color:#888}
 
 .loader{
- position:fixed;
- inset:0;
- background:white;
- z-index:1000;
- display:flex;
- flex-direction:column;
- justify-content:center;
- align-items:center;
- gap:9px
+position:fixed;inset:0;background:#fff;z-index:1000;
+display:flex;flex-direction:column;justify-content:center;
+align-items:center;gap:9px
 }
-
-.loader i{
- color:#ff7800;
- font-size:35px
-}
+.loader i{color:#ff7800;font-size:35px}
 </style>
 </head>
 
@@ -618,14 +251,12 @@ button{
 <button class="headerBtn" onclick="showPage('profile')">
 <i class="fa-solid fa-user"></i>
 </button>
-
 <button class="headerBtn">
 <i class="fa-solid fa-bell"></i>
 </button>
 </div>
 
 </header>
-
 
 <main class="container">
 
@@ -635,9 +266,7 @@ button{
 
 <div class="balanceCard">
 
-<div class="balanceTitle">
-আপনার বর্তমান ব্যালেন্স
-</div>
+<div class="balanceTitle">আপনার বর্তমান ব্যালেন্স</div>
 
 <div class="balance">
 ৳ <span id="balance">0.00</span>
@@ -646,25 +275,19 @@ button{
 <div class="siteLive">
 
 <div class="liveBox">
-<div class="liveIcon">
-<i class="fa-solid fa-calendar-days"></i>
-</div>
+<div class="liveIcon"><i class="fa-solid fa-calendar-days"></i></div>
 <div class="liveValue" id="siteAge">0 দিন</div>
 <div class="liveLabel">সাইট চলছে</div>
 </div>
 
 <div class="liveBox">
-<div class="liveIcon">
-<i class="fa-solid fa-clock"></i>
-</div>
+<div class="liveIcon"><i class="fa-solid fa-clock"></i></div>
 <div class="liveValue" id="siteTime">0 মিনিট</div>
 <div class="liveLabel">সময়</div>
 </div>
 
 <div class="liveBox">
-<div class="liveIcon">
-<i class="fa-solid fa-users"></i>
-</div>
+<div class="liveIcon"><i class="fa-solid fa-users"></i></div>
 <div class="liveValue" id="liveUsers">0</div>
 <div class="liveLabel">ইউজার</div>
 </div>
@@ -672,12 +295,10 @@ button{
 </div>
 </div>
 
-
 <div class="sectionTitle">
 <b>সার্ভিস</b>
 <span>Sell & Earn</span>
 </div>
-
 
 <div class="grid">
 
@@ -728,7 +349,6 @@ button{
 
 </div>
 
-
 <div class="sectionTitle">
 <b>Join Tasks</b>
 </div>
@@ -755,7 +375,7 @@ button{
 </section>
 
 
-<!-- VIDEO TASK -->
+<!-- VIDEO -->
 
 <section id="video" class="page">
 
@@ -828,7 +448,6 @@ Link Copy
 </div>
 
 </div>
-
 </section>
 
 
@@ -869,12 +488,10 @@ placeholder="01XXXXXXXXX">
 
 <div class="formGroup">
 <label>Method</label>
-
 <select id="withdrawMethod" class="input">
 <option>bKash</option>
 <option>Nagad</option>
 </select>
-
 </div>
 
 <button class="primary" onclick="submitWithdraw()">
@@ -900,13 +517,9 @@ Support loading...
 <i class="fa-solid fa-user"></i>
 </div>
 
-<h2 id="profileName">
-Telegram User
-</h2>
+<h2 id="profileName">Telegram User</h2>
 
-<p id="profileId">
-ID: --
-</p>
+<p id="profileId">ID: --</p>
 
 <br>
 
@@ -932,7 +545,6 @@ Withdraw
 </button>
 
 </div>
-
 </section>
 
 
@@ -946,10 +558,10 @@ Withdraw
 <b>Admin Login</b>
 </div>
 
-<div class="taskCard">
+<div class="taskCard adminLoginBox">
 
 <div class="infoBox">
-Admin Gmail এবং Password দিয়ে Login করুন।
+আপনার Firebase Authentication-এর Gmail এবং Password দিয়ে Login করুন।
 </div>
 
 <div class="formGroup">
@@ -957,7 +569,8 @@ Admin Gmail এবং Password দিয়ে Login করুন।
 <input id="adminEmail"
 class="input"
 type="email"
-placeholder="Admin Gmail">
+autocomplete="username"
+placeholder="আপনার Gmail">
 </div>
 
 <div class="formGroup">
@@ -965,7 +578,8 @@ placeholder="Admin Gmail">
 <input id="adminPassword"
 class="input"
 type="password"
-placeholder="Password">
+autocomplete="current-password"
+placeholder="আপনার Password">
 </div>
 
 <button id="adminLoginBtn"
@@ -980,26 +594,25 @@ style="text-align:center;font-size:12px;margin-top:8px">
 </div>
 
 </div>
-
 </div>
 
 
-<!-- ADMIN PANEL -->
-
-<div id="adminPanel"
-style="display:none">
+<div id="adminPanel" style="display:none">
 
 <div class="sectionTitle">
 
 <b>Admin Panel</b>
 
-<button class="smallBtn"
-onclick="adminLogout()">
+<button class="smallBtn" onclick="adminLogout()">
 Logout
 </button>
 
 </div>
 
+<div id="adminWelcome"
+class="infoBox">
+Welcome Admin
+</div>
 
 <div class="adminTabs">
 
@@ -1042,8 +655,7 @@ Users
 class="adminSection active">
 
 <div class="infoBox">
-Video Task 1 থেকে Video Task 20 পর্যন্ত
-প্রতিটির Link, Reward এবং Status এখান থেকে পরিবর্তন করুন।
+এখানে Video Task 1 থেকে Video Task 20 পর্যন্ত আলাদা আলাদা Link ও Reward বসাতে পারবেন।
 </div>
 
 <div id="videoAdminList"></div>
@@ -1057,28 +669,26 @@ Video Task 1 থেকে Video Task 20 পর্যন্ত
 class="adminSection">
 
 <div class="infoBox">
-Telegram Join Task-এর Link, Reward এবং Status এখান থেকে পরিবর্তন করুন।
+Telegram Join Task-এর Link, Reward এবং Active/Off এখান থেকে পরিবর্তন করুন।
 </div>
 
 <div class="adminTask">
 
 <span class="adminBadge">
-TELEGRAM JOIN TASK
+TELEGRAM JOIN
 </span>
 
 <h3>Telegram Join Task</h3>
 
 <div class="formGroup">
 <label>Task Title</label>
-
 <input id="telegramTitle"
 class="input"
-placeholder="Telegram Join Task">
+value="Telegram Join Task">
 </div>
 
 <div class="formGroup">
 <label>Telegram Group / Channel Link</label>
-
 <input id="telegramLink"
 class="input"
 placeholder="https://t.me/...">
@@ -1086,7 +696,6 @@ placeholder="https://t.me/...">
 
 <div class="formGroup">
 <label>Reward</label>
-
 <input id="telegramReward"
 class="input"
 type="number"
@@ -1094,54 +703,36 @@ value="20">
 </div>
 
 <div class="formGroup">
-
 <label>Status</label>
-
-<select id="telegramEnabled"
-class="input">
-
-<option value="true">
-Active
-</option>
-
-<option value="false">
-Off
-</option>
-
+<select id="telegramEnabled" class="input">
+<option value="true">Active</option>
+<option value="false">Off</option>
 </select>
-
 </div>
 
-<button class="primary"
-onclick="saveTelegramTask()">
+<button class="primary" onclick="saveTelegramTask()">
 Save Telegram Task
 </button>
 
 </div>
-
 </div>
 
 
-<!-- ADMIN SELL -->
+<!-- SELL -->
 
-<div id="adminSells"
-class="adminSection">
-
+<div id="adminSells" class="adminSection">
 <div id="sellAdminList"></div>
-
 </div>
 
 
-<!-- ADMIN SETTINGS -->
+<!-- SETTINGS -->
 
-<div id="adminSettings"
-class="adminSection">
+<div id="adminSettings" class="adminSection">
 
 <div class="taskCard">
 
 <div class="formGroup">
 <label>Referral Reward</label>
-
 <input id="setReferral"
 class="input"
 type="number"
@@ -1150,7 +741,6 @@ value="70">
 
 <div class="formGroup">
 <label>Minimum Withdraw</label>
-
 <input id="setMinimum"
 class="input"
 type="number"
@@ -1159,7 +749,6 @@ value="200">
 
 <div class="formGroup">
 <label>Support / bKash Number</label>
-
 <input id="setBkash"
 class="input"
 placeholder="01XXXXXXXXX">
@@ -1167,7 +756,6 @@ placeholder="01XXXXXXXXX">
 
 <div class="formGroup">
 <label>Support Link</label>
-
 <input id="setSupport"
 class="input"
 placeholder="Support Link">
@@ -1179,11 +767,10 @@ Save Settings
 </button>
 
 </div>
-
 </div>
 
 
-<!-- ADMIN WITHDRAW -->
+<!-- WITHDRAWALS -->
 
 <div id="adminWithdrawals"
 class="adminSection">
@@ -1195,7 +782,7 @@ class="adminSection">
 </div>
 
 
-<!-- ADMIN USERS -->
+<!-- USERS -->
 
 <div id="adminUsers"
 class="adminSection">
@@ -1207,13 +794,10 @@ class="adminSection">
 </div>
 
 </div>
-
 </section>
 
 </main>
 
-
-<!-- BOTTOM NAV -->
 
 <nav class="bottomNav">
 
@@ -1249,7 +833,6 @@ onclick="showPage('admin',this)">
 
 </nav>
 
-
 <div class="toast" id="toast"></div>
 
 
@@ -1259,8 +842,7 @@ onclick="showPage('admin',this)">
 
 import {
 initializeApp
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
 getAuth,
@@ -1268,8 +850,7 @@ signInAnonymously,
 signInWithEmailAndPassword,
 signOut,
 onAuthStateChanged
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import {
 getFirestore,
@@ -1278,66 +859,66 @@ getDoc,
 setDoc,
 addDoc,
 collection,
-query,
-where,
 getDocs,
 serverTimestamp,
 updateDoc
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 /* FIREBASE */
 
 const firebaseConfig={
-
 apiKey:"AIzaSyDx9qbofQzsAQIdBFLAJDh9n6-3M6wt5o4",
-
-authDomain:
-"tax-income-site-e99e5.firebaseapp.com",
-
-projectId:
-"tax-income-site-e99e5",
-
-storageBucket:
-"tax-income-site-e99e5.firebasestorage.app",
-
-messagingSenderId:
-"586704543568",
-
-appId:
-"1:586704543568:web:cdfd13a37aff9a2d981655",
-
-measurementId:
-"G-3NDQ16YH3T"
-
+authDomain:"tax-income-site-e99e5.firebaseapp.com",
+projectId:"tax-income-site-e99e5",
+storageBucket:"tax-income-site-e99e5.firebasestorage.app",
+messagingSenderId:"586704543568",
+appId:"1:586704543568:web:cdfd13a37aff9a2d981655",
+measurementId:"G-3NDQ16YH3T"
 };
 
 const app=initializeApp(firebaseConfig);
-
 const auth=getAuth(app);
-
 const db=getFirestore(app);
 
 
-/* ADMIN UID */
+/*
+================================================
+ ADMIN ACCESS
+================================================
+
+এই দুই UID আপনার বর্তমান Firebase Admin UID।
+
+Gmail দিয়ে Login করার পর Firebase যে UID দেয়,
+সেটা যদি এখানে থাকে → Admin।
+
+Gmail দিয়েও check করা হবে।
+*/
 
 const ADMIN_UIDS=[
-
 "gN4gcBaazIPFhfp9RVek3ktfvM93",
-
 "ivCEiPVeeZZCsPBUtRr7OFR4j042"
+];
 
+
+/*
+আপনার Firebase-এ ব্যবহৃত Admin Gmail এখানে
+যোগ করা হয়েছে।
+
+যদি আপনার Admin Gmail অন্যটি হয়,
+সেটি এখানে লিখতে হবে।
+*/
+
+const ADMIN_EMAILS=[
+"rifatbbz64@gmail.com"
 ];
 
 
 const tg=window.Telegram?.WebApp;
 
 if(tg){
-
 tg.ready();
 tg.expand();
-
 }
 
 const telegramUser=
@@ -1346,15 +927,10 @@ tg?.initDataUnsafe?.user||null;
 let currentUser=null;
 
 let settings={
-
 referralReward:70,
-
 minimumWithdraw:200,
-
 bkash:"",
-
 supportLink:""
-
 };
 
 
@@ -1362,53 +938,14 @@ supportLink:""
 
 window.showToast=function(message){
 
-const toast=
-document.getElementById("toast");
+const toast=document.getElementById("toast");
 
 toast.innerText=message;
-
 toast.style.display="block";
 
 setTimeout(()=>{
-
 toast.style.display="none";
-
 },2800);
-
-};
-
-
-/* PAGE */
-
-window.showPage=function(page,btn){
-
-document.querySelectorAll(".page")
-.forEach(x=>x.classList.remove("active"));
-
-document.getElementById(page)
-.classList.add("active");
-
-document.querySelectorAll(".navItem")
-.forEach(x=>x.classList.remove("active"));
-
-if(btn)btn.classList.add("active");
-
-if(page==="video")
-loadVideoTasks();
-
-if(page==="telegramJoin")
-loadTelegramTask();
-
-if(page==="referral")
-makeReferral();
-
-if(page==="withdraw")
-loadActivation();
-
-if(page==="admin")
-checkAdmin();
-
-window.scrollTo(0,0);
 
 };
 
@@ -1417,13 +954,27 @@ window.scrollTo(0,0);
 
 function isAdmin(user){
 
-return user &&
+if(!user)return false;
+
+const uidOK=
 ADMIN_UIDS.includes(user.uid);
+
+const emailOK=
+user.email &&
+ADMIN_EMAILS
+.map(x=>x.toLowerCase())
+.includes(user.email.toLowerCase());
+
+return uidOK||emailOK;
 
 }
 
 
-/* ADMIN LOGIN */
+/*
+================================================
+ADMIN LOGIN FIX
+================================================
+*/
 
 window.adminLogin=async function(){
 
@@ -1444,7 +995,6 @@ document.getElementById("loginStatus");
 if(!email||!password){
 
 showToast("Gmail এবং Password দিন");
-
 return;
 
 }
@@ -1452,7 +1002,10 @@ return;
 btn.disabled=true;
 
 btn.innerHTML=
-'<i class="fa-solid fa-spinner fa-spin"></i> Login...';
+'<i class="fa-solid fa-spinner fa-spin"></i> Login হচ্ছে...';
+
+status.innerText=
+"Firebase account যাচাই হচ্ছে...";
 
 try{
 
@@ -1465,20 +1018,34 @@ password
 
 const user=result.user;
 
+
+/*
+এখানে আর Anonymous UID check হচ্ছে না।
+Firebase login-এর আসল user নেওয়া হচ্ছে।
+*/
+
+currentUser=user;
+
+
 if(!isAdmin(user)){
+
+status.innerText=
+"Login হয়েছে, কিন্তু এই Gmail Admin তালিকায় নেই।";
 
 await signOut(auth);
 
-status.innerText=
-"এই Gmail Admin UID-এর সাথে মিলেনি।";
-
-showToast("এই account Admin নয়");
+showToast(
+"এই account Admin নয়"
+);
 
 return;
 
 }
 
-currentUser=user;
+
+/*
+ADMIN LOGIN SUCCESS
+*/
 
 document.getElementById("adminLogin")
 .style.display="none";
@@ -1486,34 +1053,47 @@ document.getElementById("adminLogin")
 document.getElementById("adminPanel")
 .style.display="block";
 
-status.innerText="Admin Login সফল ✓";
+document.getElementById("adminWelcome")
+.innerText=
+"Admin Login সফল • "+
+(user.email||"Admin");
 
-showToast("Admin Login সফল হয়েছে");
+status.innerText=
+"Admin Login সফল ✓";
+
+showToast("Admin Panel খুলেছে");
 
 await loadAdminPanel();
 
-}catch(error){
+}
+catch(error){
 
 console.log(error);
 
 let msg="Login করা যায়নি";
 
-if(
-error.code==="auth/invalid-credential"||
-error.code==="auth/wrong-password"
-){
+if(error.code==="auth/invalid-credential"){
 msg="Gmail অথবা Password ভুল";
 }
 
+if(error.code==="auth/wrong-password"){
+msg="Password ভুল";
+}
+
 if(error.code==="auth/user-not-found"){
-msg="এই Gmail Firebase-এ নেই";
+msg="এই Gmail Firebase Authentication-এ নেই";
+}
+
+if(error.code==="auth/invalid-email"){
+msg="Gmail সঠিক নয়";
 }
 
 status.innerText=msg;
 
 showToast(msg);
 
-}finally{
+}
+finally{
 
 btn.disabled=false;
 
@@ -1552,11 +1132,13 @@ document.getElementById("adminPanel")
 }
 
 
-/* ADMIN LOGOUT */
+/* LOGOUT */
 
 window.adminLogout=async function(){
 
 await signOut(auth);
+
+currentUser=null;
 
 document.getElementById("adminPanel")
 .style.display="none";
@@ -1582,23 +1164,46 @@ document.querySelectorAll(".adminSection")
 .forEach(x=>x.classList.remove("active"));
 
 const map={
-
 videos:"adminVideos",
-
 telegram:"adminTelegram",
-
 sells:"adminSells",
-
 settings:"adminSettings",
-
 withdrawals:"adminWithdrawals",
-
 users:"adminUsers"
-
 };
 
 document.getElementById(map[name])
 .classList.add("active");
+
+};
+
+
+/* PAGE */
+
+window.showPage=function(page,btn){
+
+document.querySelectorAll(".page")
+.forEach(x=>x.classList.remove("active"));
+
+document.getElementById(page)
+.classList.add("active");
+
+document.querySelectorAll(".navItem")
+.forEach(x=>x.classList.remove("active"));
+
+if(btn)btn.classList.add("active");
+
+if(page==="video")loadVideoTasks();
+
+if(page==="telegramJoin")loadTelegramTask();
+
+if(page==="referral")makeReferral();
+
+if(page==="withdraw")loadActivation();
+
+if(page==="admin")checkAdmin();
+
+window.scrollTo(0,0);
 
 };
 
@@ -1624,9 +1229,7 @@ settings={
 }
 
 }catch(e){
-
 console.log(e);
-
 }
 
 }
@@ -1647,8 +1250,7 @@ doc(db,"appData","site")
 
 if(snap.exists()&&snap.data().createdAt){
 
-created=
-snap.data().createdAt.toDate();
+created=snap.data().createdAt.toDate();
 
 }else{
 
@@ -1656,9 +1258,7 @@ created=new Date();
 
 await setDoc(
 doc(db,"appData","site"),
-{
-createdAt:serverTimestamp()
-},
+{createdAt:serverTimestamp()},
 {merge:true}
 );
 
@@ -1677,20 +1277,13 @@ Date.now()-created.getTime();
 
 if(diff<0)diff=0;
 
-let seconds=
-Math.floor(diff/1000);
+let sec=Math.floor(diff/1000);
+let min=Math.floor(sec/60);
+let hrs=Math.floor(min/60);
+let days=Math.floor(hrs/24);
 
-let minutes=
-Math.floor(seconds/60);
-
-let hours=
-Math.floor(minutes/60);
-
-let days=
-Math.floor(hours/24);
-
-minutes%=60;
-hours%=24;
+min%=60;
+hrs%=24;
 
 document.getElementById("siteAge")
 .innerText=days+" দিন";
@@ -1698,15 +1291,14 @@ document.getElementById("siteAge")
 document.getElementById("siteTime")
 .innerText=
 days>0
-?days+" দিন "+hours+" ঘন্টা"
-:hours>0
-?hours+" ঘন্টা "+minutes+" মিনিট"
-:minutes+" মিনিট";
+?days+" দিন "+hrs+" ঘন্টা"
+:hrs>0
+?hrs+" ঘন্টা "+min+" মিনিট"
+:min+" মিনিট";
 
 }
 
 update();
-
 setInterval(update,1000);
 
 }
@@ -1729,38 +1321,22 @@ await getDoc(ref);
 if(!snap.exists()){
 
 await setDoc(ref,{
-
 uid:currentUser.uid,
-
-telegramId:
-telegramUser?.id||"",
-
-name:
-telegramUser
+telegramId:telegramUser?.id||"",
+name:telegramUser
 ?(
-telegramUser.first_name+
-" "+
+telegramUser.first_name+" "+
 (telegramUser.last_name||"")
 ).trim()
 :"Telegram User",
-
-username:
-telegramUser?.username||"",
-
+username:telegramUser?.username||"",
 balance:0,
-
 totalEarned:0,
-
 totalWithdrawn:0,
-
 referralBonus:0,
-
 referrals:0,
-
 completedTasks:0,
-
 createdAt:serverTimestamp()
-
 });
 
 }
@@ -1768,9 +1344,7 @@ createdAt:serverTimestamp()
 await loadUser();
 
 }catch(e){
-
 console.log(e);
-
 }
 
 }
@@ -1791,8 +1365,7 @@ if(!snap.exists())return;
 
 const d=snap.data();
 
-const balance=
-Number(d.balance||0);
+const balance=Number(d.balance||0);
 
 document.getElementById("balance")
 .innerText=balance.toFixed(2);
@@ -1812,17 +1385,14 @@ document.getElementById("refIncome")
 Number(d.referralBonus||0).toFixed(2);
 
 document.getElementById("profileName")
-.innerText=
-d.name||"Telegram User";
+.innerText=d.name||"Telegram User";
 
 document.getElementById("profileId")
 .innerText=
 "ID: "+(d.telegramId||currentUser.uid);
 
 }catch(e){
-
 console.log(e);
-
 }
 
 }
@@ -1836,7 +1406,7 @@ const box=
 document.getElementById("videoList");
 
 box.innerHTML=
-'<div class="empty">Video Task লোড হচ্ছে...</div>';
+'<div class="empty">লোড হচ্ছে...</div>';
 
 let html="";
 
@@ -1866,13 +1436,12 @@ html+=`
 </div>
 
 <div class="taskInfo">
+
 <h3>
 ${escapeHtml(d.title||"Video Task "+i)}
 </h3>
 
-<p>
-Video Task ${i}
-</p>
+<p>Video Task ${i}</p>
 
 </div>
 
@@ -1883,10 +1452,7 @@ Video Task ${i}
 </div>
 
 <button class="taskBtn"
-onclick="openVideoTask(
-'${escapeAttr(d.link||"")}',
-'video_${i}'
-)">
+onclick="openVideoTask('${escapeAttr(d.link||"")}')">
 ভিডিও দেখুন
 </button>
 
@@ -1895,9 +1461,7 @@ onclick="openVideoTask(
 `;
 
 }catch(e){
-
 console.log(e);
-
 }
 
 }
@@ -1914,41 +1478,30 @@ box.innerHTML=html;
 }
 
 
-/* VIDEO OPEN */
-
-window.openVideoTask=function(link,id){
+window.openVideoTask=function(link){
 
 if(!link){
 
 showToast("এই Task-এর Link দেওয়া হয়নি");
-
 return;
 
 }
 
-localStorage.setItem(
-"task_open_"+id,
-Date.now()
-);
-
 window.open(link,"_blank");
 
 showToast(
-"Task সম্পন্ন করে ফিরে আসুন"
+"ভিডিও দেখে কাজ সম্পন্ন করে ফিরে আসুন"
 );
 
 };
 
 
-/* TELEGRAM */
+/* TELEGRAM JOIN */
 
 async function loadTelegramTask(){
 
 const box=
 document.getElementById("telegramList");
-
-box.innerHTML=
-'<div class="empty">লোড হচ্ছে...</div>';
 
 try{
 
@@ -1993,9 +1546,7 @@ box.innerHTML=`
 ${escapeHtml(d.title||"Telegram Join Task")}
 </h3>
 
-<p>
-Channel / Group Join
-</p>
+<p>Telegram Group / Channel Join</p>
 
 </div>
 
@@ -2031,7 +1582,6 @@ window.openTelegramTask=function(link){
 if(!link){
 
 showToast("Telegram Link দেওয়া হয়নি");
-
 return;
 
 }
@@ -2082,7 +1632,6 @@ window.submitWithdraw=async function(){
 if(!currentUser){
 
 showToast("Account পাওয়া যায়নি");
-
 return;
 
 }
@@ -2093,8 +1642,7 @@ document.getElementById("withdrawAmount").value
 );
 
 const number=
-document.getElementById("withdrawNumber").value
-.trim();
+document.getElementById("withdrawNumber").value.trim();
 
 const method=
 document.getElementById("withdrawMethod").value;
@@ -2113,7 +1661,6 @@ return;
 if(!number){
 
 showToast("Payment Number দিন");
-
 return;
 
 }
@@ -2123,40 +1670,29 @@ try{
 await addDoc(
 collection(db,"withdrawals"),
 {
-
 uid:currentUser.uid,
-
-amount:amount,
-
-number:number,
-
-method:method,
-
+amount,
+number,
+method,
 status:"pending",
-
 createdAt:serverTimestamp()
-
 }
 );
 
-showToast(
-"Withdraw Request জমা হয়েছে"
-);
+showToast("Withdraw Request জমা হয়েছে");
 
 }catch(e){
 
 console.log(e);
 
-showToast(
-"Request পাঠানো যায়নি"
-);
+showToast("Request পাঠানো যায়নি");
 
 }
 
 };
 
 
-/* ACTIVATION STATUS */
+/* ACTIVATION */
 
 async function loadActivation(){
 
@@ -2196,9 +1732,7 @@ settings.bkash
 :"Support information not set";
 
 }catch(e){
-
 console.log(e);
-
 }
 
 }
@@ -2211,15 +1745,10 @@ async function loadAdminPanel(){
 if(!isAdmin(currentUser))return;
 
 await loadAdminVideos();
-
 await loadAdminTelegram();
-
 await loadAdminSells();
-
 await loadAdminSettings();
-
 await loadAdminWithdrawals();
-
 await loadAdminUsers();
 
 }
@@ -2237,15 +1766,10 @@ let html="";
 for(let i=1;i<=20;i++){
 
 let d={
-
 title:"Video Task "+i,
-
 link:"",
-
 reward:15,
-
 enabled:true
-
 };
 
 try{
@@ -2274,23 +1798,18 @@ html+=`
 VIDEO TASK ${i}
 </span>
 
-<h3>
-Video Task ${i}
-</h3>
+<h3>Video Task ${i}</h3>
 
 <div class="formGroup">
-
 <label>Task Title</label>
 
 <input
 id="vtitle_${i}"
 class="input"
 value="${escapeAttr(d.title)}">
-
 </div>
 
 <div class="formGroup">
-
 <label>Video Link</label>
 
 <input
@@ -2298,7 +1817,6 @@ id="vlink_${i}"
 class="input"
 value="${escapeAttr(d.link)}"
 placeholder="https://...">
-
 </div>
 
 <div class="adminGrid">
@@ -2365,7 +1883,6 @@ window.saveVideo=async function(i){
 if(!isAdmin(currentUser)){
 
 showToast("Admin permission নেই");
-
 return;
 
 }
@@ -2377,9 +1894,7 @@ await setDoc(
 doc(db,"tasks","video_"+i),
 
 {
-
 category:"Video",
-
 number:i,
 
 title:
@@ -2398,9 +1913,7 @@ document.getElementById("venabled_"+i)
 .value==="true",
 
 updatedAt:serverTimestamp(),
-
 updatedBy:currentUser.uid
-
 },
 
 {merge:true}
@@ -2416,7 +1929,7 @@ showToast(
 console.log(e);
 
 showToast(
-"Save করতে সমস্যা হয়েছে"
+"Save করতে Permission সমস্যা হয়েছে"
 );
 
 }
@@ -2424,7 +1937,7 @@ showToast(
 };
 
 
-/* ADMIN TELEGRAM */
+/* TELEGRAM ADMIN */
 
 async function loadAdminTelegram(){
 
@@ -2450,27 +1963,20 @@ document.getElementById("telegramReward")
 
 document.getElementById("telegramEnabled")
 .value=
-d.enabled===false
-?"false"
-:"true";
+d.enabled===false?"false":"true";
 
 }catch(e){
-
 console.log(e);
-
 }
 
 }
 
-
-/* SAVE TELEGRAM */
 
 window.saveTelegramTask=async function(){
 
 if(!isAdmin(currentUser)){
 
 showToast("Admin permission নেই");
-
 return;
 
 }
@@ -2482,7 +1988,6 @@ await setDoc(
 doc(db,"tasks","telegram_join"),
 
 {
-
 category:"TelegramJoin",
 
 title:
@@ -2501,9 +2006,7 @@ document.getElementById("telegramEnabled")
 .value==="true",
 
 updatedAt:serverTimestamp(),
-
 updatedBy:currentUser.uid
-
 },
 
 {merge:true}
@@ -2519,7 +2022,7 @@ showToast(
 console.log(e);
 
 showToast(
-"Save করা যায়নি"
+"Telegram Task Save হয়নি"
 );
 
 }
@@ -2550,15 +2053,10 @@ let html="";
 for(const cat of sellCategories){
 
 let d={
-
 title:cat+" Sell",
-
 link:"",
-
 reward:10,
-
 enabled:true
-
 };
 
 try{
@@ -2587,23 +2085,18 @@ html+=`
 ${cat} SELL
 </span>
 
-<h3>
-${cat} Sell
-</h3>
+<h3>${cat} Sell</h3>
 
 <div class="formGroup">
-
 <label>Title</label>
 
 <input
 id="stitle_${cat}"
 class="input"
 value="${escapeAttr(d.title)}">
-
 </div>
 
 <div class="formGroup">
-
 <label>Link</label>
 
 <input
@@ -2611,7 +2104,6 @@ id="slink_${cat}"
 class="input"
 value="${escapeAttr(d.link)}"
 placeholder="https://...">
-
 </div>
 
 <div class="adminGrid">
@@ -2655,9 +2147,7 @@ Off
 <button
 class="primary"
 onclick="saveSell('${cat}')">
-
 Save ${cat}
-
 </button>
 
 </div>
@@ -2671,8 +2161,6 @@ box.innerHTML=html;
 }
 
 
-/* SAVE SELL */
-
 window.saveSell=async function(cat){
 
 try{
@@ -2682,7 +2170,6 @@ await setDoc(
 doc(db,"tasks",cat.toLowerCase()),
 
 {
-
 category:cat,
 
 title:
@@ -2701,9 +2188,7 @@ document.getElementById("senabled_"+cat)
 .value==="true",
 
 updatedAt:serverTimestamp(),
-
 updatedBy:currentUser.uid
-
 },
 
 {merge:true}
@@ -2765,19 +2250,14 @@ supportLink:
 document.getElementById("setSupport").value,
 
 updatedAt:serverTimestamp(),
-
 updatedBy:currentUser.uid
 
 };
 
 await setDoc(
-
 doc(db,"appData","settings"),
-
 data,
-
 {merge:true}
-
 );
 
 settings={
@@ -2835,9 +2315,7 @@ html+=`
 ${escapeHtml(d.status||"pending")}
 </span>
 
-<h3>
-৳${Number(d.amount||0)}
-</h3>
+<h3>৳${Number(d.amount||0)}</h3>
 
 <p style="font-size:11px">
 
@@ -2906,15 +2384,9 @@ await updateDoc(
 doc(db,"withdrawals",id),
 
 {
-
 status:status,
-
-processedAt:
-serverTimestamp(),
-
-processedBy:
-currentUser.uid
-
+processedAt:serverTimestamp(),
+processedBy:currentUser.uid
 }
 
 );
@@ -2977,24 +2449,17 @@ ${escapeHtml(d.name||"User")}
 </h3>
 
 <p style="font-size:11px;color:#777">
-
 Telegram ID:
 ${escapeHtml(
 String(d.telegramId||"-")
 )}
-
 </p>
 
 <p style="font-size:12px">
-
 Balance:
-<b>৳${Number(d.balance||0)}</b>
-
-<br>
-
+<b>৳${Number(d.balance||0)}</b><br>
 Total Earned:
 <b>৳${Number(d.totalEarned||0)}</b>
-
 </p>
 
 </div>
@@ -3022,27 +2487,20 @@ box.innerHTML=
 function escapeHtml(value){
 
 return String(value)
-
 .replaceAll("&","&amp;")
-
 .replaceAll("<","&lt;")
-
 .replaceAll(">","&gt;")
-
 .replaceAll('"',"&quot;")
-
 .replaceAll("'","&#039;");
 
 }
 
 function escapeAttr(value){
-
 return escapeHtml(value);
-
 }
 
 
-/* AUTH */
+/* AUTH STATE */
 
 onAuthStateChanged(
 auth,
@@ -3084,10 +2542,7 @@ await signInAnonymously(auth);
 
 }catch(e){
 
-console.log(
-"Anonymous Auth:",
-e
-);
+console.log("Anonymous Auth:",e);
 
 }
 
@@ -3097,7 +2552,6 @@ if(telegramUser){
 
 document.getElementById("profileName")
 .innerText=
-
 (
 telegramUser.first_name+
 " "+
